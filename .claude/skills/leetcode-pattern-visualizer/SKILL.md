@@ -24,7 +24,7 @@ Audience: Codam DSA Club members preparing for entry-level interviews in the Net
 | schemas.md | Exact format of problem.json, approach.json, tests.json, steps, site.json | Before writing any JSON file or `T.step` call |
 | design-system.md | Colour roles, shapes, pointer names, motion rules | Before writing canvas.js or naming pointers |
 | components.md | The blocks a page is made of and which blocks each pattern uses | Before writing canvas.js; in workflow C |
-| notion-guides.md | Public Notion guide link for each pattern | Workflow A, step 7 |
+| notion-guides.md | Public Notion guide link for each pattern, and patterns with no guide yet | Workflow A, steps 2 and 7 |
 | index-spec.md | How the home page groups and links pages | Only when changing the home page |
 | ../../../adr/ | Why things are built this way | Before changing how the project works. Do not contradict an accepted ADR without a new ADR |
 
@@ -55,7 +55,7 @@ site.json        site-wide links
 
 ## Workflow A — add a problem
 1. **Use the statement the user gave.** If constraints or examples are missing from it, ask for them; do not fill them in from memory. Folder name: `<short>-<id>-<slug>` with the slug from the problem URL, e.g. `lc-283-move-zeroes`; for a source without numbers, `<short>-<slug>` (e.g. `nc-...`). Fill "source" in problem.json (ADR 016).
-2. **Pattern ID (in chat).** Pattern, data structure(s), 2–3 signals in the statement, brute force and its complexity, pattern complexity. If several reasonable approaches exist, list them and ask which to build first.
+2. **Pattern ID (in chat).** If the user named the pattern or data structure, use it. Otherwise, if more than one reasonable approach exists, list them and ask which to build first; do not pick one yourself. Then share: pattern, data structure(s), 2–3 signals in the statement, brute force and its complexity, pattern complexity. Check notion-guides.md now: if the pattern has no guide, stop and ask (see "No guide yet" there).
 3. **C or not.** C only if the solution needs nothing beyond plain arrays, fixed-size counters (e.g. int count[128]) and loops. Otherwise no solution.c and a one-sentence "noC" reason in approach.json. Say the decision in chat.
 4. **Write problem.json** (schemas.md): constraints table (each row: constraint → what it means → what it changes; taken only from the statement), nMax, signature, brute-force summary and ops unit, examples.
    - Examples: the LeetCode examples with their "expected" from the statement, plus your own that trigger the interesting behaviour (the window shrinks, the stack pops, binary search goes both ways).
@@ -63,7 +63,7 @@ site.json        site-wide links
    - Edge cases come from the constraints: smallest n, all equal, none matching, extreme values.
 5. **Write brute.py** — the oracle: simplest correct solution, a function `brute(<params>)` that returns the answer (for in-place problems, the final array). Mark the operation counter line `T.op()  # @trace`. It is also shown to readers, so comment it.
 6. **Write gen.py** — `gen(rng)` returns random args inside the constraints, small (n ≤ 12) and with many repeats so edge cases appear.
-7. **Pattern guide.** If site.json `patternGuides` has no entry for the approach's pattern label, take the link from notion-guides.md (match by meaning: "Two pointers" = "Two Pointers") and add it. Ask the user only if no row matches.
+7. **Pattern guide.** If site.json `patternGuides` has no entry for the approach's pattern label, take the link from notion-guides.md and add it.
 8. **Write tests.json** — extra cases worth keeping that are not shown on the page (extreme values, n = 1).
 9. **Write the approach folder** (workflow B, steps 2–5).
 10. **Run `python3 build.py`.** Fix whatever it reports. Warnings about step counts: shorten or change the example.

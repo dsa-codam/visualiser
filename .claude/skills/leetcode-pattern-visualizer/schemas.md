@@ -1,6 +1,6 @@
 # Schemas — every file build.py reads
 
-schemaVersion: 1. All files are plain JSON (no comments, no trailing commas). Python 3.8+ and no packages, so no YAML/TOML.
+schemaVersion: 1. All files are plain JSON (no comments, no trailing commas). The `//` comments in the examples below only explain the fields; never write them into a .json file. (Comments in solution and brute-force code are fine.) Python 3.8+ and no packages, so no YAML/TOML.
 
 ## problems/<lc-N-slug>/problem.json
 ```json
@@ -29,7 +29,7 @@ schemaVersion: 1. All files are plain JSON (no comments, no trailing commas). Py
 }
 ```
 - `examples` are tested AND animated. `expected` only when it comes from the statement.
-- `kind`: `main` (≤ 10 elements, 15–40 steps) or `edge`.
+- `kind`: `main` or `edge`. Size limits: SKILL.md, workflow A step 4.
 - More param or return types: extend `make_driver()` in build.py first.
 
 ## problems/<…>/brute.py
@@ -46,7 +46,7 @@ schemaVersion: 1. All files are plain JSON (no comments, no trailing commas). Py
 {
   "order": 1,                                  // tab order
   "name": "Sliding window + hash map",         // tab label
-  "pattern": "Sliding window (variable)",      // groups the home page; keep names consistent
+  "pattern": "Sliding window",      // groups the home page; keep names consistent
   "ds": ["Hash map"],
   "time": "O(n)", "space": "O(n)",
   "whenToUse": "...",                          // compare table
@@ -96,11 +96,11 @@ State is a full snapshot (not a diff), so any step can be shown on its own (Prev
 {
   "title": "...", "intro": "...",
   "notionPatterns": "https://...",          // general pattern guides page
-  "patternGuides": { "Sliding window (variable)": "https://..." },  // optional per-pattern links
+  "patternGuides": { "Sliding window": "https://..." },  // optional per-pattern links
   "bigO": "https://www.bigocalc.com/",
   "leetcodeProfile": "",                    // empty = hidden
   "repoUrl": "",                            // empty = "Source on GitHub" link hidden
   "goatcounter": "",                        // GoatCounter site code (ADR 024); empty = no analytics script
-  "articles": [{ "title": "...", "url": "https://dev.to/...", "tags": ["Sliding window (variable)"] }]
+  "articles": [{ "title": "...", "url": "https://dev.to/...", "tags": ["Sliding window"] }]
 }
 ```

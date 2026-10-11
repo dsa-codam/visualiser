@@ -4,7 +4,19 @@ Source: the club's "Algorithm patterns" database in Notion (exported 2026-10-06)
 Use these public links (cosmic-ray-317.notion.site), never app.notion.com links: those need a login.
 
 When a problem uses a pattern, add its link to site.json `patternGuides`, keyed by the pattern label used in approach.json
-(for example "Two pointers", not "Two Pointers "). If no row below matches, ask the user.
+(for example "Two pointers", not "Two Pointers "). Match by meaning.
+
+## No guide yet
+Check this in workflow A step 2, before writing any files. If the pattern is listed under "No guide yet", or matches no row in the table,
+stop and tell the user that the club has no guide for it. Wait for her decision: write the guide first, choose another pattern,
+or build the page without a per-pattern link (it then falls back to the general `notionPatterns` link).
+
+Pages exist in Notion but are empty — never link them:
+- Topological Sort
+- Backtracking / Recursive Search
+- Trie (Prefix Tree)
+
+## Guides
 
 | Notion pattern | Public link |
 |---|---|
@@ -25,6 +37,3 @@ When a problem uses a pattern, add its link to site.json `patternGuides`, keyed 
 | Divide & Conquer | https://cosmic-ray-317.notion.site/Divide-Conquer-2c5b90a8e0898076817be3a627ea84d9 |
 | Greedy Algorithms | https://cosmic-ray-317.notion.site/Greedy-Algorithms-2c5b90a8e089809cbc1ed1ed7aaad2e9 |
 | Dynamic Programming | https://cosmic-ray-317.notion.site/Dynamic-Programming-2c5b90a8e0898055a462d4b3e612cb12 |
-| Backtracking / Recursive Search | https://cosmic-ray-317.notion.site/Backtracking-Recursive-Search-2c5b90a8e08980dcb161d6f9d3cbfa62 |
-| Topological Sort | https://cosmic-ray-317.notion.site/Topological-Sort-2c5b90a8e0898086b7f2c50af2784ebd |
-| Trie (Prefix Tree) (?) | https://cosmic-ray-317.notion.site/Trie-Prefix-Tree-2c5b90a8e089805aa848f6540a4f04f5 |

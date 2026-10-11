@@ -49,7 +49,7 @@ Problem pages do not show the legend for now (ADR 023). Keep writing it for ever
 `ptr-back`, `ptr-front`, `ptr-mid`, `current`, `swap`, `conflict`, `dup`, `done`, `best`, `new`, `zero`, `removed`, `out`, `band-window`, `band-best`, `band-gap`, `bar`, `slot`, `slot-over`. List only the ones used on that page, with a label tied to the problem ("left: left edge of the window").
 
 ## 6. Size limits (ADR 012)
-- Preset "main" examples: ≤ 10 elements (fits a 375px phone screen without scrolling).
+- Preset "main" example limits are in SKILL.md, workflow A step 4. Reason: about 9–10 cells fit a 375px phone screen.
 - Renderer: up to 20 elements. Cells shrink from 60px to 30px pitch; below that the canvas scrolls sideways inside its panel, never the page.
 
 ## 7. Typography and layout

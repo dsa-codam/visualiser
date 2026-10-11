@@ -50,7 +50,7 @@ Not on problem pages: no footer (the LeetCode profile link is on the main page o
 | Graph | BFS/DFS on graphs, topological sort |
 | NumberLine | intervals |
 | RecursionTree | backtracking |
-Rule: build it inside canvas.js the first time if it is truly one-off; the second time a canvas type is needed, move it into core as a helper.
+Rule: first agree the look with the user (workflow C). The first time, it may be built inside canvas.js, but only with CSS classes and tokens from core (no colour values, no sizes). The second time a canvas type is needed, move it into core as a helper.
 
 ## Pattern → blocks
 | Pattern | Canvas | Extra panels | Steps to capture |

@@ -14,8 +14,7 @@ Each page shows how one LeetCode problem is solved, step by step, so that a begi
 Audience: Codam DSA Club members preparing for entry-level interviews in the Netherlands.
 
 ## Language
-- Talk to the user in the language they write in.
-- Everything written into the repo (code, comments, captions, JSON text, ADRs, README, ai-panic) is British English, about B1 level: conversational but professional, short sentences.
+- Everything written into the repo (code, comments, captions, JSON text, ADRs, README, ai-panic) is about B1 level: conversational but professional, short sentences.
 - Never use: delve, imagine, superpower, game-changer, it's worth noting, certainly, fascinatingly, in conclusion, or similar filler.
 
 ## Reference files — read when needed

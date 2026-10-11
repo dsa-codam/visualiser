@@ -1,6 +1,6 @@
 ---
 name: leetcode-pattern-visualizer
-description: Add or change step-by-step visualisations of LeetCode solutions in this repo (problems/ → build.py → docs/). Use when the user asks to visualise, animate or "show how" a LeetCode problem or pattern works, to add an approach to a problem, to add a design element, or to record an architecture decision for the visualiser.
+description: Add or change step-by-step visualisations of LeetCode solutions in this repo. Use when the user asks to add a page for a LeetCode problem (often pasting the statement with its number), to visualise, animate or "show how" a LeetCode problem or pattern works, to add an approach to a problem, to add a design element, or to record an architecture decision for the visualiser.
 ---
 
 # LeetCode Pattern Visualiser
@@ -11,22 +11,22 @@ Each page shows how one LeetCode problem is solved, step by step, so that a begi
 2. What does each moving part (pointer, window, stack, map, table cell) do at each step?
 3. Why is the answer correct, and why is it faster than brute force?
 
-Audience: Codam DSA Club members preparing for entry-level interviews in the Netherlands. Scope: LeetCode Easy and core Medium. No Hard problems unless the user asks.
+Audience: Codam DSA Club members preparing for entry-level interviews in the Netherlands.
 
 ## Language
 - Talk to the user in the language they write in.
 - Everything written into the repo (code, comments, captions, JSON text, ADRs, README, ai-panic) is British English, about B1 level: conversational but professional, short sentences.
 - Never use: delve, imagine, superpower, game-changer, it's worth noting, certainly, fascinatingly, in conclusion, or similar filler.
 
-## Read before working
-| File | What it is |
-|---|---|
-| design-system.md | Meaning of every colour role, shape, pointer name and motion rule |
-| components.md | The blocks a page is made of and which blocks each pattern uses |
-| schemas.md | Exact format of problem.json, approach.json, tests.json, steps, site.json |
-| index-spec.md | How the home page groups and links pages |
-| notion-guides.md | Public Notion guide link for each pattern |
-| ../../../adr/ | Why things are built this way. Do not contradict an accepted ADR without a new ADR |
+## Reference files — read when needed
+| File | What it is | Read when |
+|---|---|---|
+| schemas.md | Exact format of problem.json, approach.json, tests.json, steps, site.json | Before writing any JSON file or `T.step` call |
+| design-system.md | Colour roles, shapes, pointer names, motion rules | Before writing canvas.js or naming pointers |
+| components.md | The blocks a page is made of and which blocks each pattern uses | Before writing canvas.js; in workflow C |
+| notion-guides.md | Public Notion guide link for each pattern | Workflow A, step 7 |
+| index-spec.md | How the home page groups and links pages | Only when changing the home page |
+| ../../../adr/ | Why things are built this way | Before changing how the project works. Do not contradict an accepted ADR without a new ADR |
 
 ## Repo map
 ```
@@ -48,13 +48,13 @@ site.json        site-wide links
 3. Never edit docs/. Change sources, run `python3 build.py`.
 4. A page is finished only when `python3 build.py` ends with "✓ build ok".
 5. Never add a colour, shape or block that is not in core/ and gallery.html. Propose it first (workflow C).
-6. No external libraries, CDNs or build tools. Plain static files, relative links only. The one exception is the GoatCounter analytics script that build.py adds to published pages (ADR 024); never add another.
+6. No external libraries, CDNs or build tools. Plain static files, relative links only. Only exception: the analytics script from ADR 024.
 7. One page per problem. Each approach is a tab on that page (ADR 006).
 8. canvas.js draws only with VIZ helpers and CSS classes from core. No colour values, no sizes.
 9. Git: never commit, push, open or merge a pull request, or change repository settings unless the user asks for that action in this conversation. When asked to publish: run `python3 build.py`, show `git status`, commit sources and docs/ together, then push. CI (.github/workflows/check.yml) must stay green (ADR 019).
 
 ## Workflow A — add a problem
-1. **Confirm the problem.** Restate it in 2–3 lines with its constraints and examples. If you are not certain of any detail, ask the user to paste the statement. Folder name: `<short>-<id>-<slug>` with the slug from the problem URL, e.g. `lc-283-move-zeroes`; for a source without numbers, `<short>-<slug>` (e.g. `nc-...`). Fill "source" in problem.json (ADR 016).
+1. **Use the statement the user gave.** If constraints or examples are missing from it, ask for them; do not fill them in from memory. Folder name: `<short>-<id>-<slug>` with the slug from the problem URL, e.g. `lc-283-move-zeroes`; for a source without numbers, `<short>-<slug>` (e.g. `nc-...`). Fill "source" in problem.json (ADR 016).
 2. **Pattern ID (in chat).** Pattern, data structure(s), 2–3 signals in the statement, brute force and its complexity, pattern complexity. If several reasonable approaches exist, list them and ask which to build first.
 3. **C or not.** C only if the solution needs nothing beyond plain arrays, fixed-size counters (e.g. int count[128]) and loops. Otherwise no solution.c and a one-sentence "noC" reason in approach.json. Say the decision in chat.
 4. **Write problem.json** (schemas.md): constraints table (each row: constraint → what it means → what it changes; taken only from the statement), nMax, signature, brute-force summary and ops unit, examples.
@@ -106,15 +106,8 @@ When the user says a language was accepted on LeetCode, add it to "accepted" in 
 ## ai-panic/
 When you notice yourself worrying about something unlikely ("what if LeetCode renames every slug"), write it as a short, light-hearted file in ai-panic/ instead of adding complexity. One file per worry: what could go wrong, how likely, what we would do. ADRs never cite ai-panic as a reason. The user will check one day which ones came true.
 
-## Pointer names (ADR 011, ADR 021)
-| Pattern | Names | Role colour |
-|---|---|---|
-| Two pointers towards each other | left / right | back / front |
-| Sliding window | left / right | back / front |
-| Same direction (read/write), linked list | slow / fast | back / front |
-| Two arrays, merge (ADR 021) | p1 / p2 / write | front / front / back |
-| Binary search | lo / mid / hi | back / mid / front |
-Code variable names must match the labels on the canvas.
+## Pointer names
+Pointer names and their role colours are defined in design-system.md (ADR 011, ADR 021). Code variable names must match the labels on the canvas.
 
 ## Labels
 Applies to everything that names a value: labels on or under the array, and the variables panel.
@@ -123,7 +116,7 @@ Applies to everything that names a value: labels on or under the array, and the 
 - Names explain themselves. Short names are fine, but clarity wins over length (`longest`, `largest`, not `best` for both).
 - Multi-word names use snake_case in all three languages (Python, C++, C), so the name is identical everywhere.
 - The shown value equals the code's value at that step. A variable declared inside the loop (C/C++ scope) shows "—" on steps where it does not exist yet or any more; reset it in the Python trace to match.
-- Pointer labels follow the same rule (see Pointer names).
+- Pointer labels follow the same rule (names in design-system.md).
 
 ## Captions
 - Each caption says what happened and why, in 1–2 sentences, using the code's variable names.
@@ -132,12 +125,7 @@ Applies to everything that names a value: labels on or under the array, and the 
 - The last step states the result and one sentence on why it is correct.
 - The invariant is the rule the pattern keeps true; put it in approach.json (or per step if it changes).
 
-## Final checklist
-- [ ] Statement, constraints and examples confirmed, not guessed
-- [ ] Pattern ID shared in chat
-- [ ] Python3 + C++17; C only if allowed, else a noC reason
+## Before you say it is done
 - [ ] `python3 build.py` ends with "✓ build ok"
-- [ ] Main examples ≤ 10 elements and 15–40 steps (or the warning is understood)
-- [ ] Only existing design elements used, or new ones approved and added to the gallery
 - [ ] User asked to review captions and to submit to LeetCode
 - [ ] ADR drafted if a project-level decision was made

@@ -1,0 +1,6 @@
+[
+  { "name": "extreme values", "args": { "nums": [-10000, -10000, 0, 10000] }, "expected": [0, 100000000, 100000000, 100000000] },
+  { "name": "single zero", "args": { "nums": [0] }, "expected": [0] },
+  { "name": "single positive", "args": { "nums": [10000] }, "expected": [100000000] },
+  { "name": "all zeros", "args": { "nums": [0, 0, 0] }, "expected": [0, 0, 0] }
+]

@@ -1,0 +1,28 @@
+{
+  "order": 1,
+  "name": "Two pointers (fill from the end)",
+  "pattern": "Two pointers",
+  "ds": ["Array"],
+  "time": "O(n)",
+  "space": "O(n) for the result, O(1) extra",
+  "whenToUse": "Always for this problem: one pass over nums, no sort needed.",
+  "card": {
+    "signals": "\"sorted in non-decreasing order\" with negative values allowed: the squares are large at both ends and small in the middle. So the largest square is always at one of the two ends.",
+    "pattern": "two pointers moving towards each other. left starts at the most negative value, right at the most positive value. A third index, write, fills result from the back. O(n) time.",
+    "coreIdea": "compare the squares at left and right. Put the larger one into result[write], move that pointer one step inwards, and move write one step left. When left passes right, every value is placed."
+  },
+  "invariant": "Slots after write hold the largest squares, in their final order. Every value between left and right is still waiting, and its square is not larger than any placed square.",
+  "phases": { "init": "start", "next": "next round", "compare": "compare", "take": "write", "stop": "loop ends", "return": "done" },
+  "legend": [
+    { "swatch": "ptr-back", "text": "left: most negative value not used yet; write: next slot to fill in result" },
+    { "swatch": "ptr-front", "text": "right: most positive value not used yet" },
+    { "swatch": "current", "text": "the value with the larger square" },
+    { "swatch": "new", "text": "square just written to result[write]" },
+    { "swatch": "done", "text": "square in its final place" },
+    { "swatch": "zero", "text": "empty slot in result (dashed)" },
+    { "swatch": "out", "text": "value of nums already used" },
+    { "swatch": "band-window", "text": "values still waiting [left, right]" },
+    { "swatch": "band-best", "text": "placed zone (write, end]" }
+  ],
+  "accepted": ["python", "cpp", "c"]
+}

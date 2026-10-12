@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "title": "Frequency of the Most Frequent Element",
+  "source": { "site": "LeetCode", "id": "1838", "url": "https://leetcode.com/problems/frequency-of-the-most-frequent-element/" },
+  "difficulty": "Medium",
+  "nMax": 100000,
+  "signature": {
+    "python": "maxFrequency",
+    "cpp": "maxFrequency",
+    "c": "maxFrequency",
+    "params": [{ "name": "nums", "type": "int[]" }, { "name": "k", "type": "int" }],
+    "returns": "int"
+  },
+  "constraints": [
+    {
+      "text": "1 ≤ nums.length ≤ 10⁵",
+      "meaning": "Up to 100,000 elements, never empty.",
+      "impact": "O(n²) is about 10¹⁰ steps: far too slow. Sorting, O(n log n), plus one O(n) pass is fine. The answer is always at least 1."
+    },
+    {
+      "text": "1 ≤ nums[i] ≤ 10⁵",
+      "meaning": "Every value is positive and at most 100,000.",
+      "impact": "A window sum can reach 10⁵ × 10⁵ = 10¹⁰, which does not fit in int. Use long long for total and cost in C and C++."
+    },
+    {
+      "text": "1 ≤ k ≤ 10⁵",
+      "meaning": "At most k increments in total, spread over any elements.",
+      "impact": "k is a budget for the whole window, not per element. A window is valid while the increments it needs are at most k."
+    },
+    {
+      "text": "Only increments by 1 (statement)",
+      "meaning": "Values can only go up, never down.",
+      "impact": "Values can only be raised to a bigger value, so the target of a group is its largest value. After sorting, the cheapest values to raise to nums[right] are the ones just before it: a contiguous window."
+    }
+  ],
+  "bruteForce": {
+    "summary": "sort nums, then for each right try every left from right down to 0, adding up the increments needed to raise nums[left..right] to nums[right]. Stop when the cost goes over k. O(n²) time, which is too slow for n = 10⁵.",
+    "opsUnit": "increment checks"
+  },
+  "examples": [
+    { "id": "lc1", "label": "LeetCode Example 1: [1,2,4], k = 5", "kind": "edge",
+      "args": { "nums": [1, 2, 4], "k": 5 }, "expected": 3 },
+    { "id": "lc2", "label": "LeetCode Example 2: [1,4,8,13], k = 5", "kind": "main",
+      "args": { "nums": [1, 4, 8, 13], "k": 5 }, "expected": 2 },
+    { "id": "shrink", "label": "Window grows and shrinks: [9,2,1,4,4,8,3], k = 6", "kind": "main",
+      "args": { "nums": [9, 2, 1, 4, 4, 8, 3], "k": 6 } },
+    { "id": "lc3", "label": "LeetCode Example 3: [3,9,6], k = 2", "kind": "edge",
+      "args": { "nums": [3, 9, 6], "k": 2 }, "expected": 1 },
+    { "id": "single", "label": "One element: [5], k = 1", "kind": "edge",
+      "args": { "nums": [5], "k": 1 } },
+    { "id": "all-equal", "label": "All equal: [3,3,3], k = 1", "kind": "edge",
+      "args": { "nums": [3, 3, 3], "k": 1 } },
+    { "id": "big-k", "label": "k covers everything: [1,2,3,4], k = 100", "kind": "edge",
+      "args": { "nums": [1, 2, 3, 4], "k": 100 } }
+  ]
+}

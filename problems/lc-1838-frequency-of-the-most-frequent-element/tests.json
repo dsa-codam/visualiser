@@ -1,0 +1,6 @@
+[
+  { "name": "k exactly enough", "args": { "nums": [1, 100000], "k": 99999 }, "expected": 2 },
+  { "name": "k one short", "args": { "nums": [1, 100000], "k": 99998 }, "expected": 1 },
+  { "name": "large values, budget for one move", "args": { "nums": [100000, 1, 100000, 1], "k": 100000 }, "expected": 3 },
+  { "name": "unsorted with repeats", "args": { "nums": [5, 1, 5, 1, 5], "k": 3 }, "expected": 3 }
+]

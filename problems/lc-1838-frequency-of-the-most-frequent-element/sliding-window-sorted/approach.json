@@ -1,0 +1,27 @@
+{
+  "order": 1,
+  "name": "Sort + sliding window",
+  "pattern": "Sliding window",
+  "ds": ["Array"],
+  "time": "O(n log n)",
+  "space": "O(1) extra (O(log n) for the sort)",
+  "whenToUse": "The standard answer. Sorting costs O(n log n); the window pass after it is O(n).",
+  "card": {
+    "signals": "\"increment by 1\" means values only go up, so a group is raised to its largest value. \"at most k operations\" is a budget a group must stay within, and \"maximum frequency\" asks for the biggest group. After sorting, the best group for a target is the values just before it: a contiguous window with a rule (cost ≤ k) and a best size.",
+    "pattern": "sort first, then a variable-size window. right picks the target value nums[right]; left moves right when the window costs too much. A running total gives the cost in O(1): cost = nums[right] × length − total.",
+    "coreIdea": "add nums[right] to total and compute cost. While cost > k, drop nums[left], the smallest value and the most expensive to raise. Then the window length is a possible frequency: compare it with longest."
+  },
+  "invariant": "After the while loop, every value in nums[left..right] can be raised to nums[right] with at most k increments, and total is the window sum.",
+  "phases": { "init": "start", "next": "next round", "expand": "expand", "check": "while", "shrink": "shrink", "update": "best ↑", "compare": "compare", "return": "done" },
+  "legend": [
+    { "swatch": "ptr-back", "text": "left: left edge of the window" },
+    { "swatch": "ptr-front", "text": "right: right edge, the target value" },
+    { "swatch": "band-window", "text": "current window [left, right]" },
+    { "swatch": "current", "text": "element just added" },
+    { "swatch": "conflict", "text": "target whose window costs more than k" },
+    { "swatch": "removed", "text": "element being dropped" },
+    { "swatch": "out", "text": "left the window for good" },
+    { "swatch": "bar", "text": "longest valid window so far (cells turn green at the end)" }
+  ],
+  "accepted": ["python", "cpp", "c"]
+}

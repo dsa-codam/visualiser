@@ -53,6 +53,7 @@ site.json        site-wide links
 9. Git: never commit, push, open or merge a pull request, or change repository settings unless the user asks for that action in this conversation. When asked to publish: run `python3 build.py`, show `git status`, commit sources and docs/ together, then push. CI (.github/workflows/check.yml) must stay green (ADR 019).
 
 ## Workflow A — add a problem
+0. **Check it is not here yet.** Run `python3 build.py --check <id>` (e.g. `--check 283`). If it prints "not found", go on. If the problem is there, stop: show the user its approaches and ask what to do — add a new approach (workflow B), change an existing one, or nothing (ADR 026).
 1. **Use the statement the user gave.** If constraints or examples are missing from it, ask for them; do not fill them in from memory. Folder name: `<short>-<id>-<slug>` with the slug from the problem URL, e.g. `lc-283-move-zeroes`; for a source without numbers, `<short>-<slug>` (e.g. `nc-...`). Fill "source" in problem.json (ADR 016).
 2. **Pattern ID (in chat).** If the user named the pattern or data structure, use it. Otherwise, if more than one reasonable approach exists, list them and ask which to build first; do not pick one yourself. Then share: pattern, data structure(s), 2–3 signals in the statement, brute force and its complexity, pattern complexity. Check notion-guides.md now: if the pattern has no guide, stop and ask (see "No guide yet" there).
 3. **C or not.** C only if the solution needs nothing beyond plain arrays, fixed-size counters (e.g. int count[128]) and loops. Otherwise no solution.c and a one-sentence "noC" reason in approach.json. Say the decision in chat.
@@ -70,6 +71,7 @@ site.json        site-wide links
 12. **Remind the user** to submit each language on the LeetCode account and then say which ones were accepted (workflow E).
 
 ## Workflow B — add an approach
+0. Run `python3 build.py --check <id>` to see the approaches the problem has. If one already uses the same pattern, tell the user before you start: the new one must show a different idea, and its "name" must be different (build.py stops on two equal names).
 1. Folder name = approach id = URL anchor: short, lowercase, pattern + data structure, e.g. `sliding-window-hash-map`.
 2. **solution.py** — the exact LeetCode signature, with:
    - `# @a:<name>` at the end of every line a step points at (same names in every language)

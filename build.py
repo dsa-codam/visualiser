@@ -5,6 +5,8 @@ build.py — the only way pages are made.
     python3 build.py              test everything, then build docs/
     python3 build.py --no-smoke   skip the browser smoke test
     python3 build.py --random 500 more random tests per problem (default 200)
+    python3 build.py --check 283  is this problem here already? (no build)
+    python3 build.py --check      list every problem and its approaches
 
 Order (a page is only written if every check before it passes):
   1. correctness  — every approach vs the brute-force oracle on
@@ -424,6 +426,54 @@ def load_problem(pdir):
     return {"name": name, "dir": pdir, "meta": meta, "approaches": approaches, "tests": tests}
 
 
+def problem_key(meta, name):
+    src = meta["source"]
+    if src.get("id"):
+        return "%s %s" % (src["site"].lower(), str(src["id"]).lower())
+    return src["url"].rstrip("/").lower()
+
+
+def check_duplicates(problems):
+    """One folder per problem (ADR 006) and unique tab names (ADR 026)."""
+    seen = {}
+    for pb in problems:
+        key = problem_key(pb["meta"], pb["name"])
+        if key in seen:
+            fail("the same problem is in two folders: %s and %s (one page per problem, ADR 006)" % (seen[key], pb["name"]))
+        seen[key] = pb["name"]
+        names = {}
+        for a in pb["approaches"]:
+            n = a["name"].strip().lower()
+            if n in names:
+                fail("%s: two approaches have the same name \"%s\" (%s, %s)" % (pb["name"], a["name"], names[n], a["id"]))
+            names[n] = a["id"]
+
+
+def list_problems(query):
+    """--check: read only problem.json and approach.json, build nothing."""
+    q = (query or "").strip().lower()
+    found = 0
+    for d in sorted(os.listdir(PROBLEMS)):
+        pdir = os.path.join(PROBLEMS, d)
+        pj = os.path.join(pdir, "problem.json")
+        if d.startswith(".") or not os.path.isfile(pj):
+            continue
+        meta = read_json(pj)
+        src = meta.get("source", {})
+        if q and q != str(src.get("id", "")).lower() and q != d.lower():
+            continue
+        found += 1
+        log("%s — %s %s, %s" % (d, src.get("site", "?"), src.get("id", ""), meta.get("title", "")))
+        for sub in sorted(os.listdir(pdir)):
+            aj = os.path.join(pdir, sub, "approach.json")
+            if os.path.isfile(aj):
+                a = read_json(aj)
+                log("    %s — %s [%s]" % (sub, a.get("name", "?"), a.get("pattern", "?")))
+    if q and not found:
+        log("not found: %s — no problem with this id yet" % query)
+    return found
+
+
 # ---------------------------------------------------------------------------
 # Per-problem pipeline
 # ---------------------------------------------------------------------------
@@ -742,11 +792,16 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--no-smoke", action="store_true", help="skip the browser smoke test")
     ap.add_argument("--random", type=int, default=200, help="random tests per problem (default 200)")
+    ap.add_argument("--check", nargs="?", const="", metavar="ID", help="show if a problem is already here, or list all; builds nothing")
     args = ap.parse_args()
+    if args.check is not None:
+        list_problems(args.check)
+        return
     try:
         site = read_json(os.path.join(ROOT, "site.json"))
         names = sorted(d for d in os.listdir(PROBLEMS) if os.path.isdir(os.path.join(PROBLEMS, d)) and not d.startswith("."))
         problems = [load_problem(os.path.join(PROBLEMS, d)) for d in names]
+        check_duplicates(problems)
         pages = [(pb["name"], build_problem(pb, args.random)) for pb in problems]
     except BuildError as e:
         log("\n✗ BUILD FAILED — docs/ was not touched.\n" + str(e))

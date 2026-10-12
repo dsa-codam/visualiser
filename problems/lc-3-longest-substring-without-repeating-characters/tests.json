@@ -1,0 +1,7 @@
+[
+  { "name": "empty string", "args": { "s": "" }, "expected": 0 },
+  { "name": "one space", "args": { "s": " " }, "expected": 1 },
+  { "name": "upper and lower case differ", "args": { "s": "aAaA" }, "expected": 2 },
+  { "name": "62 unique characters", "args": { "s": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" }, "expected": 62 },
+  { "name": "repeat at both ends", "args": { "s": "abcdea" }, "expected": 5 }
+]

@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "title": "Longest Substring Without Repeating Characters",
+  "source": { "site": "LeetCode", "id": "3", "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/" },
+  "difficulty": "Medium",
+  "nMax": 100000,
+  "signature": {
+    "python": "lengthOfLongestSubstring",
+    "cpp": "lengthOfLongestSubstring",
+    "c": "lengthOfLongestSubstring",
+    "params": [{ "name": "s", "type": "string" }],
+    "returns": "int"
+  },
+  "constraints": [
+    {
+      "text": "0 ≤ s.length ≤ 10⁵",
+      "meaning": "Up to 100,000 characters. s can be empty.",
+      "impact": "O(n²) is about 10¹⁰ steps: far too slow. You need O(n). For the empty string the loop never runs, so the answer must start at 0."
+    },
+    {
+      "text": "s consists of English letters, digits, symbols and spaces",
+      "meaning": "Only ASCII characters, codes 0 to 127. A space is a character like any other.",
+      "impact": "A counting array of size 128 replaces a hash map, which also makes a C version easy. Upper and lower case are different characters."
+    },
+    {
+      "text": "A substring is contiguous, with no duplicate characters (statement)",
+      "meaning": "The characters sit next to each other, and no character appears twice.",
+      "impact": "Contiguous + a rule every window must keep (no repeats) + the longest window → sliding window."
+    }
+  ],
+  "bruteForce": {
+    "summary": "try every start i, extend j to the right while the characters stay unique, and keep the longest length. O(n²) time, which is too slow for n = 10⁵.",
+    "opsUnit": "character visits"
+  },
+  "examples": [
+    { "id": "lc1", "label": "LeetCode Example 1: \"abcabcbb\"", "kind": "main", "args": { "s": "abcabcbb" }, "expected": 3 },
+    { "id": "lc3", "label": "LeetCode Example 3: \"pwwkew\"", "kind": "main", "args": { "s": "pwwkew" }, "expected": 3 },
+    { "id": "long-shrink", "label": "Long shrink: \"tmmzuxt\"", "kind": "main", "args": { "s": "tmmzuxt" } },
+    { "id": "lc2", "label": "LeetCode Example 2: \"bbbbb\"", "kind": "edge", "args": { "s": "bbbbb" }, "expected": 1 },
+    { "id": "single", "label": "One character: \"a\"", "kind": "edge", "args": { "s": "a" } },
+    { "id": "dvdf", "label": "Repeat in the middle: \"dvdf\"", "kind": "edge", "args": { "s": "dvdf" } },
+    { "id": "spaces", "label": "Spaces and symbols: \"a b!a\"", "kind": "edge", "args": { "s": "a b!a" } },
+    { "id": "all-unique", "label": "All unique: \"abc\"", "kind": "edge", "args": { "s": "abc" } }
+  ]
+}

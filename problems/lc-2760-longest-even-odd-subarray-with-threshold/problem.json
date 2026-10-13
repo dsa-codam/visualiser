@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "title": "Longest Even Odd Subarray With Threshold",
+  "source": { "site": "LeetCode", "id": "2760", "url": "https://leetcode.com/problems/longest-even-odd-subarray-with-threshold/" },
+  "difficulty": "Easy",
+  "nMax": 100,
+  "signature": {
+    "python": "longestAlternatingSubarray",
+    "cpp": "longestAlternatingSubarray",
+    "c": "longestAlternatingSubarray",
+    "params": [{ "name": "nums", "type": "int[]" }, { "name": "threshold", "type": "int" }],
+    "returns": "int"
+  },
+  "constraints": [
+    {
+      "text": "1 ≤ nums.length ≤ 100",
+      "meaning": "At most 100 elements, never empty.",
+      "impact": "Even O(n²) or O(n³) is fast enough here, so brute force passes. The sliding window is still the clean O(n) answer, and it is what an interviewer wants to see. The answer can be 0: n ≥ 1 does not mean a valid subarray exists."
+    },
+    {
+      "text": "1 ≤ nums[i] ≤ 100",
+      "meaning": "Every value is a small positive number.",
+      "impact": "No overflow and no negative numbers, so nums[i] % 2 is always 0 (even) or 1 (odd) in every language."
+    },
+    {
+      "text": "1 ≤ threshold ≤ 100",
+      "meaning": "threshold is in the same range as the values.",
+      "impact": "A value can be bigger than threshold. Such a value can never be inside a valid subarray, so it cuts the array into separate parts."
+    },
+    {
+      "text": "nums[l] is even, parity alternates, every value ≤ threshold (statement)",
+      "meaning": "The subarray starts with an even value, then odd, even, odd, … and no value is above threshold.",
+      "impact": "Each rule only looks at one element or two neighbours. When a rule breaks at index right, no valid window can cross it, so the window restarts there instead of shrinking one step at a time."
+    }
+  ],
+  "bruteForce": {
+    "summary": "try every start l with an even value ≤ threshold, extend r to the right while the next value is ≤ threshold and has the other parity, and keep the longest length. O(n²) time. It passes for n ≤ 100, but it checks the same elements again for every start.",
+    "opsUnit": "element checks"
+  },
+  "examples": [
+    { "id": "lc1", "label": "LeetCode Example 1: [3,2,5,4], threshold = 5", "kind": "edge",
+      "args": { "nums": [3, 2, 5, 4], "threshold": 5 }, "expected": 3 },
+    { "id": "lc3", "label": "LeetCode Example 3: [2,3,4,5], threshold = 4", "kind": "edge",
+      "args": { "nums": [2, 3, 4, 5], "threshold": 4 }, "expected": 3 },
+    { "id": "restarts", "label": "Every kind of restart: [2,3,3,4,7,6,6,9,2,5], threshold = 8", "kind": "main",
+      "args": { "nums": [2, 3, 3, 4, 7, 6, 6, 9, 2, 5], "threshold": 8 } },
+    { "id": "cut", "label": "Run cut by threshold: [2,5,4,9,4,1,2,3], threshold = 8", "kind": "main",
+      "args": { "nums": [2, 5, 4, 9, 4, 1, 2, 3], "threshold": 8 } },
+    { "id": "lc2", "label": "LeetCode Example 2: [1,2], threshold = 2", "kind": "edge",
+      "args": { "nums": [1, 2], "threshold": 2 }, "expected": 1 },
+    { "id": "single", "label": "One element: [2], threshold = 2", "kind": "edge",
+      "args": { "nums": [2], "threshold": 2 } },
+    { "id": "all-odd", "label": "All odd: [1,3,5], threshold = 10", "kind": "edge",
+      "args": { "nums": [1, 3, 5], "threshold": 10 } },
+    { "id": "all-too-big", "label": "All above threshold: [6,7,8], threshold = 5", "kind": "edge",
+      "args": { "nums": [6, 7, 8], "threshold": 5 } },
+    { "id": "same-parity", "label": "Same parity twice: [2,2,4,4], threshold = 4", "kind": "edge",
+      "args": { "nums": [2, 2, 4, 4], "threshold": 4 } }
+  ]
+}

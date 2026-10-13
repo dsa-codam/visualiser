@@ -1,0 +1,7 @@
+[
+  { "name": "one odd element", "args": { "nums": [1], "threshold": 1 }, "expected": 0 },
+  { "name": "one even element above threshold", "args": { "nums": [2], "threshold": 1 }, "expected": 0 },
+  { "name": "value equal to threshold is allowed", "args": { "nums": [100, 99, 100], "threshold": 100 }, "expected": 3 },
+  { "name": "long run starts after an odd value", "args": { "nums": [1, 2, 1, 2, 1, 2, 1], "threshold": 2 }, "expected": 6 },
+  { "name": "threshold cuts the best run", "args": { "nums": [2, 3, 4, 50, 2, 3], "threshold": 10 }, "expected": 3 }
+]

@@ -1,0 +1,27 @@
+{
+  "order": 1,
+  "name": "Sliding window",
+  "pattern": "Sliding window",
+  "ds": ["Array"],
+  "time": "O(n)",
+  "space": "O(1)",
+  "whenToUse": "The standard answer. One pass, no extra memory. Brute force also passes for n ≤ 100, but it checks the same elements again for every start.",
+  "card": {
+    "signals": "\"subarray\" (contiguous), rules every element of it must keep (even start, alternating parity, ≤ threshold) and \"longest\". Each rule only looks at one element or at two neighbours.",
+    "pattern": "a variable-size window that restarts instead of shrinking. When a rule breaks at right, no valid window can contain both sides of the break, so left jumps straight to right (even value) or right + 1 (odd value or too big). Each index is visited once: O(n).",
+    "coreIdea": "for each right, decide one of three things: nums[right] is too big (no window), it alternates with nums[right - 1] (the window grows), or the window cannot grow (restart at right if nums[right] is even, else no window). If a window exists, compare its length with longest."
+  },
+  "invariant": "After each round, the window nums[left..right] (when left ≤ right) starts with an even value, alternates even / odd, has no value above threshold, and is the longest such window that ends at right.",
+  "phases": { "init": "start", "next": "next round", "expand": "expand", "restart": "restart", "skip": "skip", "reset": "too big", "update": "best ↑", "compare": "compare", "return": "done" },
+  "legend": [
+    { "swatch": "ptr-back", "text": "left: left edge of the window" },
+    { "swatch": "ptr-front", "text": "right: right edge (new element)" },
+    { "swatch": "band-window", "text": "current window [left, right]" },
+    { "swatch": "current", "text": "element just added to the window" },
+    { "swatch": "conflict", "text": "element that cannot be in a window here (too big, or odd at the start)" },
+    { "swatch": "dup", "text": "neighbour with the same parity" },
+    { "swatch": "out", "text": "left behind for good" },
+    { "swatch": "bar", "text": "longest valid window so far (cells turn green at the end)" }
+  ],
+  "accepted": ["python", "cpp", "c"]
+}

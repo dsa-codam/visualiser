@@ -1,0 +1,26 @@
+{
+  "order": 1,
+  "name": "Fixed-size sliding window",
+  "pattern": "Sliding window",
+  "ds": ["Array"],
+  "time": "O(n)",
+  "space": "O(1)",
+  "whenToUse": "The standard answer: one pass, a running sum, no extra memory and no division.",
+  "card": {
+    "signals": "\"sub-arrays of size k\" (contiguous, and the window size never changes) and a test on each window (average ≥ threshold). Two neighbouring windows share k − 1 elements, so most of the work is the same.",
+    "pattern": "a fixed-size window. Build the first window of k elements, then slide it one step at a time: one element enters on the right, one leaves on the left. Each element is added once and dropped once, so the scan is O(n).",
+    "coreIdea": "keep total, the sum of the window. Every window has length k, so average ≥ threshold is the same as total ≥ min_sum = threshold × k. Count each window that passes this test."
+  },
+  "invariant": "After each slide, the window arr[left..right] has exactly k elements, and total is their sum.",
+  "phases": { "init": "start", "build": "build", "next": "next round", "add": "add", "drop": "drop", "count": "count ↑", "skip": "skip", "return": "done" },
+  "legend": [
+    { "swatch": "ptr-back", "text": "left: left edge of the window" },
+    { "swatch": "ptr-front", "text": "right: right edge (new element)" },
+    { "swatch": "band-window", "text": "current window [left, right]" },
+    { "swatch": "band-best", "text": "window that passes: total ≥ min_sum" },
+    { "swatch": "current", "text": "element just added" },
+    { "swatch": "removed", "text": "element being dropped" },
+    { "swatch": "out", "text": "left the window for good" }
+  ],
+  "accepted": ["python", "cpp", "c"]
+}

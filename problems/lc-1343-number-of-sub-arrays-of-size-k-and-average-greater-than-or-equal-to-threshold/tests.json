@@ -1,0 +1,6 @@
+[
+  { "name": "largest values and threshold", "args": { "arr": [10000, 10000, 10000, 10000], "k": 2, "threshold": 10000 }, "expected": 3 },
+  { "name": "n = 1, passes", "args": { "arr": [1], "k": 1, "threshold": 0 }, "expected": 1 },
+  { "name": "n = 1, fails", "args": { "arr": [1], "k": 1, "threshold": 2 }, "expected": 0 },
+  { "name": "average just below threshold", "args": { "arr": [4, 4, 3], "k": 3, "threshold": 4 }, "expected": 0 }
+]

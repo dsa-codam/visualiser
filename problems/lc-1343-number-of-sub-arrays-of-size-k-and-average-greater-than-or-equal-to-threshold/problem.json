@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "title": "Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold",
+  "source": { "site": "LeetCode", "id": "1343", "url": "https://leetcode.com/problems/number-of-sub-arrays-of-size-k-and-average-greater-than-or-equal-to-threshold/" },
+  "difficulty": "Medium",
+  "nMax": 100000,
+  "signature": {
+    "python": "numOfSubarrays",
+    "cpp": "numOfSubarrays",
+    "c": "numOfSubarrays",
+    "params": [{ "name": "arr", "type": "int[]" }, { "name": "k", "type": "int" }, { "name": "threshold", "type": "int" }],
+    "returns": "int"
+  },
+  "constraints": [
+    {
+      "text": "1 ≤ arr.length ≤ 10⁵, 1 ≤ k ≤ arr.length",
+      "meaning": "Up to 100,000 elements. The window length k is at least 1 and never longer than the array.",
+      "impact": "Summing every window from scratch is O(n·k), up to about 10¹⁰ steps when k is near n/2: too slow. You need O(n). There is always at least one full window."
+    },
+    {
+      "text": "1 ≤ arr[i] ≤ 10⁴",
+      "meaning": "Every value is positive and at most 10,000.",
+      "impact": "A window sum is at most 10⁵ × 10⁴ = 10⁹, so int is enough."
+    },
+    {
+      "text": "0 ≤ threshold ≤ 10⁴",
+      "meaning": "The threshold is a whole number, at most 10,000.",
+      "impact": "average ≥ threshold is the same as sum ≥ threshold × k. That needs no division and no doubles, and threshold × k ≤ 10⁹ still fits in int. With threshold = 0 every window counts."
+    }
+  ],
+  "bruteForce": {
+    "summary": "for every start i, add up arr[i..i+k-1] from scratch, compute the average and count it when it is ≥ threshold. O(n·k) time, which is too slow when n = 10⁵ and k is large.",
+    "opsUnit": "element additions"
+  },
+  "examples": [
+    { "id": "lc1", "label": "LeetCode Example 1: [2,2,2,2,5,5,5,8], k = 3, threshold = 4", "kind": "main", "args": { "arr": [2, 2, 2, 2, 5, 5, 5, 8], "k": 3, "threshold": 4 }, "expected": 3 },
+    { "id": "lc2", "label": "LeetCode Example 2: [11,13,17,23,29,31,7,5,2,3], k = 3, threshold = 5", "kind": "main", "args": { "arr": [11, 13, 17, 23, 29, 31, 7, 5, 2, 3], "k": 3, "threshold": 5 }, "expected": 6 },
+    { "id": "none", "label": "No window passes: [1,1,1], k = 2, threshold = 5", "kind": "edge", "args": { "arr": [1, 1, 1], "k": 2, "threshold": 5 } },
+    { "id": "zero", "label": "threshold = 0: [3,1], k = 1", "kind": "edge", "args": { "arr": [3, 1], "k": 1, "threshold": 0 } },
+    { "id": "equal", "label": "Average exactly equal, k = n: [4,4,4], k = 3, threshold = 4", "kind": "edge", "args": { "arr": [4, 4, 4], "k": 3, "threshold": 4 } }
+  ]
+}

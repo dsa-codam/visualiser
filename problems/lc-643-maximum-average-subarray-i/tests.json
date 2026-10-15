@@ -1,0 +1,6 @@
+[
+  { "name": "largest values", "args": { "nums": [10000, 10000, 10000, 10000], "k": 2 }, "expected": 10000.0 },
+  { "name": "smallest values", "args": { "nums": [-10000, -10000, -10000], "k": 3 }, "expected": -10000.0 },
+  { "name": "k = 1 picks the largest element", "args": { "nums": [-2, 7, 0, 3], "k": 1 }, "expected": 7.0 },
+  { "name": "average with a long fraction", "args": { "nums": [1, 1, 2], "k": 3 }, "expected": 1.3333333333 }
+]

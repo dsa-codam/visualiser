@@ -58,6 +58,19 @@ def canon(v):
     return json.dumps(v, separators=(",", ":"), sort_keys=True)
 
 
+DOUBLE_TOL = 1e-5  # LeetCode accepts a "double" answer within 10^-5 (ADR 027)
+
+
+def same_answer(got, want, sig):
+    """True when got matches want. "double" answers may differ by less than DOUBLE_TOL."""
+    if sig["returns"] == "double":
+        try:
+            return abs(float(got) - float(want)) < DOUBLE_TOL
+        except (TypeError, ValueError):
+            return False
+    return canon(got) == canon(want)
+
+
 def short(v, limit=120):
     s = canon(v)
     return s if len(s) <= limit else s[: limit - 3] + "..."
@@ -194,7 +207,7 @@ def call_brute(ns, sig, args, filename):
 # C / C++ drivers
 # ---------------------------------------------------------------------------
 SUPPORTED_PARAM = {"int", "long", "int[]", "long[]", "string", "char[]"}
-SUPPORTED_RET = {"void", "int", "long", "bool", "int[]"}
+SUPPORTED_RET = {"void", "int", "long", "bool", "int[]", "double"}
 SUPPORTED_JUDGE = {"sortedPrefix"}  # LeetCode custom judges, see ADR 025
 
 
@@ -236,7 +249,7 @@ def make_driver(lang, sig, src_path):
     scalar = {"int": "int", "long": "long long"}
     lines = []
     if lang == "cpp":
-        lines += ['#include "%s"' % src_path, "#include <iostream>", "#include <string>", "#include <vector>", "#include <cstdlib>", "#include <algorithm>", "#include <type_traits>",
+        lines += ['#include "%s"' % src_path, "#include <iostream>", "#include <string>", "#include <vector>", "#include <cstdlib>", "#include <cstdio>", "#include <algorithm>", "#include <type_traits>",
                   "static long long rd() { long long x; if (!(std::cin >> x)) std::exit(2); return x; }",
                   "template <class V> static void pr(const V& v) { std::cout << '['; for (size_t i = 0; i < v.size(); i++) { if (i) std::cout << ','; "
                   "if constexpr (std::is_same<typename V::value_type, char>::value) { std::cout << '\"'; if (v[i] == '\"' || v[i] == '\\\\') std::cout << '\\\\'; std::cout << v[i] << '\"'; } "  # chars as JSON strings
@@ -268,6 +281,8 @@ def make_driver(lang, sig, src_path):
             lines.append('    std::cout << (%s ? "true" : "false") << "\\n";' % expr)
         elif r == "int[]":
             lines.append("    pr(%s);" % expr)
+        elif r == "double":
+            lines.append('    std::printf("%%.10f\\n", (double)%s);' % expr)
         else:
             lines.append('    std::cout << %s << "\\n";' % expr)
         lines += ["  }", "  return 0;", "}"]
@@ -319,6 +334,8 @@ def make_driver(lang, sig, src_path):
             lines.append('    printf("%%s\\n", %s(%s) ? "true" : "false");' % (fn, ", ".join(call)))
         elif r == "long":
             lines.append('    printf("%%lld\\n", (long long)%s(%s));' % (fn, ", ".join(call)))
+        elif r == "double":
+            lines.append('    printf("%%.10f\\n", (double)%s(%s));' % (fn, ", ".join(call)))
         else:
             lines.append('    printf("%%d\\n", %s(%s));' % (fn, ", ".join(call)))
         for f in frees:
@@ -507,7 +524,7 @@ def build_problem(pb, n_random):
     expected = []
     for label, args, exp in cases:
         b = call_brute(brute_ns, sig, args, name + "/brute.py")
-        if exp is not None and canon(b) != canon(exp):
+        if exp is not None and not same_answer(b, exp, sig):
             fail("%s: the brute-force oracle is wrong on %s\n  input:    %s\n  expected: %s (from the statement)\n  brute:    %s"
                  % (name, label, short(args), short(exp), short(b)))
         expected.append(b)
@@ -523,7 +540,7 @@ def build_problem(pb, n_random):
         clean_ns = load_py(py_exec, where + "/solution.py (clean)", NullTracer())
         for (label, args, _), b in zip(cases, expected):
             got = call_solution(clean_ns, sig, args, where + "/solution.py")
-            if canon(got) != canon(b):
+            if not same_answer(got, b, sig):
                 fail("%s: Python answer differs from brute force on %s\n  input: %s\n  brute: %s\n  got:   %s"
                      % (where, label, short(args), short(b), short(got)))
         code_out["python"] = {"lines": py_lines, "anchors": py_anchors}
@@ -539,7 +556,8 @@ def build_problem(pb, n_random):
             if len(out) != len(cases):
                 fail("%s: %s printed %d answers for %d cases" % (where, SRC_FILE[lang], len(out), len(cases)))
             for (label, args, _), b, got in zip(cases, expected, out):
-                if got.strip() != native_canon(b):
+                ok = same_answer(got.strip(), b, sig) if sig["returns"] == "double" else got.strip() == native_canon(b)
+                if not ok:
                     fail("%s: %s answer differs from brute force on %s\n  input: %s\n  brute: %s\n  got:   %s"
                          % (where, SRC_FILE[lang], label, short(args), native_canon(b), got.strip()))
             code_out[lang] = {"lines": lines, "anchors": anchors}
@@ -553,7 +571,7 @@ def build_problem(pb, n_random):
             tr = Tracer()
             ns = load_py(inst, where + "/solution.py (traced)", tr)
             got = call_solution(ns, sig, ex["args"], where + "/solution.py")
-            if canon(got) != canon(b):
+            if not same_answer(got, b, sig):
                 fail("%s: traced Python gives a different answer on example %s. The @trace lines must not change the logic."
                      % (where, ex["id"]))
             if not tr.steps:

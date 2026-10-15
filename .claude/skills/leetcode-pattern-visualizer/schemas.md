@@ -15,7 +15,7 @@ schemaVersion: 1. All files are plain JSON (no comments, no trailing commas). Th
   "signature": {
     "python": "moveZeroes", "cpp": "moveZeroes", "c": "moveZeroes",
     "params": [{ "name": "nums", "type": "int[]" }],   // int | long | int[] | long[] | string | char[]
-    "returns": "void",                                  // void | int | long | bool | int[]
+    "returns": "void",                                  // void | int | long | bool | int[] | double (within 10⁻⁵, ADR 027)
     "inPlace": "nums",                                  // required when returns = void
     "judge": "sortedPrefix"                             // optional (ADR 025): returns int k; the answer is
                                                         // sorted(inPlace[:k]), like LeetCode's custom judge

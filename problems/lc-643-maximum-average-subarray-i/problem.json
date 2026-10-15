@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "title": "Maximum Average Subarray I",
+  "source": { "site": "LeetCode", "id": "643", "url": "https://leetcode.com/problems/maximum-average-subarray-i/" },
+  "difficulty": "Easy",
+  "nMax": 100000,
+  "signature": {
+    "python": "findMaxAverage",
+    "cpp": "findMaxAverage",
+    "c": "findMaxAverage",
+    "params": [{ "name": "nums", "type": "int[]" }, { "name": "k", "type": "int" }],
+    "returns": "double"
+  },
+  "constraints": [
+    {
+      "text": "n == nums.length, 1 ≤ k ≤ n ≤ 10⁵",
+      "meaning": "Up to 100,000 elements. The window length k is at least 1 and never longer than the array.",
+      "impact": "Summing every window from scratch is O(n·k), up to about 10¹⁰ steps when k is near n/2: too slow. You need O(n). There is always at least one full window, so the answer always exists."
+    },
+    {
+      "text": "-10⁴ ≤ nums[i] ≤ 10⁴",
+      "meaning": "Values can be negative, zero or positive.",
+      "impact": "The best sum can be negative, so do not start largest at 0: start it at the sum of the first window. A window sum is at most 10⁵ × 10⁴ = 10⁹ in size, so int is enough."
+    },
+    {
+      "text": "Any answer with a calculation error less than 10⁻⁵ will be accepted (statement)",
+      "meaning": "The answer is a double, and small rounding differences are fine.",
+      "impact": "All windows have the same length k, so the largest average belongs to the largest sum. Keep integer sums and divide by k only once, at the end."
+    }
+  ],
+  "bruteForce": {
+    "summary": "for every start i, add up nums[i..i+k-1] from scratch and keep the largest sum. O(n·k) time, which is too slow when n = 10⁵ and k is large.",
+    "opsUnit": "element additions"
+  },
+  "examples": [
+    { "id": "lc1", "label": "LeetCode Example 1: [1,12,-5,-6,50,3], k = 4", "kind": "main", "args": { "nums": [1, 12, -5, -6, 50, 3], "k": 4 }, "expected": 12.75 },
+    { "id": "best-early", "label": "Best window early: [4,2,-3,8,1,-7,6,5], k = 3", "kind": "main", "args": { "nums": [4, 2, -3, 8, 1, -7, 6, 5], "k": 3 } },
+    { "id": "lc2", "label": "LeetCode Example 2: [5], k = 1", "kind": "edge", "args": { "nums": [5], "k": 1 }, "expected": 5.0 },
+    { "id": "all-negative", "label": "All negative: [-3,-1,-2], k = 2", "kind": "edge", "args": { "nums": [-3, -1, -2], "k": 2 } },
+    { "id": "k-equals-n", "label": "k = n: [1,2,3], k = 3", "kind": "edge", "args": { "nums": [1, 2, 3], "k": 3 } }
+  ]
+}

@@ -1,0 +1,6 @@
+[
+  { "name": "n = 1, black", "args": { "blocks": "B", "k": 1 }, "expected": 0 },
+  { "name": "n = 1, white", "args": { "blocks": "W", "k": 1 }, "expected": 1 },
+  { "name": "best window at the end", "args": { "blocks": "WWWWBB", "k": 3 }, "expected": 1 },
+  { "name": "n = 100, alternating, k = 100", "args": { "blocks": "WBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWBWB", "k": 100 }, "expected": 50 }
+]

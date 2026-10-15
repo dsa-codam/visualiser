@@ -1,0 +1,26 @@
+{
+  "order": 1,
+  "name": "Fixed-size sliding window",
+  "pattern": "Sliding window",
+  "ds": ["Array"],
+  "time": "O(n)",
+  "space": "O(1)",
+  "whenToUse": "The standard answer: one pass and one counter, no extra memory.",
+  "card": {
+    "signals": "\"k consecutive\" blocks (contiguous, and the window size never changes) and \"minimum\" number of operations. The cost of a window is easy to update: it is the number of 'W' in it.",
+    "pattern": "a fixed-size window. Build the first window of k blocks, then slide it one step at a time: one block enters on the right, one leaves on the left. Each block is checked once on the way in and once on the way out, so the scan is O(n).",
+    "coreIdea": "keep whites, the number of 'W' in the window. When a 'W' enters, whites += 1; when a 'W' leaves, whites -= 1. The answer is the smallest whites over all windows."
+  },
+  "invariant": "After each slide, the window blocks[left..right] has exactly k blocks, and whites is the number of 'W' in it.",
+  "phases": { "init": "start", "build": "build", "next": "next round", "add": "add", "drop": "drop", "update": "fewest ↓", "compare": "compare", "return": "done" },
+  "legend": [
+    { "swatch": "ptr-back", "text": "left: left edge of the window" },
+    { "swatch": "ptr-front", "text": "right: right edge (new block)" },
+    { "swatch": "band-window", "text": "current window [left, right]" },
+    { "swatch": "current", "text": "block just added" },
+    { "swatch": "removed", "text": "block being dropped" },
+    { "swatch": "out", "text": "left the window for good" },
+    { "swatch": "bar", "text": "window with the fewest 'W' so far (cells turn green at the end)" }
+  ],
+  "accepted": ["python", "cpp", "c"]
+}

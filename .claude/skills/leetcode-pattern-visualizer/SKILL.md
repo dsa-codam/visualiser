@@ -107,6 +107,14 @@ When the user says a language was accepted on LeetCode, add it to "accepted" in 
 ## ai-panic/
 When you notice yourself worrying about something unlikely ("what if LeetCode renames every slug"), write it as a short, light-hearted file in ai-panic/ instead of adding complexity. One file per worry: what could go wrong, how likely, what we would do. ADRs never cite ai-panic as a reason. The user will check one day which ones came true.
 
+## Same steps in every language
+All implementations (solution.py, solution.cpp, solution.c) follow the same sequence of steps as the animation. Every step maps to the same anchored lines in each language, so the highlighted line always matches what the reader sees.
+
+- Strings are treated as arrays of characters, as in C.
+- Allowed: index access and simple variables (counters, indices, running min/max); idiomatic syntax that does not hide a step (for/range, len(), min(), max(), tuple swap).
+- Not allowed: anything that hides a step of the pattern or changes complexity: slicing, .count(), sum() over a window, sorted() inside a loop, substr / strncmp / std::count inside a loop, hash maps and sets unless the pattern itself is about them.
+- If an idiomatic version differs from the step-by-step one, it may appear as a short note under the code ("Idiomatic but slower: ... recomputes the window on every step"). It is never the main version tied to the steps.
+
 ## Pointer names
 Pointer names and their role colours are defined in design-system.md (ADR 011, ADR 021). Code variable names must match the labels on the canvas.
 

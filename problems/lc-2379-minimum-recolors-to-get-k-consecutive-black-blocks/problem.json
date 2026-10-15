@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "title": "Minimum Recolors to Get K Consecutive Black Blocks",
+  "source": { "site": "LeetCode", "id": "2379", "url": "https://leetcode.com/problems/minimum-recolors-to-get-k-consecutive-black-blocks/" },
+  "difficulty": "Easy",
+  "nMax": 100,
+  "signature": {
+    "python": "minimumRecolors",
+    "cpp": "minimumRecolors",
+    "c": "minimumRecolors",
+    "params": [{ "name": "blocks", "type": "string" }, { "name": "k", "type": "int" }],
+    "returns": "int"
+  },
+  "constraints": [
+    {
+      "text": "n == blocks.length, 1 ≤ n ≤ 100",
+      "meaning": "At most 100 blocks, never empty.",
+      "impact": "Even O(n·k) brute force is only about 10⁴ steps, so it would pass. The sliding window is O(n) and is the pattern this problem teaches."
+    },
+    {
+      "text": "blocks[i] is either 'W' or 'B'",
+      "meaning": "Only two colours.",
+      "impact": "To make a window all black, you recolor each 'W' in it once. So the cost of a window is the number of 'W' in it, and one counter is enough."
+    },
+    {
+      "text": "1 ≤ k ≤ n",
+      "meaning": "The window length k is at least 1 and never longer than blocks.",
+      "impact": "There is always at least one full window, so the answer always exists. It is at most k."
+    }
+  ],
+  "bruteForce": {
+    "summary": "for every start i, count the 'W' in blocks[i..i+k-1] from scratch and keep the smallest count. O(n·k) time.",
+    "opsUnit": "block checks"
+  },
+  "examples": [
+    { "id": "lc1", "label": "LeetCode Example 1: \"WBBWWBBWBW\", k = 7", "kind": "main", "args": { "blocks": "WBBWWBBWBW", "k": 7 }, "expected": 3 },
+    { "id": "lc2", "label": "LeetCode Example 2: \"WBWBBBW\", k = 2", "kind": "main", "args": { "blocks": "WBWBBBW", "k": 2 }, "expected": 0 },
+    { "id": "all-black", "label": "All black: \"BBB\", k = 2", "kind": "edge", "args": { "blocks": "BBB", "k": 2 } },
+    { "id": "all-white", "label": "All white, k = n: \"WWW\", k = 3", "kind": "edge", "args": { "blocks": "WWW", "k": 3 } },
+    { "id": "k-one", "label": "k = 1: \"WWB\"", "kind": "edge", "args": { "blocks": "WWB", "k": 1 } }
+  ]
+}

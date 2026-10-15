@@ -50,7 +50,7 @@ site.json        site-wide links
 6. No external libraries, CDNs or build tools. Plain static files, relative links only. Only exception: the analytics script from ADR 024.
 7. One page per problem. Each approach is a tab on that page (ADR 006).
 8. canvas.js draws only with VIZ helpers and CSS classes from core. No colour values, no sizes.
-9. Git: never commit, push, open or merge a pull request, or change repository settings unless the user asks for that action in this conversation. When asked to publish: run `python3 build.py`, show `git status`, commit sources and docs/ together, then push. CI (.github/workflows/check.yml) must stay green (ADR 019).
+9. Git: never commit, push, open or merge a pull request, or change repository settings unless the user asks for that action in this conversation. Stage files by name only, never git add -A or git add . Before every commit, show the list of staged files. When asked to publish: run `python3 build.py`, show `git status`, commit sources and docs/ together, then push. CI (.github/workflows/check.yml) must stay green (ADR 019).
 
 ## Workflow A — add a problem
 0. **Check it is not here yet.** Run `python3 build.py --check <id>` (e.g. `--check 283`). If it prints "not found", go on. If the problem is there, stop: show the user its approaches and ask what to do — add a new approach (workflow B), change an existing one, or nothing (ADR 026).
@@ -111,9 +111,10 @@ When you notice yourself worrying about something unlikely ("what if LeetCode re
 All implementations (solution.py, solution.cpp, solution.c) follow the same sequence of steps as the animation. Every step maps to the same anchored lines in each language, so the highlighted line always matches what the reader sees.
 
 - Strings are treated as arrays of characters, as in C.
+- One approach = one data structure, the same in every language and the same as the animation. A count array is an array in Python, C++ and C. A hash map is dict / defaultdict in Python and std::unordered_map in C++ (not std::map, which is a tree), and no C version. If a problem can be solved with both, they are two approaches (two tabs).
+- The rule applies to the clean solution. Lines marked @trace may use anything (copies of the state, slices in captions).
 - Allowed: index access and simple variables (counters, indices, running min/max); idiomatic syntax that does not hide a step (for/range, len(), min(), max(), tuple swap).
-- Not allowed: anything that hides a step of the pattern or changes complexity: slicing, .count(), sum() over a window, sorted() inside a loop, substr / strncmp / std::count inside a loop, hash maps and sets unless the pattern itself is about them.
-- If an idiomatic version differs from the step-by-step one, it may appear as a short note under the code ("Idiomatic but slower: ... recomputes the window on every step"). It is never the main version tied to the steps.
+- Not allowed: anything that hides a step of the pattern or changes complexity: slicing, .count(), sum() over a window, sorted() inside a loop, substr / strncmp / std::count inside a loop.
 
 ## Pointer names
 Pointer names and their role colours are defined in design-system.md (ADR 011, ADR 021). Code variable names must match the labels on the canvas.

@@ -16,7 +16,7 @@
 | 8 | Canvas | always | canvas.js |
 | 9 | Side panels: Variables (always) + extra panels from canvas.js | always | step.vars |
 | 10 | Caption: phase tag, caption, invariant | always | step |
-| 11 | Controls: Reset, Prev, Play/Pause, Next, speed, "Step n / N"; keys ← → Space Home | always | — |
+| 11 | Controls, row 1: Start, ‹ (Previous step), ▶ / ⏸ (Play / Pause, the main button), › (Next step), End. The three icon buttons have aria-label and title and one fixed width, so nothing moves when Play changes to Pause; ▶ and ⏸ carry U+FE0E so they render as text, not colour emoji. Row 2: speed, "Step n / N". Same layout at every width. Keys ← → Space Home End (plain keys only: combinations with Cmd, Ctrl or Alt are ignored). Start and ‹ are disabled on the first step, › and End on the last | always | — |
 | 12 | Code drawer (collapsed "Show code"): tabs Python3 · C++17 · C, ✓ if accepted, current line highlighted via anchors, "Copy" button (copies the open tab's code without line numbers), "No C version: …" note. Line numbers are drawn by CSS (`.ln::before { content: attr(data-n) }`), so selecting and copying never includes them | always | approach.code |
 
 Not on problem pages: no footer (the LeetCode profile link is on the main page only), and no legend for now (ADR 023). approach.json still carries "legend" for every approach, so it can come back without rework.

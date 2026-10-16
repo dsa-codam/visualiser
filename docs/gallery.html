@@ -60,8 +60,12 @@
   <section class="gl-section"><h2>Caption and controls</h2>
     <div class="panel vz-caption"><div><span class="phase">shrink</span><span class="vz-cap">Drop nums[0] = 1, left moves to 1. count[1] = 2 ≤ k, so the window [1, 6] is good again.</span></div>
       <div class="vz-inv">Invariant: the window nums[left..right] is good: every value in it appears at most k times.</div></div>
-    <div class="vz-controls"><button>⏮ Reset</button><button>◀ Prev</button><button>▶ Play</button><button>Next ▶</button>
-      <label>Speed <input type="range" min="1" max="10" value="5"></label><span class="vz-counter">Step 15 / 21</span></div></section>
+    <div class="vz-controls"><div class="vz-buttons"><button>Start</button>
+      <button class="vz-icon" aria-label="Previous step" title="Previous step">‹</button>
+      <button class="vz-icon vz-main" aria-label="Play" title="Play">&#x25B6;&#xFE0E;</button>
+      <button class="vz-icon" aria-label="Next step" title="Next step">›</button>
+      <button>End</button></div>
+      <div class="vz-speedrow"><label>Speed <input type="range" min="1" max="10" value="5"></label><span class="vz-counter">Step 15 / 21</span></div></div></section>
 
   <section class="gl-section"><h2>Legend swatches</h2>
     <p>The name next to each swatch is what approach.json uses in "legend". Problem pages do not show the legend for now (ADR 023), but every approach still lists it.</p>

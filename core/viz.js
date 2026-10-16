@@ -329,6 +329,8 @@
   // =====================================================================
   const LANG_LABEL = { python: "Python3", cpp: "C++17", c: "C" };
   const LANG_ORDER = ["python", "cpp", "c"];
+  // Play / Pause icons. U+FE0E asks for the text form, so Mac and iOS do not draw colour emoji.
+  const PLAY = "\u25B6\uFE0E", PAUSE = "\u23F8\uFE0E";
 
   // Rule-of-thumb table: n → what complexity still fits in ~1 second.
   const CHEATSHEET = [
@@ -366,11 +368,14 @@
         <div><span class="phase" id="vz-phase"></span><span class="vz-cap" id="vz-cap"></span></div>
         <div class="vz-inv" id="vz-inv"></div></div>`,
       controls: `<div class="vz-controls">
-        <button id="vz-reset">⏮ Reset</button><button id="vz-prev">◀ Prev</button>
-        <button id="vz-play">▶ Play</button><button id="vz-next">Next ▶</button>
-        <label>Speed <input id="vz-speed" type="range" min="1" max="10" value="5"></label>
-        <span class="vz-counter" id="vz-counter"></span></div>
-        <div class="hint">Keyboard: ← / → to step, Space to play or pause, Home to reset.</div>`,
+        <div class="vz-buttons"><button id="vz-start">Start</button>
+        <button class="vz-icon" id="vz-prev" aria-label="Previous step" title="Previous step">‹</button>
+        <button class="vz-icon vz-main" id="vz-play" aria-label="Play" title="Play">${PLAY}</button>
+        <button class="vz-icon" id="vz-next" aria-label="Next step" title="Next step">›</button>
+        <button id="vz-end">End</button></div>
+        <div class="vz-speedrow"><label>Speed <input id="vz-speed" type="range" min="1" max="10" value="5"></label>
+        <span class="vz-counter" id="vz-counter"></span></div></div>
+        <div class="hint">Keyboard: ← / → to step, Space to play or pause, Home / End to jump to the start or the end.</div>`,
       code: `<details class="panel" id="vz-code"><summary>Show code</summary><div class="vz-codebar"><div class="vz-tabs" id="vz-tabs" role="tablist" aria-label="Language"></div><button type="button" class="vz-copy" id="vz-copy" title="Copy this code without line numbers">Copy</button></div><div id="vz-code-body"></div></details>`,
     };
     const body = `<div class="vz-stage"><div class="vz-col">${parts.canvas}${parts.code}</div>
@@ -554,15 +559,18 @@
       const inv = s.invariant || A.invariant;
       $("vz-inv").textContent = inv ? "Invariant: " + inv : "";
       $("vz-counter").textContent = `Step ${st.cur + 1} / ${steps.length}`;
+      $("vz-start").disabled = st.cur === 0;
       $("vz-prev").disabled = st.cur === 0;
       $("vz-next").disabled = st.cur === steps.length - 1;
+      $("vz-end").disabled = st.cur === steps.length - 1;
       highlightCode();
     }
 
     const nSteps = () => approaches[st.a].examples[st.e].steps.length;
     function go(i, flash) { st.cur = Math.max(0, Math.min(nSteps() - 1, i)); render(flash); }
     function delay() { return 2200 - $("vz-speed").value * 200; }
-    function stop() { clearTimeout(st.timer); st.timer = null; $("vz-play").textContent = "▶ Play"; }
+    function setPlay(icon, label) { const b = $("vz-play"); b.textContent = icon; b.setAttribute("aria-label", label); b.title = label; }
+    function stop() { clearTimeout(st.timer); st.timer = null; setPlay(PLAY, "Play"); }
     function tick() {
       if (st.cur >= nSteps() - 1) return stop();
       go(st.cur + 1, true);
@@ -571,13 +579,14 @@
     function toggle() {
       if (st.timer) return stop();
       if (st.cur >= nSteps() - 1) go(0);
-      $("vz-play").textContent = "⏸ Pause";
+      setPlay(PAUSE, "Pause");
       st.timer = setTimeout(tick, Math.min(400, delay()));
     }
 
-    $("vz-reset").onclick = () => { stop(); go(0); };
+    $("vz-start").onclick = () => { stop(); go(0); };
     $("vz-prev").onclick = () => { stop(); go(st.cur - 1); };
     $("vz-next").onclick = () => { stop(); go(st.cur + 1, true); };
+    $("vz-end").onclick = () => { stop(); go(nSteps() - 1); };
     $("vz-play").onclick = toggle;
     $("vz-examples").addEventListener("click", (e) => {
       const b = e.target.closest("[data-ex]");
@@ -585,11 +594,13 @@
     });
     root.addEventListener("click", (e) => { if (e.target.closest("button")) e.target.closest("button").blur(); });
     document.addEventListener("keydown", (e) => {
-      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;  // key combinations belong to the browser and the OS
+      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.tagName === "SELECT") return;
       if (e.key === "ArrowRight") { stop(); go(st.cur + 1, true); }
       else if (e.key === "ArrowLeft") { stop(); go(st.cur - 1); }
       else if (e.key === " ") { e.preventDefault(); toggle(); }
       else if (e.key === "Home") { stop(); go(0); }
+      else if (e.key === "End") { stop(); go(nSteps() - 1); }
     });
     let rt;
     window.addEventListener("resize", () => {

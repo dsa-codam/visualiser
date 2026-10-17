@@ -1,0 +1,7 @@
+[
+  { "name": "n = 1, consonant", "args": { "s": "z", "k": 1 }, "expected": 0 },
+  { "name": "all vowels, k = n", "args": { "s": "uoiea", "k": 5 }, "expected": 5 },
+  { "name": "best window at the end", "args": { "s": "bcdfgaei", "k": 3 }, "expected": 3 },
+  { "name": "y is not a vowel", "args": { "s": "yyyy", "k": 2 }, "expected": 0 },
+  { "name": "longer string", "args": { "s": "weallloveyouthereisnothingtofear", "k": 7 } }
+]

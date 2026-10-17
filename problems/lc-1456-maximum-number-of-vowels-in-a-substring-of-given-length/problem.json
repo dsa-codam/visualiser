@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "title": "Maximum Number of Vowels in a Substring of Given Length",
+  "source": { "site": "LeetCode", "id": "1456", "url": "https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length/" },
+  "difficulty": "Medium",
+  "nMax": 100000,
+  "signature": {
+    "python": "maxVowels",
+    "cpp": "maxVowels",
+    "c": "maxVowels",
+    "params": [{ "name": "s", "type": "string" }, { "name": "k", "type": "int" }],
+    "returns": "int"
+  },
+  "constraints": [
+    {
+      "text": "1 ≤ s.length ≤ 10⁵",
+      "meaning": "Up to 100,000 characters, never empty.",
+      "impact": "Counting the vowels of every substring from scratch is O(n·k), up to about 10¹⁰ steps when k is near n/2: too slow. You need O(n)."
+    },
+    {
+      "text": "s consists of lowercase English letters",
+      "meaning": "Only 'a' to 'z'. The vowels are 'a', 'e', 'i', 'o' and 'u'.",
+      "impact": "No upper case to handle. A letter is a vowel when it equals one of five letters, so the check is constant time."
+    },
+    {
+      "text": "1 ≤ k ≤ s.length",
+      "meaning": "The window length k is at least 1 and never longer than s.",
+      "impact": "There is always at least one full window. The answer is between 0 and k."
+    }
+  ],
+  "bruteForce": {
+    "summary": "for every start i, count the vowels in s[i..i+k-1] from scratch and keep the largest count. O(n·k) time, which is too slow when n = 10⁵ and k is large.",
+    "opsUnit": "letter checks"
+  },
+  "examples": [
+    { "id": "lc1", "label": "LeetCode Example 1: \"abciiidef\", k = 3", "kind": "main", "args": { "s": "abciiidef", "k": 3 }, "expected": 3 },
+    { "id": "lc3", "label": "LeetCode Example 3: \"leetcode\", k = 3", "kind": "main", "args": { "s": "leetcode", "k": 3 }, "expected": 2 },
+    { "id": "lc2", "label": "LeetCode Example 2: \"aeiou\", k = 2", "kind": "main", "args": { "s": "aeiou", "k": 2 }, "expected": 2 },
+    { "id": "no-vowels", "label": "No vowels: \"rhythm\", k = 4", "kind": "edge", "args": { "s": "rhythm", "k": 4 } },
+    { "id": "k-equals-n", "label": "k = n: \"tree\", k = 4", "kind": "edge", "args": { "s": "tree", "k": 4 } },
+    { "id": "single", "label": "One letter: \"a\", k = 1", "kind": "edge", "args": { "s": "a", "k": 1 } }
+  ]
+}

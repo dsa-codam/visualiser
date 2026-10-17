@@ -368,14 +368,13 @@
         <div><span class="phase" id="vz-phase"></span><span class="vz-cap" id="vz-cap"></span></div>
         <div class="vz-inv" id="vz-inv"></div></div>`,
       controls: `<div class="vz-controls">
-        <div class="vz-buttons"><button id="vz-start">Start</button>
-        <button class="vz-icon" id="vz-prev" aria-label="Previous step" title="Previous step">‹</button>
-        <button class="vz-icon vz-main" id="vz-play" aria-label="Play" title="Play">${PLAY}</button>
-        <button class="vz-icon" id="vz-next" aria-label="Next step" title="Next step">›</button>
-        <button id="vz-end">End</button></div>
+        <div class="vz-buttons"><button id="vz-start" aria-keyshortcuts="Home">Start</button>
+        <button class="vz-icon" id="vz-prev" aria-label="Previous step" aria-keyshortcuts="ArrowLeft">‹</button>
+        <button class="vz-icon vz-main" id="vz-play" aria-label="Play" aria-keyshortcuts="Space">${PLAY}</button>
+        <button class="vz-icon" id="vz-next" aria-label="Next step" aria-keyshortcuts="ArrowRight">›</button>
+        <button id="vz-end" aria-keyshortcuts="End">End</button></div>
         <div class="vz-speedrow"><label>Speed <input id="vz-speed" type="range" min="1" max="10" value="5"></label>
-        <span class="vz-counter" id="vz-counter"></span></div></div>
-        <div class="hint">Keyboard: ← / → to step, Space to play or pause, Home / End to jump to the start or the end.</div>`,
+        <span class="vz-counter" id="vz-counter"></span></div></div>`,
       code: `<details class="panel" id="vz-code"><summary>Show code</summary><div class="vz-codebar"><div class="vz-tabs" id="vz-tabs" role="tablist" aria-label="Language"></div><button type="button" class="vz-copy" id="vz-copy" title="Copy this code without line numbers">Copy</button></div><div id="vz-code-body"></div></details>`,
     };
     const body = `<div class="vz-stage"><div class="vz-col">${parts.canvas}${parts.code}</div>
@@ -569,7 +568,7 @@
     const nSteps = () => approaches[st.a].examples[st.e].steps.length;
     function go(i, flash) { st.cur = Math.max(0, Math.min(nSteps() - 1, i)); render(flash); }
     function delay() { return 2200 - $("vz-speed").value * 200; }
-    function setPlay(icon, label) { const b = $("vz-play"); b.textContent = icon; b.setAttribute("aria-label", label); b.title = label; }
+    function setPlay(icon, label) { const b = $("vz-play"); b.textContent = icon; b.setAttribute("aria-label", label); }
     function stop() { clearTimeout(st.timer); st.timer = null; setPlay(PLAY, "Play"); }
     function tick() {
       if (st.cur >= nSteps() - 1) return stop();

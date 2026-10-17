@@ -39,6 +39,7 @@ docs/            GENERATED — never edit by hand; published by GitHub Pages
 adr/             architecture decision records
 ai-panic/        unlikely worries, for fun (see below)
 site.json        site-wide links
+tools/issues.py  prints open issues and sub-issues as a tree (needs gh)
 ```
 
 ## Hard rules
@@ -51,6 +52,7 @@ site.json        site-wide links
 7. One page per problem. Each approach is a tab on that page (ADR 006).
 8. canvas.js draws only with VIZ helpers and CSS classes from core. No colour values, no sizes.
 9. Git: never commit, push, open or merge a pull request, or change repository settings unless the user asks for that action in this conversation. Stage files by name only, never git add -A or git add . Before every commit, show the list of staged files. When asked to publish: run `python3 build.py`, show `git status`, commit sources and docs/ together, then push. CI (.github/workflows/check.yml) must stay green (ADR 019).
+10. Issues: commits that only add or change a problem or an approach (workflows A and B) are not tracked as issues: skip this rule for them and do not ask. For every other commit, link it to an issue. Run `python3 tools/issues.py` to see the open issues and their sub-issues as a tree. Pick the issue(s) the commit most likely belongs to and ask the user: "This commit looks like #N (title). Closes #N, Refs #N, or another issue?" If nothing fits, say so and ask whether to commit without an issue. A commit without an issue is fine; this rule never blocks a commit or a push. Never decide on Closes yourself. Put "Closes #N" or "Refs #N" on its own line in the commit body, not in the title. Read only: never create, edit, comment on or close issues. If the script fails (no gh), ask the user for the issue number.
 
 ## Workflow A — add a problem
 0. **Check it is not here yet.** Run `python3 build.py --check <id>` (e.g. `--check 283`). If it prints "not found", go on. If the problem is there, stop: show the user its approaches and ask what to do — add a new approach (workflow B), change an existing one, or nothing (ADR 026).

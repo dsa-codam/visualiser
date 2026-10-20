@@ -1,0 +1,8 @@
+[
+  { "name": "n = 1", "args": { "code": [100], "k": 0 }, "expected": [0] },
+  { "name": "n = 2, k = 1", "args": { "code": [3, 8], "k": 1 }, "expected": [8, 3] },
+  { "name": "n = 2, k = -1", "args": { "code": [3, 8], "k": -1 }, "expected": [8, 3] },
+  { "name": "k = n - 1: sum of all other numbers", "args": { "code": [1, 2, 3, 4, 5], "k": 4 }, "expected": [14, 13, 12, 11, 10] },
+  { "name": "largest values", "args": { "code": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100], "k": -9 } },
+  { "name": "longer array, k > 0", "args": { "code": [10, 5, 7, 7, 3, 2, 10, 3, 6, 9, 1, 6], "k": 5 } }
+]

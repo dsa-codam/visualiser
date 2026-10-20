@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "title": "Defuse the Bomb",
+  "source": { "site": "LeetCode", "id": "1652", "url": "https://leetcode.com/problems/defuse-the-bomb/" },
+  "difficulty": "Easy",
+  "nMax": 100,
+  "signature": {
+    "python": "decrypt",
+    "cpp": "decrypt",
+    "c": "decrypt",
+    "params": [{ "name": "code", "type": "int[]" }, { "name": "k", "type": "int" }],
+    "returns": "int[]"
+  },
+  "constraints": [
+    {
+      "text": "n == code.length, 1 ≤ n ≤ 100",
+      "meaning": "At least one number, at most 100.",
+      "impact": "Brute force, O(n·|k|), is at most about 10⁴ additions, so it is fast enough. The sliding window does it in O(n), and it is the idea the problem trains."
+    },
+    {
+      "text": "1 ≤ code[i] ≤ 100",
+      "meaning": "Every number is positive and small.",
+      "impact": "A window sum is at most 99 · 100 = 9,900, so int is enough. No overflow."
+    },
+    {
+      "text": "-(n - 1) ≤ k ≤ n - 1",
+      "meaning": "The window has |k| numbers, at most n − 1. k > 0 looks forward, k < 0 looks back, k = 0 means all zeros.",
+      "impact": "The window never contains code[i] itself and never goes all the way round. Handle k = 0 first: then there is no window."
+    }
+  ],
+  "bruteForce": {
+    "summary": "for every i, add up the |k| numbers after it (or before it) from scratch, with indices taken modulo n. O(n·|k|) time.",
+    "opsUnit": "additions"
+  },
+  "examples": [
+    { "id": "lc1", "label": "LeetCode Example 1: [5,7,1,4], k = 3", "kind": "main", "args": { "code": [5, 7, 1, 4], "k": 3 }, "expected": [12, 10, 16, 13] },
+    { "id": "lc3", "label": "LeetCode Example 3: [2,4,9,3], k = -2", "kind": "main", "args": { "code": [2, 4, 9, 3], "k": -2 }, "expected": [12, 5, 6, 13] },
+    { "id": "wrap", "label": "Window wraps late: [3,1,6,2,5,4], k = 2", "kind": "main", "args": { "code": [3, 1, 6, 2, 5, 4], "k": 2 } },
+    { "id": "lc2", "label": "LeetCode Example 2: [1,2,3,4], k = 0", "kind": "edge", "args": { "code": [1, 2, 3, 4], "k": 0 }, "expected": [0, 0, 0, 0] },
+    { "id": "k-min", "label": "k = -(n - 1): [1,2,3], k = -2", "kind": "edge", "args": { "code": [1, 2, 3], "k": -2 } },
+    { "id": "single", "label": "One number: [7], k = 0", "kind": "edge", "args": { "code": [7], "k": 0 } }
+  ]
+}

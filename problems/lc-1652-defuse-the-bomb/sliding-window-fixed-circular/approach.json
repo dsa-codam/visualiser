@@ -1,0 +1,26 @@
+{
+  "order": 1,
+  "name": "Fixed-size sliding window on a circular array",
+  "pattern": "Sliding window",
+  "ds": ["Array"],
+  "time": "O(n)",
+  "space": "O(1) extra (plus the result array)",
+  "whenToUse": "The standard answer: one pass, one running sum, indices wrap with % n.",
+  "card": {
+    "signals": "\"the sum of the next k numbers\" (or previous -k) for every i: each sum is a window of |k| numbers in a row, and the windows of i and i + 1 share |k| − 1 numbers. \"code is circular\": the window wraps from the end back to the start.",
+    "pattern": "a fixed-size window that moves around a circle. Build the window of code[0] once, then move it one step for each next i: one number enters on the right, one leaves on the left. Indices wrap with % n, so after n − 1 comes 0.",
+    "coreIdea": "keep total, the sum of the window. Moving the window costs one addition and one subtraction, not |k| additions. All numbers change at the same time, so write the sums into a new result array and do not change code."
+  },
+  "invariant": "Before result[i] is written, the window code[left..right] (with wrap) holds exactly the |k| numbers next to code[i], and total is their sum.",
+  "phases": { "init": "start", "build": "build", "next": "next round", "add": "add", "drop": "drop", "write": "result[i]", "return": "done" },
+  "legend": [
+    { "swatch": "ptr-back", "text": "left: left edge of the window" },
+    { "swatch": "ptr-front", "text": "right: right edge (new number)" },
+    { "swatch": "band-window", "text": "current window [left, right]; a dashed side means it wraps around the end" },
+    { "swatch": "current", "text": "number just added" },
+    { "swatch": "removed", "text": "number being dropped" },
+    { "swatch": "new", "text": "result cell just written" },
+    { "swatch": "zero", "text": "result cell not written yet" }
+  ],
+  "accepted": ["python", "cpp", "c"]
+}

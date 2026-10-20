@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "title": "K Radius Subarray Averages",
+  "source": { "site": "LeetCode", "id": "2090", "url": "https://leetcode.com/problems/k-radius-subarray-averages/" },
+  "difficulty": "Medium",
+  "nMax": 100000,
+  "signature": {
+    "python": "getAverages",
+    "cpp": "getAverages",
+    "c": "getAverages",
+    "params": [{ "name": "nums", "type": "int[]" }, { "name": "k", "type": "int" }],
+    "returns": "int[]"
+  },
+  "constraints": [
+    {
+      "text": "n == nums.length, 1 ≤ n ≤ 10⁵",
+      "meaning": "Up to 100,000 numbers, never empty.",
+      "impact": "Adding up 2k + 1 numbers from scratch for every centre is O(n·k), up to about 10¹⁰ steps when k is near n/2: too slow. You need O(n)."
+    },
+    {
+      "text": "0 ≤ nums[i] ≤ 10⁵",
+      "meaning": "No negative numbers, and each one is at most 100,000.",
+      "impact": "A window sum can reach 10⁵ · 10⁵ = 10¹⁰, more than int can hold (about 2.1 · 10⁹). Use long long for the sum in C and C++. With no negatives, integer division truncating toward zero is the same as rounding down."
+    },
+    {
+      "text": "0 ≤ k ≤ 10⁵",
+      "meaning": "The radius k can be 0 (the window is one number) or larger than the array.",
+      "impact": "The window has 2k + 1 numbers. If 2k + 1 > n, no index has a full window and the answer is all -1."
+    }
+  ],
+  "bruteForce": {
+    "summary": "for every index i that has k numbers on both sides, add up nums[i − k..i + k] from scratch and divide by 2k + 1; every other index gets -1. O(n·k) time, which is too slow when n = 10⁵ and k is large.",
+    "opsUnit": "additions"
+  },
+  "examples": [
+    { "id": "lc1", "label": "LeetCode Example 1: [7,4,3,9,1,8,5,2,6], k = 3", "kind": "main", "args": { "nums": [7, 4, 3, 9, 1, 8, 5, 2, 6], "k": 3 }, "expected": [-1, -1, -1, 5, 4, 4, -1, -1, -1] },
+    { "id": "radius-1", "label": "Radius 1: [2,6,1,8,3,5,9,4], k = 1", "kind": "main", "args": { "nums": [2, 6, 1, 8, 3, 5, 9, 4], "k": 1 } },
+    { "id": "lc2", "label": "LeetCode Example 2: [100000], k = 0", "kind": "edge", "args": { "nums": [100000], "k": 0 }, "expected": [100000] },
+    { "id": "lc3", "label": "LeetCode Example 3: [8], k = 100000", "kind": "edge", "args": { "nums": [8], "k": 100000 }, "expected": [-1] },
+    { "id": "size-equals-n", "label": "2k + 1 = n: [4,1,7,2,6], k = 2", "kind": "edge", "args": { "nums": [4, 1, 7, 2, 6], "k": 2 } }
+  ]
+}

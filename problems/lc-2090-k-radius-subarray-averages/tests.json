@@ -1,0 +1,7 @@
+[
+  { "name": "n = 1, k = 0, zero", "args": { "nums": [0], "k": 0 }, "expected": [0] },
+  { "name": "2k + 1 = n + 1: no full window", "args": { "nums": [1, 2, 3, 4], "k": 2 }, "expected": [-1, -1, -1, -1] },
+  { "name": "k = 0: every number is its own average", "args": { "nums": [5, 0, 9, 100000], "k": 0 }, "expected": [5, 0, 9, 100000] },
+  { "name": "largest values, sum truncated", "args": { "nums": [100000, 99999, 100000, 99999, 100000, 99999, 100000], "k": 3 } },
+  { "name": "longer array, k = 4", "args": { "nums": [3, 8, 0, 6, 6, 1, 9, 2, 7, 5, 4, 10, 0, 3], "k": 4 } }
+]

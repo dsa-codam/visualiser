@@ -1,0 +1,27 @@
+{
+  "order": 1,
+  "name": "Fixed-size sliding window",
+  "pattern": "Sliding window",
+  "ds": ["Array"],
+  "time": "O(n)",
+  "space": "O(1) extra (plus the avgs array)",
+  "whenToUse": "The standard answer: one pass and one running sum, no extra memory.",
+  "card": {
+    "signals": "\"the average of all elements between i − k and i + k\": every average is over a window of exactly 2k + 1 numbers in a row, and the windows of i and i + 1 share 2k numbers. \"less than k elements before or after\": windows that do not fit give -1.",
+    "pattern": "a fixed-size window of size = 2k + 1. Build the first window once, then slide it one step at a time: one number enters on the right, one leaves on the left. The window [left, right] belongs to its centre, left + k.",
+    "coreIdea": "keep total, the sum of the window. Each slide costs one addition and one subtraction. Fill avgs with -1 first, then write total // size at each centre. If size > n, nothing fits and avgs stays all -1."
+  },
+  "invariant": "After each slide, the window nums[left..right] has exactly size = 2k + 1 numbers, total is their sum, and its centre is left + k.",
+  "phases": { "init": "start", "build": "build", "next": "next round", "add": "add", "drop": "drop", "write": "avgs[center]", "return": "done" },
+  "legend": [
+    { "swatch": "ptr-back", "text": "left: left edge of the window" },
+    { "swatch": "ptr-front", "text": "right: right edge (new number)" },
+    { "swatch": "band-window", "text": "current window [left, right]" },
+    { "swatch": "current", "text": "number just added" },
+    { "swatch": "removed", "text": "number being dropped" },
+    { "swatch": "out", "text": "left the window for good" },
+    { "swatch": "new", "text": "avgs cell just written (the window's centre)" },
+    { "swatch": "zero", "text": "avgs cell still -1" }
+  ],
+  "accepted": []
+}

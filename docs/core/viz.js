@@ -73,14 +73,18 @@
 
       this.bandEls = {};
       for (const kind of ["best", "gap", "window"]) {
-        const b = el("div", "ar-band " + kind);
-        b.style.top = cellTop - 5 + "px";
-        b.style.height = size + 10 + "px";
-        b.style.opacity = 0;
+        // band2 is the second piece of a band that wraps around the end (circular arrays)
+        const [b, b2] = [0, 1].map(() => {
+          const e = el("div", "ar-band " + kind);
+          e.style.top = cellTop - 5 + "px";
+          e.style.height = size + 10 + "px";
+          e.style.opacity = 0;
+          return e;
+        });
         const l = el("div", "ar-blabel " + kind);
         l.style.opacity = 0;
-        track.append(b, l);
-        this.bandEls[kind] = { band: b, label: l };
+        track.append(b, b2, l);
+        this.bandEls[kind] = { band: b, band2: b2, label: l };
       }
       this.arc = el("div", "ar-arc", "<span></span>");
       this.arc.style.top = "4px";
@@ -131,7 +135,9 @@
      *   ids:      identity at each position (optional; default = position)
      *   cls:      { pos: "current conflict ..." } extra classes per position
      *   tags:     { pos: ">k" } small red badge per position
-     *   bands:    [{ kind: "window"|"best"|"gap", from, to, label }]  (to is inclusive)
+     *   bands:    [{ kind: "window"|"best"|"gap", from, to, label, wrap }]  (to is inclusive)
+     *             wrap: true and from > to → circular band, drawn as [from, n-1] and [0, to];
+     *             without wrap, a band with to < from is empty and hidden
      *   arc:      { from, to, label } | null
      *   pointers: [{ role: "back"|"front"|"mid", label, at, dim }]
      *   bar:      { from, to, label } | null
@@ -152,20 +158,38 @@
       });
       // bands
       const used = new Set();
+      const place = (band, from, to, cut) => {
+        band.style.left = from * p + "px";
+        band.style.width = (to - from + 1) * p + "px";
+        band.style.opacity = 1;
+        band.classList.toggle("cut-end", cut === "end");
+        band.classList.toggle("cut-start", cut === "start");
+      };
       for (const b of s.bands || []) {
         const e = this.bandEls[b.kind];
-        if (!e || b.to < b.from) continue;
+        const wraps = b.wrap && b.to < b.from;
+        if (!e || (b.to < b.from && !wraps)) continue;
         used.add(b.kind);
-        e.band.style.left = b.from * p + "px";
-        e.band.style.width = (b.to - b.from + 1) * p + "px";
-        e.band.style.opacity = 1;
+        let lFrom = b.from, lTo = b.to;
+        if (wraps) {
+          const last = arr.length - 1;
+          place(e.band, b.from, last, "end");
+          place(e.band2, 0, b.to, "start");
+          // the label goes on the longer piece (the first one on a tie)
+          if (b.to + 1 > last - b.from + 1) lFrom = 0;
+          else lTo = last;
+        } else {
+          place(e.band, b.from, b.to, null);
+          e.band2.style.opacity = 0;
+        }
         e.label.textContent = b.label || "";
-        e.label.style.left = ((b.from + b.to + 1) * p) / 2 + "px";
+        e.label.style.left = ((lFrom + lTo + 1) * p) / 2 + "px";
         e.label.style.opacity = b.label ? 1 : 0;
       }
       for (const k of Object.keys(this.bandEls)) {
         if (!used.has(k)) {
           this.bandEls[k].band.style.opacity = 0;
+          this.bandEls[k].band2.style.opacity = 0;
           this.bandEls[k].label.style.opacity = 0;
         }
       }

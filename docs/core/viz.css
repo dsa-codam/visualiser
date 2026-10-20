@@ -82,6 +82,9 @@ button:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px soli
 .ar-band.window { background: var(--band-window); border: 2px solid var(--band-window-edge); }
 .ar-band.best { background: var(--band-best); }
 .ar-band.gap { background: var(--band-gap); }
+/* a circular band cut at the array end: the open side is dashed and square */
+.ar-band.cut-end { border-right-style: dashed; border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.ar-band.cut-start { border-left-style: dashed; border-top-left-radius: 0; border-bottom-left-radius: 0; }
 .ar-blabel { position: absolute; top: 0; font-size: var(--fs-tiny); color: var(--muted); white-space: nowrap;
   transform: translateX(-50%); transition: left var(--t-move), opacity .2s; }
 .ar-blabel.window { color: var(--role-back); font-weight: 600; }

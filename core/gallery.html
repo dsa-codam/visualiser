@@ -45,7 +45,8 @@
     <p>Pointer names follow the pattern: left / right (towards each other, and window edges), slow / fast (same direction, linked lists), lo / mid / hi (binary search), p1 / p2 / write (merging two arrays: write blue, p1 and p2 orange). The trailing pointer is always blue, the leading one orange.</p>
     <div class="panel vz-canvas" id="gl-window"></div>
     <div class="panel vz-canvas" id="gl-zones" style="margin-top:14px"></div>
-    <div class="panel vz-canvas" id="gl-bs" style="margin-top:14px"></div></section>
+    <div class="panel vz-canvas" id="gl-bs" style="margin-top:14px"></div>
+    <div class="panel vz-canvas" id="gl-circular" style="margin-top:14px"></div></section>
 
   <section class="gl-section"><h2>Side panels</h2>
     <p>Only the panels a pattern needs are shown. Click "Flash" to see how a new best value is announced.</p>
@@ -132,6 +133,11 @@
     const r4 = new VIZ.ArrayRow($("gl-bs"), b, { roles: ["back", "front", "mid"] });
     r4.update({ arr: b, cls: { 0: "out", 1: "out", 2: "out", 3: "out", 6: "current" }, bands: [{ kind: "window", from: 4, to: 8, label: "search range [4, 8]" }],
       pointers: [{ role: "back", label: "lo", at: 4 }, { role: "front", label: "hi", at: 8 }, { role: "mid", label: "mid", at: 6 }] });
+
+    const c = [5, 7, 1, 4, 2, 8];
+    const r5 = new VIZ.ArrayRow($("gl-circular"), c, { roles: ["back", "front"] });
+    r5.update({ arr: c, cls: { 1: "current" }, bands: [{ kind: "window", from: 4, to: 1, wrap: true, label: "circular window [4, 1] · total 22" }],
+      pointers: [{ role: "back", label: "left", at: 4 }, { role: "front", label: "right", at: 1 }] });
 
     const vars = [{ label: "left", value: 1, role: "back" }, { label: "right", value: 5, role: "front" }, { label: "window length", value: 5 }, { label: "best", value: 6, flash: true }];
     VIZ.vars($("gl-vars"), vars, false);

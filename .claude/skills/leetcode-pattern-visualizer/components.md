@@ -32,7 +32,7 @@ Not on problem pages: no footer (the LeetCode profile link is on the main page o
 ## Canvas helpers (core/viz.js)
 | Helper | Draws | Typical patterns |
 |---|---|---|
-| `new VIZ.ArrayRow(host, values, {roles, bar})` + `.update({arr, ids, cls, tags, bands, arc, pointers, bar})` | one array with indices, pointers (back/front/mid rows), bands (window/best/gap) with labels, swap arc, best bar; cells keyed by identity so swaps slide | two pointers, sliding window, binary search, prefix sum, Kadane, 1D DP |
+| `new VIZ.ArrayRow(host, values, {roles, bar})` + `.update({arr, ids, cls, tags, bands, arc, pointers, bar})` | one array with indices, pointers (back/front/mid rows), bands (window/best/gap) with labels (`wrap: true` with from > to draws a circular band in two pieces, [from, n−1] and [0, to], with dashed open sides), swap arc, best bar; cells keyed by identity so swaps slide | two pointers, sliding window, binary search, prefix sum, Kadane, 1D DP |
 | `VIZ.vars(host, vars, flash)` | variables list; flashes values marked flash | every page (automatic) |
 | `VIZ.countMap(host, rows, limit, title)` | value → count with slots, over-limit row in red | frequency limits, anagram windows |
 | `VIZ.kvMap(host, rows, title)` | key → value table, rows marked hit / new | Two Sum style lookups |
@@ -61,6 +61,7 @@ Rule: first agree the look with the user (workflow C). The first time, it may be
 | Fast & slow (linked list) | LinkedList | — | each move, meeting point, cycle entry |
 | Sliding window — variable size (pattern label: "Sliding window") | ArrayRow + window band + bar | countMap or kvMap | expand, conflict, shrink, best updated |
 | Sliding window — fixed size (pattern label: "Sliding window") | ArrayRow + window band | — | add right, remove left, compare |
+| Sliding window — fixed size, circular array | ArrayRow + window band with `wrap: true` + result ArrayRow | — | add right, remove left, write result |
 | Binary search | ArrayRow (out cells) + lo/mid/hi | — | compute mid, compare, discard half, stop |
 | Prefix sum | two ArrayRows | — | build prefix, answer query |
 | Hash map lookup | ArrayRow | kvMap | check complement, hit/miss, insert |

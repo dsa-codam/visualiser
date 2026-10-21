@@ -38,13 +38,15 @@
     /**
      * @param host     element to draw into (its width decides the cell size)
      * @param values   initial values (length n, 0..20)
-     * @param opts     { roles: ["back","front"], bar: true|false, minWidth }
+     * @param opts     { roles: ["back","front"], bar: true|false, measure: true|false, minWidth }
+     *                 measure: reserve a lane for update({ measure }) on every step, so rows never jump
      */
     constructor(host, values, opts = {}) {
       this.host = host;
       this.values = values.slice();
       this.roles = opts.roles || ["back", "front"];
       this.hasBar = !!opts.bar;
+      this.hasMeasure = !!opts.measure;
       this.build();
     }
 
@@ -56,13 +58,14 @@
       const size = pitch - 6;
       this.pitch = pitch;
       this.size = size;
-      // top to bottom: band labels · swap arc · indices · cells · pointers · best bar
-      const idxTop = 20;
-      const cellTop = 40;
+      // top to bottom: band labels · measure lane (optional) · swap arc · indices · cells · pointers · best bar
+      const lane = this.hasMeasure ? cssNum("--measure-lane", 44) : 0;
+      const idxTop = 20 + lane;
+      const cellTop = 40 + lane;
       const ptrTop = cellTop + size + 6;
       const rows = this.roles.length;
       const barTop = ptrTop + rows * 26 + 8;
-      this.geo = { cellTop, idxTop, ptrTop, barTop };
+      this.geo = { cellTop, idxTop, ptrTop, barTop, laneTop: 16 };
 
       const track = el("div", "ar-track");
       track.style.width = n * pitch + "px";
@@ -87,7 +90,7 @@
         this.bandEls[kind] = { band: b, band2: b2, label: l };
       }
       this.arc = el("div", "ar-arc", "<span></span>");
-      this.arc.style.top = "4px";
+      this.arc.style.top = 4 + lane + "px";
       this.arc.style.opacity = 0;
       track.append(this.arc);
 
@@ -107,6 +110,10 @@
         track.append(c);
         return c;
       });
+      if (this.hasMeasure) {
+        this.measureEl = el("div", "ar-measure");
+        track.append(this.measureEl);
+      }
       this.ptrEls = {};
       this.roles.forEach((role, row) => {
         const p = el("div", "ar-ptr " + role);
@@ -141,6 +148,12 @@
      *   arc:      { from, to, label } | null
      *   pointers: [{ role: "back"|"front"|"mid", label, at, dim }]
      *   bar:      { from, to, label } | null
+     *   measure:  { from, to, origin: "center"|"start"|"end", at, role: "back"|"front"|"mid", labels: [..], text } | null
+     *             needs { measure: true } in the constructor. "center": two arrows from the middle of cell at
+     *             to the outer edges of from and to (an arrow is left out when it has no length);
+     *             "start" / "end": one arrow across the range, pointing right / left.
+     *             text: a string, or (origin "center" only) { left, center, right }: center exactly under
+     *             cell at, left right-aligned to it, right left-aligned to it.
      * }
      */
     update(s) {
@@ -212,6 +225,9 @@
         e.style.opacity = ptr.at == null ? 0 : ptr.dim ? 0.35 : 1;
       }
       for (const r of Object.keys(this.ptrEls)) if (!seen.has(r)) this.ptrEls[r].style.opacity = 0;
+      // measure
+      if (this.hasMeasure) this.drawMeasure(s.measure || null);
+      else if (s.measure) console.error("ArrayRow: update({ measure }) needs { measure: true } in the constructor");
       // bar
       if (this.hasBar) {
         if (s.bar) {
@@ -228,6 +244,67 @@
       }
     }
   }
+  /** Measure annotation: arrows over a cell range, a label per arrow, one text line under them. */
+  ArrayRow.prototype.drawMeasure = function (m) {
+    const box = this.measureEl;
+    box.replaceChildren();
+    box.className = "ar-measure";
+    if (!m) return;
+    const n = this.values.length;
+    const split = m.text != null && typeof m.text === "object";
+    const bad = !(Number.isInteger(m.from) && Number.isInteger(m.to)) || m.from > m.to || m.from < 0 || m.to >= n ||
+      !["center", "start", "end"].includes(m.origin) ||
+      (m.origin === "center" && !(Number.isInteger(m.at) && m.at >= m.from && m.at <= m.to)) ||
+      (split && m.origin !== "center");
+    if (bad) {
+      console.error("ArrayRow measure: invalid input, nothing drawn", { from: m.from, to: m.to, origin: m.origin, at: m.at, n, text: m.text });
+      return;
+    }
+    const p = this.pitch, top = this.geo.laneTop;
+    const left = m.from * p + 3, right = m.to * p + 3 + this.size;  // outer edges of the range
+    const labels = m.labels || [];
+    if (m.role) box.classList.add(m.role);
+    // all labels and text are set with textContent (never innerHTML), so no escaping is needed
+    const str = (v) => (v == null ? "" : String(v));
+    const span = (cls, text) => {
+      const e = el("span", cls);
+      e.textContent = text;
+      return e;
+    };
+    const part = (cls, x, text) => {
+      const e = el("div", cls);
+      if (text != null) e.textContent = text;
+      e.style.left = x + "px";
+      e.style.top = top + "px";
+      box.append(e);
+      return e;
+    };
+    const arrow = (from, to, dir, label) => {
+      const a = part("ar-measure-arrow " + dir, from);
+      a.style.width = to - from + "px";
+      if (label) part("ar-measure-label", (from + to) / 2, label);
+    };
+    let mid;
+    if (m.origin === "center") {
+      mid = m.at * p + p / 2;
+      if (m.at > m.from) arrow(left, mid, "to-left", labels[0]);
+      if (m.at < m.to) arrow(mid, right, "to-right", labels[1]);
+      if (m.at > m.from || m.at < m.to) part("ar-measure-dot", mid);
+    } else {
+      mid = (left + right) / 2;
+      arrow(left, right, m.origin === "start" ? "to-right" : "to-left", labels[0]);
+    }
+    if (split) {
+      // { left, center, right }: center sits exactly under cell at; left ends just before it, right starts just after.
+      // left and right hang off the edges of center, so their widths never move it.
+      const e = part("ar-measure-text split", mid);
+      const c = el("span", "center");
+      // DOM order left · center · right, so the line reads in order for screen readers and copy-paste
+      c.append(span("left", str(m.text.left)), str(m.text.center), span("right", str(m.text.right)));
+      e.append(c);
+    } else if (m.text) part("ar-measure-text", mid, str(m.text));
+  };
+
   VIZ.ArrayRow = ArrayRow;
 
   // =====================================================================

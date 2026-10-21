@@ -32,7 +32,7 @@ Not on problem pages: no footer (the LeetCode profile link is on the main page o
 ## Canvas helpers (core/viz.js)
 | Helper | Draws | Typical patterns |
 |---|---|---|
-| `new VIZ.ArrayRow(host, values, {roles, bar})` + `.update({arr, ids, cls, tags, bands, arc, pointers, bar})` | one array with indices, pointers (back/front/mid rows), bands (window/best/gap) with labels (`wrap: true` with from > to draws a circular band in two pieces, [from, n−1] and [0, to], with dashed open sides), swap arc, best bar; cells keyed by identity so swaps slide | two pointers, sliding window, binary search, prefix sum, Kadane, 1D DP |
+| `new VIZ.ArrayRow(host, values, {roles, bar, measure})` + `.update({arr, ids, cls, tags, bands, arc, pointers, bar, measure})` | one array with indices, pointers (back/front/mid rows), measure annotation (`measure: true` reserves the lane; `measure: {from, to, origin: "center"\|"start"\|"end", at, role, labels, text}` draws arrows over the range; `text` is a string, or for origin "center" `{left, center, right}` with center exactly under cell `at`; invalid input → console.error, nothing drawn), bands (window/best/gap) with labels (`wrap: true` with from > to draws a circular band in two pieces, [from, n−1] and [0, to], with dashed open sides), swap arc, best bar; cells keyed by identity so swaps slide | two pointers, sliding window, binary search, prefix sum, Kadane, 1D DP |
 | `VIZ.vars(host, vars, flash)` | variables list; flashes values marked flash | every page (automatic) |
 | `VIZ.countMap(host, rows, limit, title)` | value → count with slots, over-limit row in red | frequency limits, anagram windows |
 | `VIZ.kvMap(host, rows, title)` | key → value table, rows marked hit / new | Two Sum style lookups |

@@ -46,7 +46,9 @@
     <div class="panel vz-canvas" id="gl-window"></div>
     <div class="panel vz-canvas" id="gl-zones" style="margin-top:14px"></div>
     <div class="panel vz-canvas" id="gl-bs" style="margin-top:14px"></div>
-    <div class="panel vz-canvas" id="gl-circular" style="margin-top:14px"></div></section>
+    <div class="panel vz-canvas" id="gl-circular" style="margin-top:14px"></div>
+    <div class="panel vz-canvas" id="gl-measure" style="margin-top:14px"></div>
+    <div class="panel vz-canvas" id="gl-measure-start" style="margin-top:14px"></div></section>
 
   <section class="gl-section"><h2>Side panels</h2>
     <p>Only the panels a pattern needs are shown. Click "Flash" to see how a new best value is announced.</p>
@@ -138,6 +140,16 @@
     const r5 = new VIZ.ArrayRow($("gl-circular"), c, { roles: ["back", "front"] });
     r5.update({ arr: c, cls: { 1: "current" }, bands: [{ kind: "window", from: 4, to: 1, wrap: true, label: "circular window [4, 1] · total 22" }],
       pointers: [{ role: "back", label: "left", at: 4 }, { role: "front", label: "right", at: 1 }] });
+
+    const m = [4, 1, 7, 2, 6, 3, 5];
+    const r6 = new VIZ.ArrayRow($("gl-measure"), m, { roles: ["back", "front", "mid"], measure: true });
+    r6.update({ arr: m, bands: [{ kind: "window", from: 0, to: 4, label: "measure, origin \"center\": window [0, 4]" }],
+      pointers: [{ role: "back", label: "left", at: 0 }, { role: "front", label: "right", at: 4 }, { role: "mid", label: "center", at: 2 }],
+      measure: { from: 0, to: 4, origin: "center", at: 2, role: "mid", labels: ["k = 2", "k = 2"], text: { left: "2 +", center: "1", right: "+ 2 = 5" } } });
+    const r7 = new VIZ.ArrayRow($("gl-measure-start"), m, { roles: ["back", "front"], measure: true });
+    r7.update({ arr: m, bands: [{ kind: "window", from: 2, to: 5, label: "measure, origin \"start\": window [2, 5]" }],
+      pointers: [{ role: "back", label: "left", at: 2 }, { role: "front", label: "right", at: 5 }],
+      measure: { from: 2, to: 5, origin: "start", role: "front", labels: ["length 4"], text: "right − left + 1 = 4" } });
 
     const vars = [{ label: "left", value: 1, role: "back" }, { label: "right", value: 5, role: "front" }, { label: "window length", value: 5 }, { label: "best", value: 6, flash: true }];
     VIZ.vars($("gl-vars"), vars, false);

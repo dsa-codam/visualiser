@@ -64,6 +64,7 @@
   /* ---- array row geometry (px numbers read by viz.js) ---- */
   --cell-pitch-min: 30;
   --cell-pitch-max: 60;
+  --measure-lane: 44;     /* extra height above the indices when an ArrayRow has { measure: true } */
 
   /* ---- motion ---- */
   --t-move: .35s;

@@ -82,6 +82,24 @@ button:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px soli
 .ar-band.window { background: var(--band-window); border: 2px solid var(--band-window-edge); }
 .ar-band.best { background: var(--band-best); }
 .ar-band.gap { background: var(--band-gap); }
+/* measure annotation (ArrayRow { measure: true }): arrows over a range, labels above, text below.
+   Inside the lane: labels on top, arrow line in the middle, text at the bottom. */
+.ar-measure { position: absolute; left: 0; top: 0; color: var(--role-mid); font-size: var(--fs-tiny); font-weight: 600; pointer-events: none; }
+.ar-measure.back { color: var(--role-back); }
+.ar-measure.front { color: var(--role-front); }
+.ar-measure.mid { color: var(--role-mid); }
+.ar-measure > div { position: absolute; }
+.ar-measure-label, .ar-measure-text { transform: translateX(-50%); white-space: nowrap; line-height: 1.2; }
+.ar-measure-label { margin-top: 2px; }
+.ar-measure-arrow { height: 2px; margin-top: 21px; background: currentColor; }
+.ar-measure-arrow::after { content: ""; position: absolute; top: -4px; border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
+.ar-measure-arrow.to-right::after { right: -1px; border-left: 8px solid currentColor; }
+.ar-measure-arrow.to-left::after { left: -1px; border-right: 8px solid currentColor; }
+.ar-measure-dot { width: 6px; height: 6px; margin-top: 19px; border-radius: 50%; background: currentColor; transform: translateX(-50%); }
+.ar-measure-text { margin-top: 29px; }
+.ar-measure-text.split .center { position: relative; }
+.ar-measure-text.split .left { position: absolute; right: 100%; margin-right: .3em; }
+.ar-measure-text.split .right { position: absolute; left: 100%; margin-left: .3em; }
 /* a circular band cut at the array end: the open side is dashed and square */
 .ar-band.cut-end { border-right-style: dashed; border-top-right-radius: 0; border-bottom-right-radius: 0; }
 .ar-band.cut-start { border-left-style: dashed; border-top-left-radius: 0; border-bottom-left-radius: 0; }

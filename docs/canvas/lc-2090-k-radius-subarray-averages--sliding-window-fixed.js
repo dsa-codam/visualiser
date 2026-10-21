@@ -2,7 +2,8 @@
 VIZ.canvas.register("lc-2090-k-radius-subarray-averages/sliding-window-fixed", /* LC 2090 · fixed-size sliding window, answer written at the window's centre.
    Reads step.state = { arr, avgs, k, left, right, window, total, center, written, newAt }
    and step.roles = { pos: "current" | "removed" } for the nums row.
-   Draws only with VIZ.ArrayRow — no colours or sizes here. */
+   On the first full window (anchor "first") a measure annotation shows the radius:
+   k + 1 + k = 2k + 1. Draws only with VIZ.ArrayRow — no colours or sizes here. */
 ({
   build(ctx) {
     const a = ctx.example.args;
@@ -14,8 +15,8 @@ VIZ.canvas.register("lc-2090-k-radius-subarray-averages/sliding-window-fixed", /
       return d;
     };
     const h1 = host("nums");
-    const h2 = host("avgs <small>(avgs[center] = window average)</small>");
-    ctx.row1 = new VIZ.ArrayRow(h1, a.nums, { roles: ["back", "front"] });
+    const h2 = host("avgs <small>(avgs[center] = total / (2k + 1), whole part only)</small>");
+    ctx.row1 = new VIZ.ArrayRow(h1, a.nums, { roles: ["back", "front", "mid"], measure: true });
     ctx.row2 = new VIZ.ArrayRow(h2, a.nums.map(() => -1), { roles: [] });
   },
 
@@ -41,7 +42,12 @@ VIZ.canvas.register("lc-2090-k-radius-subarray-averages/sliding-window-fixed", /
       pointers: [
         { role: "back", label: "left", at: right === null ? null : s.left },
         { role: "front", label: "right", at: right },
+        { role: "mid", label: "center", at: done ? null : s.center },
       ],
+      measure: step.anchor === "first"
+        ? { from: w[0], to: w[1], origin: "center", at: s.center, role: "mid",
+            labels: [`k = ${s.k}`, `k = ${s.k}`], text: { left: `${s.k} +`, center: "1", right: `+ ${s.k} = ${2 * s.k + 1}` } }
+        : null,
     });
     ctx.row2.update({ arr: s.avgs, cls: cls2, pointers: [] });
   },

@@ -8,7 +8,7 @@ class Solution:
         size = 2 * k + 1  # window length: k numbers, the centre, k numbers
         # @trace-begin
         total = None
-        left = 0
+        left = None
         center = None
         written = []
 
@@ -20,7 +20,7 @@ class Solution:
                 vars=[
                     {"label": "k", "value": k},
                     {"label": "size", "value": size},
-                    {"label": "left", "value": left, "role": "back"},
+                    {"label": "left", "value": "—" if left is None else left, "role": "back"},
                     {"label": "right", "value": "—" if right is None else right, "role": "front"},
                     {"label": "total", "value": "—" if total is None else total},
                     {"label": "center", "value": "—" if center is None else center, "flash": flash},
@@ -34,9 +34,8 @@ class Solution:
             T.step("fits", "return", f"size = {size} > n = {n}: no index has {k} numbers on both sides. Return avgs, all -1.", **snap(None, None))  # @trace
             return avgs
         T.step("fits", "init", f"size = {size} ≤ n = {n}, so at least one full window fits.", **snap(None, None))  # @trace
-        total = 0  # sum of the window; up to 10^10, so long long in C and C++  # @a:total
-        left = 0  # left edge of the window
-        T.step("total", "init", "total = 0, left = 0. We add the first window nums[0..size − 1] one by one.", **snap(None, None))  # @trace
+        total = 0  # sum of the window; up to 10^10, Python ints do not overflow  # @a:total
+        T.step("total", "init", "total = 0. We add the first window nums[0..size − 1] one by one.", **snap(None, None))  # @trace
         for right in range(size):  # build the first window nums[0..size-1]  # @a:build-loop
             # @trace-begin
             T.step("build-loop", "build", f"The first for loop fills the first window: right = {right}." if right == 0 else
@@ -49,12 +48,14 @@ class Solution:
             T.step("build", "build", f"nums[{right}] = {nums[right]} is added, so total = {total}.",
                    **snap(right, [0, right], {right: "current"}))
             # @trace-end
-        avgs[k] = total // size  # the first window is centred at index k  # @a:first
+        center = k  # the first window [0, size-1] is centred at index k  # @a:first
+        avgs[center] = total // size  # // rounds down; with non-negative nums this equals truncation, as LeetCode expects
         # @trace-begin
-        written.append(k)
-        T.step("first", "write", f"The first window [0, {size - 1}] is full. Its centre is index k = {k}: "
-               f"avgs[{k}] = total // size = {total} // {size} = {avgs[k]}.", **snap(None, [0, size - 1], new=k))
+        written.append(center)
+        T.step("first", "write", f"The first window [0, {size - 1}] is full. Its centre is center = k = {k}: "
+               f"avgs[{center}] = total // size = {total} // {size} = {avgs[center]}.", **snap(None, [0, size - 1], new=center, flash=True))
         # @trace-end
+        left = 0  # left edge of the window
         for right in range(size, n):  # slide: one number in, one out  # @a:loop
             T.step("loop", "next", f"Next round of the second for loop: right moves to index {right}. The window slides one step to the right.", **snap(right, [left, right - 1]))  # @trace
             total += nums[right]  # new number enters on the right  # @a:add
@@ -72,13 +73,12 @@ class Solution:
                    f"left moves to {left}, and the window [{left}, {right}] has size = {size} numbers again.",
                    **snap(right, [left, right], {left - 1: "removed"}))
             # @trace-end
-            center = left + k  # the middle of the window  # @a:write
+            center = left + k  # the middle of the new window  # @a:write
             avgs[center] = total // size
             # @trace-begin
             written.append(center)
             T.step("write", "write", f"center = left + k = {center}: avgs[{center}] = total // size = "
                    f"{total} // {size} = {avgs[center]}.", **snap(right, [left, right], new=center, flash=True))
-            center = None
             # @trace-end
         # @trace-begin
         T.step("return", "return", f"Return avgs = {avgs}. The first k and the last k indices have no full window, "

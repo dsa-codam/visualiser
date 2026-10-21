@@ -23,5 +23,5 @@
     { "swatch": "new", "text": "avgs cell just written (the window's centre)" },
     { "swatch": "zero", "text": "avgs cell still -1" }
   ],
-  "accepted": []
+  "accepted": ["python", "cpp", "c"]
 }

@@ -13,7 +13,7 @@ One colour = one meaning, on every page. A colour is never reused for something 
 |---|---|---|
 | --role-back | Trailing pointer | left, slow, lo |
 | --role-front | Leading pointer | right, fast, hi |
-| --role-mid | Computed position | mid (proposal, not used on a page yet) |
+| --role-mid | Computed position | mid, center (LC 2090 center pointer); also the colour of the measure annotation on LC 2090 |
 | --role-current | Examined now | the element the code is looking at in this step; at most one per step |
 | --role-swap | Swap | two elements changing places; drawn with the "swap" arc |
 | --role-conflict | Rule broken | the element that breaks the rule, and its "!" / ">k" badge |
@@ -39,7 +39,7 @@ Every meaning also has a non-colour signal:
 - measure annotation: arrows with text labels and a text line ("k = 3", "3 + 1 + 3 = 7")
 
 ## 3. Pointer names (ADR 011)
-left / right — towards each other, and sliding window edges · slow / fast — same direction, linked lists · lo / mid / hi — binary search · p1 / p2 / write — merging two arrays (ADR 021: write is --role-back, p1 and p2 are --role-front). The trailing pointer is always --role-back, the leading one --role-front. Code variable names match the labels.
+left / right — towards each other, and sliding window edges · slow / fast — same direction, linked lists · lo / mid / hi — binary search · center — the middle of a fixed window (LC 2090; --role-mid) · p1 / p2 / write — merging two arrays (ADR 021: write is --role-back, p1 and p2 are --role-front). The trailing pointer is always --role-back, the leading one --role-front. Code variable names match the labels.
 
 ## 3a. Measure annotation (ArrayRow { measure: true })
 Arrows over a range of cells that show a length or a radius, with a label on each arrow and one optional text line under them. It sits in its own lane between the band label and the indices; the lane is kept on every step, so rows do not jump. Colour comes from a pointer role (back / front / mid), usually the role of the pointer the arrows start from. Origin "center": two arrows from the middle of a cell out to the range edges (an arrow with no length is left out). Origin "start" / "end": one arrow across the range. The text line is a string; for origin "center" it can also be { left, center, right }: center sits exactly under the origin cell (also when k = 0 and no dot is drawn), left ends just before it, right starts just after it (e.g. "3 +" · "1" · "+ 3 = 7"). An object with origin "start" / "end" is invalid. Invalid input is reported with console.error and nothing is drawn.

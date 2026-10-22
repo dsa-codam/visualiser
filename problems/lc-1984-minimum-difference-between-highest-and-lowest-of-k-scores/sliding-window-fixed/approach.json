@@ -1,0 +1,26 @@
+{
+  "order": 1,
+  "name": "Sort + fixed-size sliding window",
+  "pattern": "Sliding window",
+  "ds": ["Array"],
+  "time": "O(n log n)",
+  "space": "O(1) extra (O(log n) for the sort)",
+  "whenToUse": "The standard answer. Sorting costs O(n log n); the window pass after it is O(n).",
+  "card": {
+    "signals": "\"pick the scores of any k students\": the order of nums does not matter, so sorting is allowed. \"highest and lowest\" only depends on the two ends of a group, and \"minimized\" asks for the tightest group. After sorting, the tightest group of k scores is always k neighbours: a window of fixed size k.",
+    "pattern": "sort first, then a fixed-size window of k cells slides from left to right. In a sorted window the lowest score is nums[left] and the highest is nums[right], so each window costs O(1).",
+    "coreIdea": "for each window [left, right] with right − left + 1 = k, diff = nums[right] − nums[left]. Keep the smallest diff. No running sum is needed: only the two ends matter."
+  },
+  "invariant": "nums is sorted, the window nums[left..right] has exactly k scores, and smallest is the smallest diff of all windows checked so far.",
+  "phases": { "init": "start", "next": "next round", "diff": "diff", "update": "best ↓", "compare": "compare", "slide": "slide", "return": "done" },
+  "legend": [
+    { "swatch": "ptr-back", "text": "left: left edge of the window, the lowest score" },
+    { "swatch": "ptr-front", "text": "right: right edge, the highest score" },
+    { "swatch": "band-window", "text": "current window [left, right] of k scores" },
+    { "swatch": "current", "text": "the two ends used for diff" },
+    { "swatch": "removed", "text": "score leaving the window" },
+    { "swatch": "out", "text": "left the window for good" },
+    { "swatch": "bar", "text": "window with the smallest diff so far (cells turn green at the end)" }
+  ],
+  "accepted": ["python", "cpp", "c"]
+}

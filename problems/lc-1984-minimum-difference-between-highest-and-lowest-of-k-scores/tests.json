@@ -1,0 +1,7 @@
+[
+  { "name": "k = 1 is always 0", "args": { "nums": [7, 100000, 0], "k": 1 }, "expected": 0 },
+  { "name": "extreme values, k = n", "args": { "nums": [100000, 0, 100000, 0], "k": 4 }, "expected": 100000 },
+  { "name": "all equal", "args": { "nums": [6, 6, 6, 6], "k": 3 }, "expected": 0 },
+  { "name": "already sorted, best at the end", "args": { "nums": [1, 5, 10, 20, 21, 22], "k": 3 }, "expected": 2 },
+  { "name": "sorted descending", "args": { "nums": [50, 40, 31, 30, 10], "k": 2 }, "expected": 1 }
+]

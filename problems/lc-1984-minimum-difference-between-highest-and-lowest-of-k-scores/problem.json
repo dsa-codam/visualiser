@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "title": "Minimum Difference Between Highest and Lowest of K Scores",
+  "source": { "site": "LeetCode", "id": "1984", "url": "https://leetcode.com/problems/minimum-difference-between-highest-and-lowest-of-k-scores/" },
+  "difficulty": "Easy",
+  "nMax": 1000,
+  "signature": {
+    "python": "minimumDifference",
+    "cpp": "minimumDifference",
+    "c": "minimumDifference",
+    "params": [{ "name": "nums", "type": "int[]" }, { "name": "k", "type": "int" }],
+    "returns": "int"
+  },
+  "constraints": [
+    {
+      "text": "1 ≤ k ≤ nums.length ≤ 1000",
+      "meaning": "Up to 1,000 scores, never empty, and there are always at least k of them.",
+      "impact": "Trying every group of k scores is far too slow: C(1000, 500) groups. Sorting, O(n log n), plus one O(n) pass is easily fast enough. With k = 1 the answer is always 0."
+    },
+    {
+      "text": "0 ≤ nums[i] ≤ 10⁵",
+      "meaning": "Every score is between 0 and 100,000.",
+      "impact": "A difference is at most 10⁵, so int is enough in C and C++. No overflow."
+    },
+    {
+      "text": "Pick any k students (statement)",
+      "meaning": "The k scores do not have to be next to each other in nums.",
+      "impact": "The order of nums does not matter, so we may sort it. After sorting, the best group of k scores is always k neighbours: a window of fixed size k."
+    }
+  ],
+  "bruteForce": {
+    "summary": "take every pair of scores as the lowest and the highest, and count how many scores lie between them. If at least k do, that difference is possible; keep the smallest one. O(n³) time, about 10⁹ steps for n = 1000: too slow.",
+    "opsUnit": "score checks"
+  },
+  "examples": [
+    { "id": "lc2", "label": "LeetCode Example 2: [9,4,1,7], k = 2", "kind": "main",
+      "args": { "nums": [9, 4, 1, 7], "k": 2 }, "expected": 2 },
+    { "id": "slide", "label": "Window of 3 slides: [12,3,18,7,9,4,15,10], k = 3", "kind": "main",
+      "args": { "nums": [12, 3, 18, 7, 9, 4, 15, 10], "k": 3 } },
+    { "id": "lc1", "label": "LeetCode Example 1: [90], k = 1", "kind": "edge",
+      "args": { "nums": [90], "k": 1 }, "expected": 0 },
+    { "id": "k-equals-n", "label": "k = n, one window: [5,1,3], k = 3", "kind": "edge",
+      "args": { "nums": [5, 1, 3], "k": 3 } },
+    { "id": "repeats", "label": "Equal scores: [4,8,4,1,8], k = 2", "kind": "edge",
+      "args": { "nums": [4, 8, 4, 1, 8], "k": 2 } }
+  ]
+}

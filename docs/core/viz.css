@@ -71,7 +71,8 @@ button:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px soli
 .vz-stage .vz-aux { grid-template-columns: minmax(0, 1fr); }
 #vz-code pre.code { max-height: 60vh; overflow: auto; }
 @media (max-width: 900px) {
-  .vz-stage { display: flex; flex-direction: column; }
+  /* stretch: every panel takes the full width on phones (ADR 009), so array cells are sized from it */
+  .vz-stage { display: flex; flex-direction: column; align-items: stretch; }
   .vz-stage .vz-col { display: contents; }
   .vz-stage #vz-code { order: 9; }
 }

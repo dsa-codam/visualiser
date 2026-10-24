@@ -69,7 +69,8 @@
 
       const track = el("div", "ar-track");
       track.style.width = n * pitch + "px";
-      track.style.height = (this.hasBar ? barTop + 28 : ptrTop + rows * 26) + "px";
+      this.baseHeight = this.hasBar ? barTop + 28 : ptrTop + rows * 26;
+      track.style.height = this.baseHeight + "px";
       track.style.fontSize = Math.max(13, Math.min(18, size * 0.38)) + "px";
       track.classList.toggle("small", pitch < 44);
       this.track = track;
@@ -171,6 +172,7 @@
       });
       // bands
       const used = new Set();
+      let bandExtra = 0; // extra height of a wrapped band label; the row moves down to make room for it
       const place = (band, from, to, cut) => {
         band.style.left = from * p + "px";
         band.style.width = (to - from + 1) * p + "px";
@@ -196,9 +198,10 @@
           e.band2.style.opacity = 0;
         }
         e.label.textContent = b.label || "";
-        e.label.style.left = ((lFrom + lTo + 1) * p) / 2 + "px";
+        if (b.label) bandExtra = Math.max(bandExtra, this.fitLabel(e.label, ((lFrom + lTo + 1) * p) / 2, "center"));
         e.label.style.opacity = b.label ? 1 : 0;
       }
+      this.track.style.marginTop = bandExtra ? bandExtra + "px" : "";
       for (const k of Object.keys(this.bandEls)) {
         if (!used.has(k)) {
           this.bandEls[k].band.style.opacity = 0;
@@ -234,16 +237,67 @@
           this.bar.style.left = s.bar.from * p + 5 + "px";
           this.bar.style.width = (s.bar.to - s.bar.from + 1) * p - 10 + "px";
           this.bar.style.opacity = 1;
-          this.barLbl.style.left = s.bar.from * p + 5 + "px";
           this.barLbl.textContent = s.bar.label || "";
+          // a wrapped bar label needs more room under the bar; one line fits in the normal height
+          const extra = s.bar.label ? this.fitLabel(this.barLbl, s.bar.from * p + 5, "start") : 0;
+          this.track.style.height = this.baseHeight + extra + "px";
           this.barLbl.style.opacity = 1;
         } else {
           this.bar.style.opacity = 0;
           this.barLbl.style.opacity = 0;
+          this.track.style.height = this.baseHeight + "px";
         }
       }
     }
   }
+  /* Keep a band or bar label inside its card (the nearest ancestor that clips, e.g. .vz-canvas).
+     x is the wanted centre ("center") or left edge ("start") in track pixels. The label stays there
+     if it fits; otherwise it moves left (or right) just enough to stay inside. Only a label wider than
+     the card wraps, to the full width of the card: a band label grows upwards, a bar label downwards.
+     Returns how much taller than one line the label is (0 if it did not wrap), so the row can make room. */
+  ArrayRow.prototype.fitLabel = function (lbl, x, align) {
+    lbl.style.whiteSpace = "";
+    lbl.style.width = "";
+    lbl.style.marginTop = "";
+    const oneLine = lbl.offsetHeight;
+    // a centred label is placed by its centre (CSS translateX(-50%)), so it is drawn exactly as before when it fits
+    const edge = (w) => (align === "center" ? x - w / 2 : x); // wanted left edge
+    const at = (left, w) => (align === "center" ? left + w / 2 : left); // style.left for a left edge
+    let w = lbl.getBoundingClientRect().width;
+    let left = edge(w);
+    const box = this.cardBox();
+    if (box) {
+      const room = box.right - box.left;
+      if (w > room) {
+        // a fixed width, so the lines do not change when the label moves
+        lbl.style.whiteSpace = "normal";
+        lbl.style.width = room + "px";
+        lbl.style.left = at(box.left, room) + "px";
+        const extra = lbl.offsetHeight - oneLine;
+        if (align === "center") lbl.style.marginTop = -extra + "px";
+        return extra;
+      }
+      left = Math.max(box.left, Math.min(left, box.right - w));
+    }
+    lbl.style.left = (left === edge(w) ? x : at(left, w)) + "px";
+    return 0;
+  };
+
+  /* The inside of the card in track pixels: from the inner side of its left border to the inner side of its
+     right border (where the card clips), less a small gap so text does not touch the border, or to the end
+     of the track when the track is wider and scrolls inside the card. null if not laid out. */
+  ArrayRow.prototype.cardBox = function () {
+    let card = this.host;
+    while (card && card !== document.body && getComputedStyle(card).overflowX === "visible") card = card.parentElement;
+    if (!card || card === document.body) card = document.documentElement;
+    const r = card.getBoundingClientRect(), t = this.track.getBoundingClientRect();
+    const inner = card.clientWidth;
+    if (!t.width || inner <= 0) return null;
+    const gap = 4;
+    const left = r.left + card.clientLeft - card.scrollLeft - t.left + gap;
+    return { left, right: Math.max(left + inner - 2 * gap, t.width) };
+  };
+
   /** Measure annotation: arrows over a cell range, a label per arrow, one text line under them. */
   ArrayRow.prototype.drawMeasure = function (m) {
     const box = this.measureEl;

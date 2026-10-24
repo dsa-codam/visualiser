@@ -23,8 +23,9 @@ Not on problem pages: no footer (the LeetCode profile link is on the main page o
 
 ## Layout (ADR 017)
 - From 900px: left column = canvas, code drawer under it; right column = side panels, controls, caption. Controls sit above the caption so the Next button stays in place. The code box scrolls inside itself (max 60% of the screen height) and keeps the highlighted line in view.
-- Below 900px: one column — canvas, side panels, controls, caption, code.
+- Below 900px: one column — canvas, side panels, controls, caption, code. Every panel takes the full width (ADR 009), so array cells are sized from the full screen width.
 - Inside the array row, top to bottom: band labels, swap arc, indices, cells, pointers, best bar.
+- Band labels and the best-bar label stay inside the card (ADR 009). A label sits centred over its band (bar label: at the bar's left edge); if it does not fit, ArrayRow moves it left or right just enough. Only a label wider than the card wraps, to the card's width: a band label grows upwards and the row moves down to make room, a bar label grows downwards and the row gets taller. Pages do nothing for this.
 
 ## Links to a tab
 `lc-2958-....html#sliding-window-hash-map` opens that approach. Switching tabs updates the address, so a copied URL points at the open approach. An unknown anchor opens the first approach.
@@ -32,7 +33,7 @@ Not on problem pages: no footer (the LeetCode profile link is on the main page o
 ## Canvas helpers (core/viz.js)
 | Helper | Draws | Typical patterns |
 |---|---|---|
-| `new VIZ.ArrayRow(host, values, {roles, bar, measure})` + `.update({arr, ids, cls, tags, bands, arc, pointers, bar, measure})` | one array with indices, pointers (back/front/mid rows), measure annotation (`measure: true` reserves the lane; `measure: {from, to, origin: "center"\|"start"\|"end", at, role, labels, text}` draws arrows over the range; `text` is a string, or for origin "center" `{left, center, right}` with center exactly under cell `at`; invalid input → console.error, nothing drawn), bands (window/best/gap) with labels (`wrap: true` with from > to draws a circular band in two pieces, [from, n−1] and [0, to], with dashed open sides), swap arc, best bar; cells keyed by identity so swaps slide | two pointers, sliding window, binary search, prefix sum, Kadane, 1D DP |
+| `new VIZ.ArrayRow(host, values, {roles, bar, measure})` + `.update({arr, ids, cls, tags, bands, arc, pointers, bar, measure})` | one array with indices, pointers (back/front/mid rows), measure annotation (`measure: true` reserves the lane; `measure: {from, to, origin: "center"\|"start"\|"end", at, role, labels, text}` draws arrows over the range; `text` is a string, or for origin "center" `{left, center, right}` with center exactly under cell `at`; invalid input → console.error, nothing drawn), bands (window/best/gap) with labels that stay inside the card (`wrap: true` with from > to draws a circular band in two pieces, [from, n−1] and [0, to], with dashed open sides), swap arc, best bar; cells keyed by identity so swaps slide | two pointers, sliding window, binary search, prefix sum, Kadane, 1D DP |
 | `VIZ.vars(host, vars, flash)` | variables list; flashes values marked flash | every page (automatic) |
 | `VIZ.countMap(host, rows, limit, title)` | value → count with slots, over-limit row in red | frequency limits, anagram windows |
 | `VIZ.kvMap(host, rows, title)` | key → value table, rows marked hit / new | Two Sum style lookups |

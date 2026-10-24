@@ -48,7 +48,8 @@
     <div class="panel vz-canvas" id="gl-bs" style="margin-top:14px"></div>
     <div class="panel vz-canvas" id="gl-circular" style="margin-top:14px"></div>
     <div class="panel vz-canvas" id="gl-measure" style="margin-top:14px"></div>
-    <div class="panel vz-canvas" id="gl-measure-start" style="margin-top:14px"></div></section>
+    <div class="panel vz-canvas" id="gl-measure-start" style="margin-top:14px"></div>
+    <div class="panel vz-canvas" id="gl-label-fit" style="margin-top:14px; max-width:280px"></div></section>
 
   <section class="gl-section"><h2>Side panels</h2>
     <p>Only the panels a pattern needs are shown. Click "Flash" to see how a new best value is announced.</p>
@@ -150,6 +151,12 @@
     r7.update({ arr: m, bands: [{ kind: "window", from: 2, to: 5, label: "measure, origin \"start\": window [2, 5]" }],
       pointers: [{ role: "back", label: "left", at: 2 }, { role: "front", label: "right", at: 5 }],
       measure: { from: 2, to: 5, origin: "start", role: "front", labels: ["length 4"], text: "right − left + 1 = 4" } });
+
+    const f = [4, 1, 3, 6, 3];
+    const r8 = new VIZ.ArrayRow($("gl-label-fit"), f, { roles: ["back", "front"], bar: true });
+    r8.update({ arr: f, bands: [{ kind: "window", from: 3, to: 4, label: "window [3, 4] · total 9, moved left" }],
+      pointers: [{ role: "back", label: "left", at: 3 }, { role: "front", label: "right", at: 4 }],
+      bar: { from: 3, to: 4, label: "best window [3, 4] · largest 9: a label wider than the card wraps" } });
 
     const vars = [{ label: "left", value: 1, role: "back" }, { label: "right", value: 5, role: "front" }, { label: "window length", value: 5 }, { label: "best", value: 6, flash: true }];
     VIZ.vars($("gl-vars"), vars, false);

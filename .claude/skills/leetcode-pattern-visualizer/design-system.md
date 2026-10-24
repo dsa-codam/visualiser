@@ -38,6 +38,9 @@ Every meaning also has a non-colour signal:
 - duplicates of an over-limit value: dashed red border
 - measure annotation: arrows with text labels and a text line ("k = 3", "3 + 1 + 3 = 7")
 
+## 2a. Labels stay inside the card
+Band labels and the best-bar label never leave the card (ADR 009). They sit at their normal place (band label: centred over the band; bar label: at the bar's left edge) and move sideways only as far as needed to fit. A label wider than the card wraps onto more lines. Keep labels short anyway: a moved label is further from its band.
+
 ## 3. Pointer names (ADR 011)
 left / right — towards each other, and sliding window edges · slow / fast — same direction, linked lists · lo / mid / hi — binary search · center — the middle of a fixed window (LC 2090; --role-mid) · p1 / p2 / write — merging two arrays (ADR 021: write is --role-back, p1 and p2 are --role-front). The trailing pointer is always --role-back, the leading one --role-front. Code variable names match the labels.
 

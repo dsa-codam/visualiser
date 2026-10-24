@@ -1,0 +1,27 @@
+{
+  "order": 1,
+  "name": "Fixed-size sliding window",
+  "pattern": "Sliding window",
+  "ds": ["Array"],
+  "time": "O(n)",
+  "space": "O(1)",
+  "whenToUse": "The standard answer: two passes over the day, a few counters, no extra memory.",
+  "card": {
+    "signals": "\"minutes consecutive minutes\" (a block of fixed length) and \"can only be used once\" (one block). \"maximum number of customers\" asks for the best block. Calm minutes count no matter where the block is, so only the grumpy minutes inside the block change the answer.",
+    "pattern": "split the answer in two parts. satisfied: the customers of calm minutes, counted once. extra: the customers of grumpy minutes inside a fixed-size window of minutes cells. Slide the window and keep the largest extra.",
+    "coreIdea": "when the window slides, minute right enters and minute left leaves. Each one changes extra only if the owner is grumpy in that minute: extra += customers[right] if grumpy[right] = 1, extra -= customers[left] if grumpy[left] = 1."
+  },
+  "invariant": "After each slide, the window [left, right] has exactly minutes cells, and extra is the sum of customers[j] for the grumpy minutes j in it.",
+  "phases": { "init": "start", "base": "calm minutes", "build": "build", "next": "next round", "add": "add", "drop": "drop", "update": "best ↑", "compare": "compare", "return": "done" },
+  "legend": [
+    { "swatch": "ptr-back", "text": "left: first minute of the technique" },
+    { "swatch": "ptr-front", "text": "right: last minute of the technique (new minute)" },
+    { "swatch": "band-window", "text": "current window [left, right]: the technique" },
+    { "swatch": "done", "text": "calm minute, already counted in satisfied" },
+    { "swatch": "current", "text": "minute just checked" },
+    { "swatch": "removed", "text": "minute leaving the window" },
+    { "swatch": "out", "text": "left the window for good" },
+    { "swatch": "bar", "text": "window with the largest extra so far (cells turn green at the end)" }
+  ],
+  "accepted": ["python", "cpp", "c"]
+}

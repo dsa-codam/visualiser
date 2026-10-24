@@ -1,0 +1,6 @@
+[
+  { "name": "largest values, always grumpy", "args": { "customers": [1000, 1000, 1000, 1000], "grumpy": [1, 1, 1, 1], "minutes": 2 }, "expected": 2000 },
+  { "name": "best window at the start", "args": { "customers": [9, 9, 1, 1, 1], "grumpy": [1, 1, 1, 0, 1], "minutes": 2 }, "expected": 19 },
+  { "name": "no customers", "args": { "customers": [0, 0, 0], "grumpy": [1, 0, 1], "minutes": 1 }, "expected": 0 },
+  { "name": "minutes = 1 picks the biggest grumpy minute", "args": { "customers": [4, 10, 3, 7], "grumpy": [1, 1, 0, 1], "minutes": 1 }, "expected": 13 }
+]

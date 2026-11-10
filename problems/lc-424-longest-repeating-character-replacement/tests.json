@@ -1,0 +1,8 @@
+[
+  { "name": "one letter, k = 1", "args": { "s": "Z", "k": 1 }, "expected": 1 },
+  { "name": "k = 0, longest run in the middle", "args": { "s": "ABBBBA", "k": 0 }, "expected": 4 },
+  { "name": "k = 0, 26 different letters", "args": { "s": "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "k": 0 }, "expected": 1 },
+  { "name": "k = 2, 26 different letters", "args": { "s": "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "k": 2 }, "expected": 3 },
+  { "name": "change the middle letters", "args": { "s": "AABCAA", "k": 2 }, "expected": 6 },
+  { "name": "long string of one letter", "args": { "s": "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ", "k": 0 }, "expected": 40 }
+]

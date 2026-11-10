@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "title": "Longest Repeating Character Replacement",
+  "source": { "site": "LeetCode", "id": "424", "url": "https://leetcode.com/problems/longest-repeating-character-replacement/" },
+  "difficulty": "Medium",
+  "nMax": 100000,
+  "signature": {
+    "python": "characterReplacement",
+    "cpp": "characterReplacement",
+    "c": "characterReplacement",
+    "params": [{ "name": "s", "type": "string" }, { "name": "k", "type": "int" }],
+    "returns": "int"
+  },
+  "constraints": [
+    {
+      "text": "1 ≤ s.length ≤ 10⁵",
+      "meaning": "Up to 100,000 characters. s is never empty.",
+      "impact": "O(n²) is about 10¹⁰ steps: far too slow. You need O(n). The answer is at least 1."
+    },
+    {
+      "text": "s consists of only uppercase English letters",
+      "meaning": "Only the 26 letters 'A' to 'Z'.",
+      "impact": "A counting array of size 26 replaces a hash map, with index s[i] - 'A'. This also makes a C version easy."
+    },
+    {
+      "text": "0 ≤ k ≤ s.length",
+      "meaning": "k can be 0 (no changes allowed) or as big as the whole string.",
+      "impact": "With k = 0 the answer is the longest run of one letter. With k = s.length the answer is s.length."
+    },
+    {
+      "text": "Change at most k characters, then find the longest substring of one letter (statement)",
+      "meaning": "A window is good if all its letters except the most common one can be changed: length - (top count) ≤ k.",
+      "impact": "Contiguous + a rule a window must keep + the longest window → variable-size sliding window."
+    }
+  ],
+  "bruteForce": {
+    "summary": "try every start i, extend j to the right, keep the count of each letter and the top count, and record j - i + 1 when length - top count ≤ k. O(n²) time, which is too slow for n = 10⁵.",
+    "opsUnit": "character visits"
+  },
+  "examples": [
+    { "id": "lc2", "label": "LeetCode Example 2: \"AABABBA\", k = 1", "kind": "main", "args": { "s": "AABABBA", "k": 1 }, "expected": 4 },
+    { "id": "lc1", "label": "LeetCode Example 1: \"ABAB\", k = 2", "kind": "main", "args": { "s": "ABAB", "k": 2 }, "expected": 4 },
+    { "id": "k0-runs", "label": "No changes: \"AABBBC\", k = 0", "kind": "main", "args": { "s": "AABBBC", "k": 0 } },
+    { "id": "late-best", "label": "Best window at the end: \"ABCBBCB\", k = 1", "kind": "main", "args": { "s": "ABCBBCB", "k": 1 } },
+    { "id": "single", "label": "One character: \"A\", k = 0", "kind": "edge", "args": { "s": "A", "k": 0 } },
+    { "id": "all-equal", "label": "All equal: \"AAAA\", k = 0", "kind": "edge", "args": { "s": "AAAA", "k": 0 } },
+    { "id": "all-different", "label": "All different: \"ABCD\", k = 0", "kind": "edge", "args": { "s": "ABCD", "k": 0 } },
+    { "id": "k-full", "label": "k = s.length: \"ABC\", k = 3", "kind": "edge", "args": { "s": "ABC", "k": 3 } }
+  ]
+}

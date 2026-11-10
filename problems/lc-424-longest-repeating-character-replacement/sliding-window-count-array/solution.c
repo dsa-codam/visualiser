@@ -14,17 +14,17 @@ int characterReplacement(char* s, int k) {
     int longest = 0;  // longest good window so far  // @a:init
     for (int right = 0; s[right] != '\0'; right++) {  // right edge, moves every step  // @a:add
         count[s[right] - 'A']++;  // add s[right] to the window  // @a:add
-        int length = right - left + 1;  // letters in the window [left, right]  // @a:add
-        char top_letter = find_top(count);  // most common letter in the window  // @a:add
-        int top_count = count[top_letter - 'A'];  // how often top_letter is in the window  // @a:add
-        int changes = length - top_count;  // letters to change so that all are top_letter  // @a:add
+        int length = right - left + 1;  // letters in the window [left, right]
+        char top_letter = find_top(count);  // most common letter in the window
+        int top_count = count[top_letter - 'A'];  // how often top_letter is in the window
+        int changes = length - top_count;  // letters to change so that all are top_letter
         while (changes > k) {  // bad window: more letters to change than k  // @a:drop
             count[s[left] - 'A']--;  // drop s[left] from the window  // @a:drop
             left++;  // shrink from the left  // @a:drop
-            length = right - left + 1;  // length of the smaller window  // @a:drop
-            top_letter = find_top(count);  // most common letter in the smaller window  // @a:drop
-            top_count = count[top_letter - 'A'];  // its count in the smaller window  // @a:drop
-            changes = length - top_count;  // letters to change in the smaller window  // @a:drop
+            length = right - left + 1;  // length of the smaller window
+            top_letter = find_top(count);  // most common letter in the smaller window
+            top_count = count[top_letter - 'A'];  // its count in the smaller window
+            changes = length - top_count;  // letters to change in the smaller window
         }
         if (length > longest) {  // the window is good here: keep the longest  // @a:update
             longest = length;  // @a:update

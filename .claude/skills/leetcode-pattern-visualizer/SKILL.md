@@ -61,14 +61,14 @@ tools/issues.py  prints open issues and sub-issues as a tree (needs gh)
 3. **C or not.** C only if the solution needs nothing beyond plain arrays, fixed-size counters (e.g. int count[128]) and loops. Otherwise no solution.c and a one-sentence "noC" reason in approach.json. Say the decision in chat.
 4. **Write problem.json** (schemas.md): constraints table (each row: constraint → what it means → what it changes; taken only from the statement), nMax, signature, brute-force summary and ops unit, examples.
    - Examples: the LeetCode examples with their "expected" from the statement, plus your own that trigger the interesting behaviour (the window shrinks, the stack pops, binary search goes both ways).
-   - "main" examples: ≤ 10 elements, aim for 15–40 steps. "edge" examples: shorter is fine. Hard limit: 20 elements.
+   - "main" examples: ≤ 10 elements. There is no step-count range (ADR 030). "edge" examples: shorter is fine. Hard limit: 20 elements.
    - Edge cases come from the constraints: smallest n, all equal, none matching, extreme values.
 5. **Write brute.py** — the oracle: simplest correct solution, a function `brute(<params>)` that returns the answer (for in-place problems, the final array). Mark the operation counter line `T.op()  # @trace`. It is also shown to readers, so comment it.
 6. **Write gen.py** — `gen(rng)` returns random args inside the constraints, small (n ≤ 12) and with many repeats so edge cases appear.
 7. **Pattern guide.** If site.json `patternGuides` has no entry for the approach's pattern label, take the link from notion-guides.md and add it.
 8. **Write tests.json** — extra cases worth keeping that are not shown on the page (extreme values, n = 1).
 9. **Write the approach folder** (workflow B, steps 2–5).
-10. **Run `python3 build.py`.** Fix whatever it reports. Warnings about step counts: shorten or change the example.
+10. **Run `python3 build.py`.** Fix whatever it reports. "Input is long" warning: check if a shorter input shows the same idea. LeetCode examples are never shortened and never get this warning (ADR 030).
 11. **Show the user:** the Pattern ID block, the page path (docs/<folder>.html), and 1–2 sentences on what to watch in the animation. Ask them to review the captions — tests cannot check if a caption is clear.
 12. **Remind the user** to submit each language on the LeetCode account and then say which ones were accepted (workflow E).
 
@@ -110,7 +110,7 @@ When the user says a language was accepted on LeetCode, add it to "accepted" in 
 When you notice yourself worrying about something unlikely ("what if LeetCode renames every slug"), write it as a short, light-hearted file in ai-panic/ instead of adding complexity. One file per worry: what could go wrong, how likely, what we would do. ADRs never cite ai-panic as a reason. The user will check one day which ones came true.
 
 ## Same steps in every language
-All implementations (solution.py, solution.cpp, solution.c) follow the same sequence of steps as the animation. Every step maps to the same anchored lines in each language, so the highlighted line always matches what the reader sees.
+All implementations (solution.py, solution.cpp, solution.c) follow the same sequence of steps as the animation. Every step maps to the same anchored lines in each language, so the highlighted lines always match what the reader sees.
 
 - Strings are treated as arrays of characters, as in C.
 - One approach = one data structure, the same in every language and the same as the animation. A count array is an array in Python, C++ and C. A hash map is dict / defaultdict in Python and std::unordered_map in C++ (not std::map, which is a tree), and no C version. If a problem can be solved with both, they are two approaches (two tabs).
@@ -133,7 +133,10 @@ Applies to everything that names a value: labels on or under the array, and the 
 ## Captions
 - Each caption says what happened and why, in 1–2 sentences, using the code's variable names.
 - Name the decision, not only the action: "nums[mid] = 7 > target, so the target can only be in the left half", not "move hi".
-- Every new round of a loop gets its own step on the loop header (`for` / `while` line), so the reader sees the loop start again. A `while` that runs gets a step on its line before the body ("while count[2] = 3 > k: the loop runs"); the step where it stops says so in its caption.
+- Group code lines into steps by meaning (ADR 029). One step may highlight several lines: put the same `@a:<name>` on each of them, in every language. Example for a variable-size window: "add s[right]" = the `for` line + the update of the counter + the lines that recompute the check; "drop s[left]" = the `while` line + its body; "update best" = the best line.
+- A `for` / `while` line gets a step of its own only when the line itself decides something (`while lo <= hi` in binary search). Otherwise it belongs to the group that starts the round. Never show a step where a pointer is outside the range it marks.
+- The caption of the step after which a `while` stops says so ("Now ≤ k, so the while loop stops"). The caption of the step before a `while` runs says that it will run and why.
+- Pages built before ADR 029 keep their one-line steps. Apply the grouping to new pages and to pages we change.
 - The last step states the result and one sentence on why it is correct.
 - The invariant is the rule the pattern keeps true; put it in approach.json (or per step if it changes).
 

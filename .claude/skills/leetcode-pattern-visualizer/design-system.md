@@ -16,13 +16,14 @@ One colour = one meaning, on every page. A colour is never reused for something 
 | --role-mid | Computed position | mid, center (LC 2090 center pointer); also the colour of the measure annotation on LC 2090 |
 | --role-current | Examined now | the element the code is looking at in this step; at most one per step |
 | --role-swap | Swap | two elements changing places; drawn with the "swap" arc |
-| --role-conflict | Rule broken | the element that breaks the rule, and its "!" / ">k" badge |
+| --role-conflict | Rule broken | the element that breaks the rule, and its "!" / ">k" badge. Inside a bad window, conflict cells can also mean "letters to change": every cell that makes the window break the rule (LC 424: the letters that are not the top letter, so the number of red cells equals changes) |
 | --role-best | Answer | best so far, element in its final place, the result |
 | --role-new | Just added | pushed, inserted, enqueued (proposal) |
 | --role-gone | Dropped | left the window for good, discarded half |
 | --zero | Empty value | values the problem treats as "nothing", such as 0 in Move Zeroes |
 | --slot-fill | Count | one occurrence in a count map |
 | --band-window | Active range | sliding window, binary-search range |
+| --band-bad | Bad window | a window that breaks the rule right now (LC 424: changes > k). Red band edge and red label; the label states the check ("changes 5 − 3 = 2 > k = 1 ✗"). Only on a window band: `bands: [{ kind: "window", bad: true }]`. Red means only "this window is invalid" |
 | --band-best | Answer range | placed zone, best window |
 | --band-gap | Waiting range | a range that only holds "empty" values |
 
@@ -32,6 +33,7 @@ Surface tokens: --bg (page), --panel (cards), --ink (text), --muted (secondary t
 Every meaning also has a non-colour signal:
 - pointers: a text label under ▲
 - conflict: a red badge with text ("!", ">k")
+- bad window: the band label states the broken check and ends with ✗
 - dropped / out: strike-through and lower opacity
 - zero: dashed border
 - done: a ✓ in the corner (hidden when cells are very small)
@@ -53,7 +55,7 @@ Arrows over a range of cells that show a length or a radius, with a label on eac
 ## 5. Legend swatch names (approach.json → "legend")
 Problem pages do not show the legend for now (ADR 023). Keep writing it for every approach.
 
-`ptr-back`, `ptr-front`, `ptr-mid`, `current`, `swap`, `conflict`, `dup`, `done`, `best`, `new`, `zero`, `removed`, `out`, `band-window`, `band-best`, `band-gap`, `bar`, `slot`, `slot-over`. List only the ones used on that page, with a label tied to the problem ("left: left edge of the window").
+`ptr-back`, `ptr-front`, `ptr-mid`, `current`, `swap`, `conflict`, `dup`, `done`, `best`, `new`, `zero`, `removed`, `out`, `band-window`, `band-bad`, `band-best`, `band-gap`, `bar`, `slot`, `slot-over`. List only the ones used on that page, with a label tied to the problem ("left: left edge of the window").
 
 ## 6. Size limits (ADR 012)
 - Preset "main" example limits are in SKILL.md, workflow A step 4. Reason: about 9–10 cells fit a 375px phone screen.

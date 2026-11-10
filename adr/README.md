@@ -32,3 +32,5 @@ Why the visualiser is built the way it is. One file per decision. To change a de
 | 026 | Check before adding a problem |
 | 027 | "double" answers, compared within 10⁻⁵ |
 | 028 | Same steps in every language, no hidden work |
+| 029 | Steps grouped by meaning; one step can highlight several lines |
+| 030 | No step-count range; warn only on long inputs, never on LeetCode examples (replaces the step part of 012) |

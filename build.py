@@ -82,7 +82,8 @@ def short(v, limit=120):
 #   C, C++:  // @hide  // @a:name
 # @trace lines run only when tracing and are never shown.
 # @hide lines run but are never shown (imports, includes).
-# @a:name marks the line a step with anchor "name" highlights.
+# @a:name marks a line a step with anchor "name" highlights. The same name may mark several
+# lines (ADR 029): the step then highlights all of them.
 # ---------------------------------------------------------------------------
 MARK = {"python": "#", "cpp": "//", "c": "//"}
 
@@ -110,13 +111,10 @@ def parse_source(text, lang):
             continue
         display.append(body)
         if tag and tag.startswith("a:"):
-            name = tag[2:]
-            if name in anchors:
-                fail("anchor @a:%s used twice in %s code" % (name, lang))
-            anchors[name] = len(display)
+            anchors.setdefault(tag[2:], []).append(len(display))  # 1-based line numbers, in order
     while display and not display[0].strip():
         display.pop(0)
-        anchors = {k: v - 1 for k, v in anchors.items()}
+        anchors = {k: [n - 1 for n in v] for k, v in anchors.items()}
     while display and not display[-1].strip():
         display.pop()
     lines = []
@@ -582,13 +580,14 @@ def build_problem(pb, n_random):
                         fail("%s: step %d of example %s uses anchor %r, but %s code has no @a:%s"
                              % (where, i + 1, ex["id"], s["anchor"], lang, s["anchor"]))
             kind = ex.get("kind", "main")
-            if kind == "main" and not 15 <= len(tr.steps) <= 40:
-                log("  ! warning: example %s has %d steps (aim for 15–40 on main examples)" % (ex["id"], len(tr.steps)))
             n = max((len(v) for v in ex["args"].values() if isinstance(v, (list, str))), default=0)
             if n > 20:
                 fail("%s: example %s has %d elements; the renderer limit is 20" % (where, ex["id"], n))
-            if kind == "main" and n > 10:
-                log("  ! warning: main example %s has %d elements (presets should stay ≤ 10 to fit a phone)" % (ex["id"], n))
+            # ADR 030: no step-count range. Only a long main input is reported, and never for a LeetCode
+            # example (an example with "expected" comes from the statement, so we keep it as it is).
+            if kind == "main" and n > 10 and "expected" not in ex:
+                log("  ! warning: example %s input is long (%d elements, main examples stay ≤ 10), check if a shorter one works"
+                    % (ex["id"], n))
             btr = Tracer()
             bns = load_py(strip_python_for_exec(brute_src), name + "/brute.py (traced)", btr)
             call_brute(bns, sig, ex["args"], name + "/brute.py")

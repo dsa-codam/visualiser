@@ -143,7 +143,8 @@
      *   ids:      identity at each position (optional; default = position)
      *   cls:      { pos: "current conflict ..." } extra classes per position
      *   tags:     { pos: ">k" } small red badge per position
-     *   bands:    [{ kind: "window"|"best"|"gap", from, to, label, wrap }]  (to is inclusive)
+     *   bands:    [{ kind: "window"|"best"|"gap", from, to, label, wrap, bad }]  (to is inclusive)
+     *             bad: true (window only) → the window breaks the rule: red band and red label
      *             wrap: true and from > to → circular band, drawn as [from, n-1] and [0, to];
      *             without wrap, a band with to < from is empty and hidden
      *   arc:      { from, to, label } | null
@@ -185,6 +186,9 @@
         const wraps = b.wrap && b.to < b.from;
         if (!e || (b.to < b.from && !wraps)) continue;
         used.add(b.kind);
+        e.band.classList.toggle("bad", !!b.bad);
+        e.band2.classList.toggle("bad", !!b.bad);
+        e.label.classList.toggle("bad", !!b.bad);
         let lFrom = b.from, lTo = b.to;
         if (wraps) {
           const last = arr.length - 1;
@@ -690,12 +694,14 @@
     function highlightCode() {
       const A = approaches[st.a], s = A.examples[st.e].steps[st.cur];
       for (const pre of document.querySelectorAll("#vz-code-body pre")) {
-        const line = (A.code[pre.dataset.lang].anchors || {})[s.anchor];
+        // an anchor is a list of line numbers (one step can highlight several lines, ADR 029); a single number still works
+        const a = (A.code[pre.dataset.lang].anchors || {})[s.anchor];
+        const lines = new Set(Array.isArray(a) ? a : a == null ? [] : [a]);
         let on = null;
         pre.querySelectorAll(".ln").forEach((l) => {
-          const hit = +l.dataset.n === line;
+          const hit = lines.has(+l.dataset.n);
           l.classList.toggle("on", hit);
-          if (hit) on = l;
+          if (hit && !on) on = l; // scroll to the first highlighted line
         });
         if (on && !pre.hidden && pre.scrollHeight > pre.clientHeight) {
           const top = on.offsetTop - pre.offsetTop, h = pre.clientHeight;

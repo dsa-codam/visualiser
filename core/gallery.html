@@ -44,6 +44,7 @@
   <section class="gl-section"><h2>Pointers, ranges and marks</h2>
     <p>Pointer names follow the pattern: left / right (towards each other, and window edges), slow / fast (same direction, linked lists), lo / mid / hi (binary search), p1 / p2 / write (merging two arrays: write blue, p1 and p2 orange). The trailing pointer is always blue, the leading one orange.</p>
     <div class="panel vz-canvas" id="gl-window"></div>
+    <div class="panel vz-canvas" id="gl-bad" style="margin-top:14px"></div>
     <div class="panel vz-canvas" id="gl-zones" style="margin-top:14px"></div>
     <div class="panel vz-canvas" id="gl-bs" style="margin-top:14px"></div>
     <div class="panel vz-canvas" id="gl-circular" style="margin-top:14px"></div>
@@ -91,13 +92,14 @@
     ["--role-mid", "Computed position", "mid (proposal, not used yet)"],
     ["--role-current", "Examined now", "the element being checked"],
     ["--role-swap", "Swap", "two elements changing places"],
-    ["--role-conflict", "Rule broken", "duplicate over the limit, invalid state"],
+    ["--role-conflict", "Rule broken", "duplicate over the limit, invalid state, letters to change in a bad window"],
     ["--role-best", "Answer", "best so far, final place, result"],
     ["--role-new", "Just added", "push, insert, enqueue (proposal)"],
     ["--role-gone", "Dropped", "left the window, discarded"],
     ["--zero", "Empty value", "the 0s in Move Zeroes"],
     ["--slot-fill", "Count", "one occurrence in a count map"],
     ["--band-window", "Window band", "the active range"],
+    ["--band-bad", "Bad window band", "a window that breaks the rule"],
     ["--band-best", "Answer band", "placed / best range"],
     ["--band-gap", "Gap band", "a range that holds only 'empty' values"],
   ];
@@ -125,6 +127,11 @@
     const r2 = new VIZ.ArrayRow($("gl-window"), w, { roles: ["back", "front"], bar: true });
     r2.update({ arr: w, cls: { 0: "removed", 5: "current" }, bands: [{ kind: "window", from: 1, to: 5, label: "window [1, 5] · length 5" }],
       pointers: [{ role: "back", label: "left", at: 1 }, { role: "front", label: "right", at: 5 }], bar: { from: 0, to: 5, label: "best window [0, 5] · length 6" } });
+    // a bad window: red band; inside it, conflict cells are the letters to change (LC 424)
+    const bw = ["A", "A", "B", "A", "B", "B", "A"];
+    const rb = new VIZ.ArrayRow($("gl-bad"), bw, { roles: ["back", "front"] });
+    rb.update({ arr: bw, cls: { 2: "conflict", 4: "conflict" }, bands: [{ kind: "window", bad: true, from: 0, to: 4, label: "window [0, 4] · length 5 · top A×3 · changes 5 − 3 = 2 > k = 1 ✗" }],
+      pointers: [{ role: "back", label: "left", at: 0 }, { role: "front", label: "right", at: 4 }] });
 
     const z = [2, 1, 0, 0, 3, 0, 5];
     const r3 = new VIZ.ArrayRow($("gl-zones"), z, { roles: ["back", "front"] });
@@ -167,7 +174,7 @@
     VIZ.queue($("gl-queue"), [{ value: "A", mark: "gone" }, { value: "B" }, { value: "C" }, { value: "D", mark: "new" }], "Queue");
 
     VIZ.legend($("gl-legend"), ["ptr-back", "ptr-front", "ptr-mid", "current", "swap", "conflict", "dup", "done", "best", "new", "zero", "removed", "out",
-      "band-window", "band-best", "band-gap", "bar", "slot", "slot-over"].map((s) => ({ swatch: s, text: s })));
+      "band-window", "band-bad", "band-best", "band-gap", "bar", "slot", "slot-over"].map((s) => ({ swatch: s, text: s })));
 
     const pre = VIZ.codeBlock([
       { src: "for right in range(len(nums)):", comment: "# right edge, moves every step" },
@@ -176,7 +183,8 @@
       { src: "        count[nums[left]] -= 1", comment: "# drop nums[left]" },
       { src: "        left += 1", comment: "" },
     ]);
-    pre.querySelectorAll(".ln")[3].classList.add("on");
+    // one step can highlight several lines (ADR 029): here the "drop" step = while + its body
+    [2, 3, 4].forEach((i) => pre.querySelectorAll(".ln")[i].classList.add("on"));
     $("gl-code").innerHTML = "";
     $("gl-code").append(pre);
     $("gl-copy").onclick = (e) => VIZ.copyCode(pre, e.currentTarget);

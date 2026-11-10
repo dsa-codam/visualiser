@@ -81,6 +81,8 @@ button:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px soli
 .ar-track { position: relative; margin: 0 auto; }
 .ar-band { position: absolute; border-radius: var(--radius-cell); transition: left var(--t-move), width var(--t-move), opacity .2s; }
 .ar-band.window { background: var(--band-window); border: 2px solid var(--band-window-edge); }
+/* a window that breaks the rule (bands: [{ kind: "window", bad: true }]); the label says why */
+.ar-band.window.bad { background: var(--band-bad); border-color: var(--band-bad-edge); }
 .ar-band.best { background: var(--band-best); }
 .ar-band.gap { background: var(--band-gap); }
 /* measure annotation (ArrayRow { measure: true }): arrows over a range, labels above, text below.
@@ -107,6 +109,7 @@ button:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px soli
 .ar-blabel { position: absolute; top: 0; font-size: var(--fs-tiny); color: var(--muted); white-space: nowrap;
   transform: translateX(-50%); transition: left var(--t-move), opacity .2s; }
 .ar-blabel.window { color: var(--role-back); font-weight: 600; }
+.ar-blabel.window.bad { color: var(--role-conflict); }
 .ar-arc { position: absolute; height: 12px; border: 2px solid var(--role-swap); border-bottom: 0;
   border-radius: 8px 8px 0 0; transition: opacity .2s; }
 .ar-arc span { position: absolute; top: -16px; left: 50%; transform: translateX(-50%); font-size: 11px;
@@ -214,6 +217,7 @@ button:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px soli
 .sw.out { opacity: .4; text-decoration: line-through; }
 .sw.new { background: var(--new-bg); border-color: var(--role-new); }
 .sw.band-window { background: var(--band-window); border-color: var(--band-window-edge); }
+.sw.band-bad { background: var(--band-bad); border-color: var(--band-bad-edge); }
 .sw.band-best { background: var(--band-best); border: 0; }
 .sw.band-gap { background: var(--band-gap); border: 0; }
 .sw.bar { background: var(--role-best); border: 0; height: 6px; }

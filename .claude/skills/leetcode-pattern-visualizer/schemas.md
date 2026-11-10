@@ -62,7 +62,7 @@ schemaVersion: 1. All files are plain JSON (no comments, no trailing commas). Th
 ## Source markers
 | Marker | Python | C / C++ | Effect |
 |---|---|---|---|
-| anchor | `# @a:name` | `// @a:name` | the line a step with anchor "name" highlights |
+| anchor | `# @a:name` | `// @a:name` | a line a step with anchor "name" highlights. Put the same name on several lines to highlight a group (ADR 029); build.py stores a list of line numbers |
 | hide | `# @hide` | `// @hide` | runs, never shown (imports, includes) |
 | trace line | `# @trace` | — | runs only when tracing, never shown |
 | trace block | `# @trace-begin` … `# @trace-end` | — | same, for several lines |

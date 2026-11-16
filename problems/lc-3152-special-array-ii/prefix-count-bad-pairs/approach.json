@@ -1,0 +1,26 @@
+{
+  "order": 1,
+  "name": "Prefix count of bad pairs",
+  "pattern": "Prefix sum",
+  "ds": ["Array"],
+  "time": "O(n + q)",
+  "space": "O(n)",
+  "whenToUse": "Many range questions on the same array. Turn each pair into 1 (bad) or 0 (fine), build a prefix count once, and answer every query with one subtraction.",
+  "card": {
+    "signals": "many queries [from, to] on the same array, and each answer only depends on how many \"bad\" things are inside the range.",
+    "pattern": "a prefix count. Mark every adjacent pair as bad (same parity) or fine. pre[i] = bad pairs inside nums[0..i]. A range is special when it has 0 bad pairs: pre[to] − pre[from] = 0. O(n + q) time.",
+    "coreIdea": "pre[to] counts the bad pairs that end at index 1..to; pre[from] counts those that end at 1..from. Their difference counts the pairs that end in from + 1..to, which are exactly the pairs with both numbers inside nums[from..to].",
+    "variant": "inclusive prefix count over pairs (length n, pre[0] = 0 because index 0 starts no pair). Here pre[from] is subtracted, not pre[from − 1]: the pair (from − 1, from) sticks out of the range, so it must not be counted."
+  },
+  "invariant": "pre[i] = number of indexes k in 1..i with nums[k] and nums[k − 1] of the same parity.",
+  "phases": { "init": "start", "build": "check pair", "query": "query", "return": "done" },
+  "legend": [
+    { "swatch": "ptr-back", "text": "left: from of the query" },
+    { "swatch": "ptr-front", "text": "right: to of the query" },
+    { "swatch": "current", "text": "the cells read in this step" },
+    { "swatch": "new", "text": "pre slot just written" },
+    { "swatch": "band-window", "text": "the pair or the range being checked" },
+    { "swatch": "band-bad", "text": "a bad pair, or a range with a bad pair inside" }
+  ],
+  "accepted": []
+}

@@ -1,0 +1,25 @@
+{
+  "order": 1,
+  "name": "Running penalty (prefix count)",
+  "pattern": "Prefix sum",
+  "ds": ["String"],
+  "time": "O(n)",
+  "space": "O(1)",
+  "whenToUse": "The standard answer: two passes, no extra array. Moving the closing hour by one changes the penalty by exactly 1.",
+  "card": {
+    "signals": "the penalty for a split point j counts things before j ('N') and after j ('Y'): a prefix count plus a suffix count, for every j from 0 to n.",
+    "pattern": "a running prefix count. The first pass finds the penalty for j = 0 (the number of 'Y'). Then j moves right one hour at a time and the penalty changes by ±1. O(n) time.",
+    "coreIdea": "Closing at j + 1 instead of j makes hour j open. If customers[j] = 'Y', those customers are no longer missed: penalty − 1. If it is 'N', the shop is now open for nobody: penalty + 1. Keep the lowest penalty and the first hour that reached it.",
+    "variant": "prefix count kept in one variable. penalty(j) = ('N' in [0, j)) + ('Y' in [j, n)). Two prefix-count arrays of length n + 1 would give the same numbers, but each step only needs the previous penalty, so one variable is enough."
+  },
+  "invariant": "After hour j is processed, penalty = the penalty for closing at hour j + 1; best and best_hour are the lowest penalty and its earliest hour among 0..j + 1.",
+  "phases": { "init": "start", "count": "count 'Y'", "start": "close at 0", "move": "close 1 hour later", "update": "best ↓", "return": "done" },
+  "legend": [
+    { "swatch": "ptr-front", "text": "j: the hour that becomes open" },
+    { "swatch": "current", "text": "customers[j]" },
+    { "swatch": "conflict", "text": "+1: an hour that adds to the penalty" },
+    { "swatch": "band-window", "text": "open hours for the current closing hour" },
+    { "swatch": "band-best", "text": "open hours for best_hour" }
+  ],
+  "accepted": []
+}

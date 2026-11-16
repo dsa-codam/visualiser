@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "title": "Minimum Penalty for a Shop",
+  "source": { "site": "LeetCode", "id": "2483", "url": "https://leetcode.com/problems/minimum-penalty-for-a-shop/" },
+  "difficulty": "Medium",
+  "nMax": 100000,
+  "signature": {
+    "python": "bestClosingTime",
+    "cpp": "bestClosingTime",
+    "c": "bestClosingTime",
+    "params": [{ "name": "customers", "type": "string" }],
+    "returns": "int"
+  },
+  "constraints": [
+    {
+      "text": "1 ≤ customers.length ≤ 10⁵",
+      "meaning": "Up to 100,000 hours, never empty.",
+      "impact": "Brute force (count the penalty from scratch for every closing hour) is about 10¹⁰ iterations: far too slow. You need O(n)."
+    },
+    {
+      "text": "customers has only 'Y' and 'N'",
+      "meaning": "Each hour either has customers ('Y') or not ('N').",
+      "impact": "Each hour changes the penalty by exactly 1, so the penalty is a count and always fits in int."
+    },
+    {
+      "text": "closing hour j: 0 ≤ j ≤ n (statement)",
+      "meaning": "There are n + 1 choices: close before the first hour (j = 0) up to stay open all day (j = n).",
+      "impact": "The answer can be n, one past the last index. Return the earliest j with the minimum penalty, so update only on a strictly lower penalty."
+    }
+  ],
+  "bruteForce": {
+    "summary": "for every closing hour j from 0 to n, walk the whole string and count the penalty: 'N' before j (open, nobody comes) and 'Y' from j on (closed, customers come). That is n iterations for each of the n + 1 hours: O(n²) time."
+  },
+  "examples": [
+    { "id": "lc1", "label": "LC 1: \"YYNY\"", "kind": "main",
+      "args": { "customers": "YYNY" }, "expected": 2 },
+    { "id": "mixed", "label": "Mixed hours: \"NYYNYYNNY\"", "kind": "main",
+      "args": { "customers": "NYYNYYNNY" } },
+    { "id": "lc3", "label": "LC 3: \"YYYY\"", "kind": "main",
+      "args": { "customers": "YYYY" }, "expected": 4 },
+    { "id": "lc2", "label": "LC 2: \"NNNNN\"", "kind": "edge",
+      "args": { "customers": "NNNNN" }, "expected": 0 },
+    { "id": "tie", "label": "Tie, the earliest wins: \"YNYN\"", "kind": "edge",
+      "args": { "customers": "YNYN" } },
+    { "id": "single", "label": "One hour: \"Y\"", "kind": "edge",
+      "args": { "customers": "Y" } }
+  ]
+}

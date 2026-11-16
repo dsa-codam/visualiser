@@ -544,7 +544,7 @@
         <button id="vz-end" aria-keyshortcuts="End">End</button></div>
         <div class="vz-speedrow"><label>Speed <input id="vz-speed" type="range" min="1" max="10" value="5"></label>
         <span class="vz-counter" id="vz-counter"></span></div></div>`,
-      code: `<details class="panel" id="vz-code"><summary>Show code</summary><div class="vz-codebar"><div class="vz-tabs" id="vz-tabs" role="tablist" aria-label="Language"></div><button type="button" class="vz-copy" id="vz-copy" title="Copy this code without line numbers">Copy</button></div><div id="vz-code-body"></div></details>`,
+      code: `<details class="panel" id="vz-code"><summary>Show code<span class="vz-code-cx" id="vz-code-cx"></span></summary><div class="vz-codebar"><div class="vz-tabs" id="vz-tabs" role="tablist" aria-label="Language"></div><button type="button" class="vz-copy" id="vz-copy" title="Copy this code without line numbers">Copy</button></div><div id="vz-code-body"></div></details>`,
     };
     const body = `<div class="vz-stage"><div class="vz-col">${parts.canvas}${parts.code}</div>
            <div class="vz-col">${parts.aux}${parts.controls}${parts.caption}</div></div>`;
@@ -604,14 +604,18 @@
       const src = SRC.url ? `<a class="vz-btn" href="${esc(SRC.url)}" target="_blank" rel="noopener">Open on ${esc(SRC.site || "the source site")} ↗</a>` : "";
       // every link is a button (.vz-btn): navigation above the title; pattern / data-structure guides and
       // the Big-O calculator in the meta row. A chip without a guide stays a plain outlined chip.
-      $("vz-links").innerHTML = `${src}<a class="vz-btn" href="index.html">Main page</a>`;
+      $("vz-links").innerHTML = `<a class="vz-btn" href="index.html">Main page</a>${src}`;
       const linkBtn = (url, text, title) => `<a class="vz-btn" href="${esc(url)}" target="_blank" rel="noopener" title="${esc(title)}">${esc(text)} ↗</a>`;
       const dsUrl = S.dsGuides || {};
       $("vz-meta").innerHTML =
         (guideUrl ? linkBtn(guideUrl, A.pattern, "Pattern guide") : `<span class="badge">${esc(A.pattern)}</span>`) +
-        (A.ds || []).map((d) => (dsUrl[d] ? linkBtn(dsUrl[d], d, "Data structure guide") : `<span class="badge ds">${esc(d)}</span>`)).join("") +
-        (S.bigO ? linkBtn(S.bigO, "Big-O calc", "Big-O calculator") : "") +
-        `<span class="cx">${esc(A.time)} time · ${esc(A.space)} space</span>`;
+        (A.ds || []).map((d) => (dsUrl[d] ? linkBtn(dsUrl[d], d, "Data structure guide") : `<span class="badge ds">${esc(d)}</span>`)).join("");
+      // complexity sits with the code it describes (in the summary line, so it shows even when the code is closed)
+      // the complexity text itself links to the Big-O calculator
+      const cxText = `${esc(A.time)} time · ${esc(A.space)} space`;
+      $("vz-code-cx").innerHTML = S.bigO
+        ? `<a class="cx" href="${esc(S.bigO)}" target="_blank" rel="noopener" title="Big-O calculator">${cxText} ↗</a>`
+        : `<span class="cx">${cxText}</span>`;
       const C = A.card || {};
       const bf = P.bruteForce || {};
       $("vz-card-body").innerHTML =

@@ -7,7 +7,7 @@
 |---|---|---|---|
 | 0 | Navigation buttons above the title: Open on <site> ↗, Main page (index.html) | always | problem.source |
 | 1 | Header: "LC N · Title", difficulty | always | problem.source |
-| 2 | Meta: pattern as a button to its guide (site.json patternGuides[pattern], else notionPatterns); data structures as buttons to site.json dsGuides[name], or outlined chips when there is no guide; "Big-O calc ↗" button; time · space text. Every link is a .vz-btn | always (changes with the tab) | approach, site.json |
+| 2 | Meta: pattern as a button to its guide (site.json patternGuides[pattern], else notionPatterns); data structures as buttons to site.json dsGuides[name], or outlined chips when there is no guide. Every link here is a .vz-btn. The complexity is not in this row (see Show code) | always (changes with the tab) | approach, site.json |
 | 3 | Approach tabs | only with 2+ approaches | approaches |
 | 4 | Compare approaches (collapsed table) | only with 2+ approaches | approach.time/space/whenToUse |
 | 5 | Constraints — what they tell you (collapsed): table + one rule-of-thumb line for this problem's n only ("Here n ≤ …, so up to O(…) is fast enough"), with a link to complexity.html (the full table) | always | problem.constraints, problem.nMax |
@@ -17,7 +17,7 @@
 | 9 | Side panels: Variables (always) + extra panels from canvas.js | always | step.vars |
 | 10 | Caption: phase tag, caption, invariant | always | step |
 | 11 | Controls, row 1: Start, ‹ (Previous step), ▶ / ⏸ (Play / Pause, the main button: filled with --ink, icon in --panel, so it needs no new colour), › (Next step), End. The three icon buttons have aria-label (Play / Pause switches with the state) and one fixed width, so nothing moves when Play changes to Pause; ▶ and ⏸ carry U+FE0E so they render as text, not colour emoji. Row 2: speed, "Step n / N". Same layout at every width. Keys ← → Space Home End (plain keys only: combinations with Cmd, Ctrl or Alt are ignored); each button carries its key in aria-keyshortcuts. Not shown on the page on purpose. Do not add a keyboard hint back. No title attributes on the control buttons. Start and ‹ are disabled on the first step, › and End on the last | always | — |
-| 12 | Code drawer (collapsed "Show code"): tabs Python3 · C++17 · C, ✓ if accepted, current line(s) highlighted via anchors (one step can highlight a group of lines, ADR 029; the box scrolls to the first one), "Copy" button (copies the open tab's code without line numbers), "No C version: …" note. Line numbers are drawn by CSS (`.ln::before { content: attr(data-n) }`), so selecting and copying never includes them | always | approach.code |
+| 12 | Code drawer (collapsed "Show code"; the summary line also shows "time · space" in monospace, and that text links to the Big-O calculator, so it is visible while the code is closed): tabs Python3 · C++17 · C, ✓ if accepted, current line(s) highlighted via anchors (one step can highlight a group of lines, ADR 029; the box scrolls to the first one), "Copy" button (copies the open tab's code without line numbers), "No C version: …" note. Line numbers are drawn by CSS (`.ln::before { content: attr(data-n) }`), so selecting and copying never includes them | always | approach.code |
 
 Not on problem pages: no footer (the LeetCode profile link is on the main page only), and no legend for now (ADR 023). approach.json still carries "legend" for every approach, so it can come back without rework.
 

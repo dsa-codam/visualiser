@@ -23,13 +23,16 @@ code, pre, .mono { font-family: var(--font-mono); }
 .pill.easy { color: var(--role-best); border-color: var(--role-best); }
 .pill.medium { color: var(--role-front); border-color: var(--role-front); }
 .pill.hard { color: var(--role-conflict); border-color: var(--role-conflict); }
-.cx { color: var(--ink); font-size: 14px; font-weight: 500; }
+.cx { color: var(--ink); font-family: var(--font-mono); font-size: var(--fs-small); font-weight: 500; }
+a.cx { text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+a.cx:hover { text-decoration-color: currentColor; }
 .ext { font-size: var(--fs-small); white-space: nowrap; }
 
 /* ---------- panels ---------- */
 .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-panel); padding: 14px 16px; }
 details.panel { margin-top: var(--gap); }
 summary { cursor: pointer; font-weight: 600; }
+.vz-code-cx { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-left: 14px; font-weight: 400; vertical-align: middle; }
 details ul { margin: 8px 0 0; padding-left: 20px; }
 details li { margin: 3px 0; }
 details details { margin-top: 10px; }

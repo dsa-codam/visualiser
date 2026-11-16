@@ -1,0 +1,27 @@
+{
+  "order": 1,
+  "name": "Sort + prefix array + binary search",
+  "pattern": "Prefix sum",
+  "ds": ["Array"],
+  "time": "O(n log n + m log n)",
+  "space": "O(n)",
+  "whenToUse": "Many limits (queries) against the same numbers. Sort and build pre once; then each query is a binary search instead of a walk over nums.",
+  "card": {
+    "signals": "\"maximum size of a subsequence\" with \"sum ≤ limit\": take the smallest numbers. Many queries on the same nums: build something once and reuse it.",
+    "pattern": "sort, then a prefix array: pre[c] = sum of the c smallest numbers. pre only grows (all numbers are positive), so for each query a binary search finds the largest c with pre[c] ≤ query.",
+    "coreIdea": "After sorting, the best subsequence of size c is the c smallest numbers, with sum pre[c]. So the answer is the largest c with pre[c] ≤ queries[j]. Binary search keeps lo..hi as the counts still possible and count as the largest one that fits.",
+    "variant": "prefix sum with a sentinel (pre[0] = 0, length n + 1), so pre[c] is the sum of exactly c numbers and the answer can be 0. Combined with binary search on the prefix array."
+  },
+  "invariant": "Inside a query: every count < lo fits (count is the largest checked one), every count > hi does not fit.",
+  "phases": { "sort": "sort", "build": "build pre", "query": "new query", "fit": "fits → more", "nofit": "too much → fewer", "store": "answer[j]", "return": "done" },
+  "legend": [
+    { "swatch": "ptr-back", "text": "lo: smallest count still possible" },
+    { "swatch": "ptr-mid", "text": "mid: the count checked now" },
+    { "swatch": "ptr-front", "text": "hi: largest count still possible" },
+    { "swatch": "current", "text": "pre[mid] fits" },
+    { "swatch": "conflict", "text": "pre[mid] is over the limit" },
+    { "swatch": "band-window", "text": "lo..hi: counts still possible" },
+    { "swatch": "best", "text": "pre[count]: the answer for this query" }
+  ],
+  "accepted": []
+}

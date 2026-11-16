@@ -14,8 +14,8 @@ schemaVersion: 1. All files are plain JSON (no comments, no trailing commas). Th
   "nMax": 10000,                         // largest n from the constraints; highlights the rule-of-thumb row
   "signature": {
     "python": "moveZeroes", "cpp": "moveZeroes", "c": "moveZeroes",
-    "params": [{ "name": "nums", "type": "int[]" }],   // int | long | int[] | long[] | string | char[]
-    "returns": "void",                                  // void | int | long | bool | int[] | double (within 10⁻⁵, ADR 027)
+    "params": [{ "name": "nums", "type": "int[]" }],   // int | long | int[] | long[] | int[][] | string | char[]
+    "returns": "void",                                  // void | int | long | bool | int[] | bool[] | double (within 10⁻⁵, ADR 027)
     "inPlace": "nums",                                  // required when returns = void
     "judge": "sortedPrefix"                             // optional (ADR 025): returns int k; the answer is
                                                         // sorted(inPlace[:k]), like LeetCode's custom judge
@@ -32,6 +32,7 @@ schemaVersion: 1. All files are plain JSON (no comments, no trailing commas). Th
 ```
 - `examples` are tested AND animated. `expected` only when it comes from the statement.
 - `kind`: `main` or `edge`. Size limits: SKILL.md, workflow A step 4.
+- int[][] is passed to C the LeetCode way: `int** name, int nameSize, int* nameColSize` (C++: `vector<vector<int>>&`). bool[] is returned in C as `bool*` with `int* returnSize` (C++: `vector<bool>`).
 - More param or return types: extend `make_driver()` in build.py first.
 
 ## problems/<…>/brute.py

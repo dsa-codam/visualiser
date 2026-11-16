@@ -16,6 +16,8 @@
   --code-bg: #f1f1ee;
   --code-hl: #fff2b8;
   --badge-ink: #ffffff;
+  --btn: #3d4350;            /* link buttons: dark slate, softer than --ink (about 9:1 on --bg) */
+  --btn-ink: #ffffff;
 
   /* ---- roles: pointers ---- */
   --role-back: #2563eb;      /* left, slow, lo — the pointer that trails */
@@ -77,7 +79,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #141416; --panel: #1d1d20; --ink: #ececef; --muted: #9c9ca4; --line: #34343a;
-    --code-bg: #18181b; --code-hl: #4a3f12; --badge-ink: #0b1220;
+    --code-bg: #18181b; --code-hl: #4a3f12; --badge-ink: #0b1220; --btn: #c5c9d1; --btn-ink: #141416;
     --role-back: #60a5fa; --role-front: #fb923c; --role-mid: #e879f9;
     --role-current: #facc15; --current-ink: #2a2100;
     --role-swap: #a78bfa;
@@ -94,7 +96,7 @@
 
 :root[data-theme="dark"] {
   --bg: #141416; --panel: #1d1d20; --ink: #ececef; --muted: #9c9ca4; --line: #34343a;
-  --code-bg: #18181b; --code-hl: #4a3f12; --badge-ink: #0b1220;
+  --code-bg: #18181b; --code-hl: #4a3f12; --badge-ink: #0b1220; --btn: #c5c9d1; --btn-ink: #141416;
   --role-back: #60a5fa; --role-front: #fb923c; --role-mid: #e879f9;
   --role-current: #facc15; --current-ink: #2a2100;
   --role-swap: #a78bfa;

@@ -27,7 +27,7 @@ One colour = one meaning, on every page. A colour is never reused for something 
 | --band-best | Answer range | placed zone, best window |
 | --band-gap | Waiting range | a range that only holds "empty" values |
 
-Surface tokens: --bg (page), --panel (cards), --ink (text), --muted (secondary text), --line (borders), --code-bg, --code-hl (highlighted code line), --badge-ink (text on a filled badge).
+Surface tokens: --bg (page), --panel (cards), --ink (text), --muted (secondary text), --line (borders), --code-bg, --code-hl (highlighted code line), --badge-ink (text on a filled badge), --btn / --btn-ink (link buttons: dark slate, softer than --ink, about 9:1 on --bg; light grey with dark text in dark mode).
 
 ## 2. Never colour alone
 Every meaning also has a non-colour signal:

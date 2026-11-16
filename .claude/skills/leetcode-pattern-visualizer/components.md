@@ -5,9 +5,9 @@
 ## Page order
 | # | Block | Shown | Data |
 |---|---|---|---|
-| 0 | Links as buttons, own row above the title: Open on <site> ↗, Pattern guide ↗ (site.json patternGuides[pattern], else notionPatterns), Big-O ↗, Main page (index.html) | always (Pattern guide changes with the tab) | problem.source, approach.pattern, site.json |
+| 0 | Navigation buttons above the title: Open on <site> ↗, Main page (index.html) | always | problem.source |
 | 1 | Header: "LC N · Title", difficulty | always | problem.source |
-| 2 | Meta: pattern badge, data-structure badges, time · space | always (changes with the tab) | approach |
+| 2 | Meta: pattern as a button to its guide (site.json patternGuides[pattern], else notionPatterns); data structures as buttons to site.json dsGuides[name], or outlined chips when there is no guide; "Big-O calc ↗" button; time · space text. Every link is a .vz-btn | always (changes with the tab) | approach, site.json |
 | 3 | Approach tabs | only with 2+ approaches | approaches |
 | 4 | Compare approaches (collapsed table) | only with 2+ approaches | approach.time/space/whenToUse |
 | 5 | Constraints — what they tell you (collapsed): table + one rule-of-thumb line for this problem's n only ("Here n ≤ …, so up to O(…) is fast enough"), with a link to complexity.html (the full table) | always | problem.constraints, problem.nMax |

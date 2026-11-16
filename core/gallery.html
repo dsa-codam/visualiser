@@ -22,13 +22,13 @@
   </div>
 
   <section class="gl-section"><h2>Problem page header</h2>
-    <p>A row of link buttons (Main page last), the title row and the meta row. The meta row and the Pattern guide link change with the approach tab. "Pattern guide" links to site.json patternGuides[pattern], or the general Notion page when none is set. Problem pages have no footer.</p>
+    <p>Navigation buttons (Open on LeetCode, Main page), the title row and the meta row. Every link is a button (.vz-btn): the pattern and data-structure chips link to their guides when site.json has one; a data structure without a guide stays an outlined chip. The Big-O calculator button sits before the complexity text. The meta row and the Pattern guide link change with the approach tab. "Pattern guide" links to site.json patternGuides[pattern], or the general Notion page when none is set. Problem pages have no footer.</p>
     <div class="panel">
-      <nav class="vz-links"><a class="ext" href="#">Open on LeetCode ↗</a><a class="ext" href="#">Pattern guide ↗</a><a class="ext" href="#">Big-O ↗</a><a href="#">Main page</a></nav>
+      <nav class="vz-links"><a class="vz-btn" href="#">Open on LeetCode ↗</a><a class="vz-btn" href="#">Main page</a></nav>
       <header class="vz-header"><h1>LC 2958 · Length of Longest Subarray With at Most K Frequency</h1>
         <span class="pill medium">Medium</span></header>
-      <div class="vz-meta"><span class="badge">Sliding window</span><span class="badge ds">Hash map</span>
-        <span class="cx">O(n) time · O(n) space</span></div>
+      <div class="vz-meta"><a class="vz-btn" href="#">Sliding window ↗</a><span class="badge ds">Hash map</span>
+        <a class="vz-btn" href="#">Big-O calc ↗</a><span class="cx">O(n) time · O(n) space</span></div>
     </div></section>
 
   <section class="gl-section"><h2>Colour roles</h2>

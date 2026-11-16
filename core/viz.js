@@ -600,15 +600,17 @@
       const A = approaches[i];
       if (push !== false && approaches.length > 1) history.replaceState(null, "", "#" + A.id);
       document.querySelectorAll("#vz-approaches [data-a]").forEach((b) => b.setAttribute("aria-selected", +b.dataset.a === i));
-      const bigO = S.bigO ? ` <a class="ext" href="${esc(S.bigO)}" target="_blank" rel="noopener">Big-O ↗</a>` : "";
       const guideUrl = (S.patternGuides || {})[A.pattern] || S.notionPatterns;
-      const guide = guideUrl ? ` <a class="ext" href="${esc(guideUrl)}" target="_blank" rel="noopener">Pattern guide ↗</a>` : "";
-      const src = SRC.url ? `<a class="ext" href="${esc(SRC.url)}" target="_blank" rel="noopener">Open on ${esc(SRC.site || "the source site")} ↗</a>` : "";
-      // all links as buttons in their own row above the title (main page last)
-      $("vz-links").innerHTML = `${src}${guide}${bigO}<a href="index.html">Main page</a>`;
+      const src = SRC.url ? `<a class="vz-btn" href="${esc(SRC.url)}" target="_blank" rel="noopener">Open on ${esc(SRC.site || "the source site")} ↗</a>` : "";
+      // every link is a button (.vz-btn): navigation above the title; pattern / data-structure guides and
+      // the Big-O calculator in the meta row. A chip without a guide stays a plain outlined chip.
+      $("vz-links").innerHTML = `${src}<a class="vz-btn" href="index.html">Main page</a>`;
+      const linkBtn = (url, text, title) => `<a class="vz-btn" href="${esc(url)}" target="_blank" rel="noopener" title="${esc(title)}">${esc(text)} ↗</a>`;
+      const dsUrl = S.dsGuides || {};
       $("vz-meta").innerHTML =
-        `<span class="badge">${esc(A.pattern)}</span>` +
-        (A.ds || []).map((d) => `<span class="badge ds">${esc(d)}</span>`).join("") +
+        (guideUrl ? linkBtn(guideUrl, A.pattern, "Pattern guide") : `<span class="badge">${esc(A.pattern)}</span>`) +
+        (A.ds || []).map((d) => (dsUrl[d] ? linkBtn(dsUrl[d], d, "Data structure guide") : `<span class="badge ds">${esc(d)}</span>`)).join("") +
+        (S.bigO ? linkBtn(S.bigO, "Big-O calc", "Big-O calculator") : "") +
         `<span class="cx">${esc(A.time)} time · ${esc(A.space)} space</span>`;
       const C = A.card || {};
       const bf = P.bruteForce || {};

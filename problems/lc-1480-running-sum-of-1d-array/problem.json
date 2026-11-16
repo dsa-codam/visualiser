@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "title": "Running Sum of 1d Array",
+  "source": { "site": "LeetCode", "id": "1480", "url": "https://leetcode.com/problems/running-sum-of-1d-array/" },
+  "difficulty": "Easy",
+  "nMax": 1000,
+  "signature": {
+    "python": "runningSum",
+    "cpp": "runningSum",
+    "c": "runningSum",
+    "params": [{ "name": "nums", "type": "int[]" }],
+    "returns": "int[]"
+  },
+  "constraints": [
+    {
+      "text": "1 ≤ nums.length ≤ 1000",
+      "meaning": "At least one number, at most 1,000.",
+      "impact": "Even the O(n²) brute force (about 500,000 iterations) is fast enough here. Interviewers still expect the O(n) pass, because the same idea is needed for bigger inputs and for range-sum questions."
+    },
+    {
+      "text": "−10⁶ ≤ nums[i] ≤ 10⁶",
+      "meaning": "Values can be negative, zero or positive.",
+      "impact": "A running sum is at most 1000 · 10⁶ = 10⁹ in absolute value. That is less than 2³¹ − 1 ≈ 2.1 · 10⁹, so int is enough. Negative values make the sum go down, so the result is not always increasing."
+    },
+    {
+      "text": "runningSum[i] = sum(nums[0]…nums[i]) (statement)",
+      "meaning": "Each answer is the sum of all numbers up to and including index i.",
+      "impact": "runningSum[i] = runningSum[i − 1] + nums[i]: every answer reuses the one before it. This is the prefix-sum pattern."
+    }
+  ],
+  "bruteForce": {
+    "summary": "for every index i, add nums[0] to nums[i] again from the start. The outer loop runs n times and the inner loop 1 + 2 + … + n times: O(n²) time. It never reuses the sum it already has."
+  },
+  "examples": [
+    { "id": "lc1", "label": "LeetCode Example 1: [1,2,3,4]", "kind": "main",
+      "args": { "nums": [1, 2, 3, 4] }, "expected": [1, 3, 6, 10] },
+    { "id": "lc2", "label": "LeetCode Example 2: [1,1,1,1,1]", "kind": "main",
+      "args": { "nums": [1, 1, 1, 1, 1] }, "expected": [1, 2, 3, 4, 5] },
+    { "id": "lc3", "label": "LeetCode Example 3: [3,1,2,10,1]", "kind": "main",
+      "args": { "nums": [3, 1, 2, 10, 1] }, "expected": [3, 4, 6, 16, 17] },
+    { "id": "negatives", "label": "Negative values: [5,-2,-4,3,-1]", "kind": "main",
+      "args": { "nums": [5, -2, -4, 3, -1] } },
+    { "id": "single", "label": "One number: [7]", "kind": "edge",
+      "args": { "nums": [7] } },
+    { "id": "zeros", "label": "All zeros: [0,0,0]", "kind": "edge",
+      "args": { "nums": [0, 0, 0] } },
+    { "id": "all-negative", "label": "All negative: [-3,-3,-3]", "kind": "edge",
+      "args": { "nums": [-3, -3, -3] } }
+  ]
+}

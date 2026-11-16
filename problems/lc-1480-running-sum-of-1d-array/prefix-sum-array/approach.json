@@ -1,0 +1,26 @@
+{
+  "order": 1,
+  "name": "Prefix sum (new result array)",
+  "pattern": "Prefix sum",
+  "ds": ["Array"],
+  "time": "O(n)",
+  "space": "O(n) for the result, O(1) extra",
+  "whenToUse": "The standard answer, and the base of the prefix-sum pattern: the same result array later answers \"sum of nums[l..r]\" questions with one subtraction. nums stays as it is.",
+  "card": {
+    "signals": "\"running sum\" and runningSum[i] = sum(nums[0]…nums[i]): every answer is the answer before it plus one new number.",
+    "pattern": "a prefix-sum array. One index i walks nums once from left to right and fills result[i] from result[i − 1]. O(n) time.",
+    "coreIdea": "result[0] = nums[0]. For every next i: result[i] = result[i − 1] + nums[i]. result[i − 1] already holds the sum of nums[0..i − 1], so adding nums[i] once gives the sum of nums[0..i].",
+    "variant": "inclusive prefix sum. result[i] includes nums[i] itself, so result has the same length as nums. There is no leading 0 (sentinel): that version, with length n + 1, is for range sums like sum(l, r) = pre[r + 1] − pre[l]. This problem has no ranges, so the plain inclusive array is the answer itself."
+  },
+  "invariant": "For every written slot j ≤ i: result[j] = nums[0] + nums[1] + … + nums[j].",
+  "phases": { "init": "start", "first": "first sum", "add": "add nums[i]", "return": "done" },
+  "legend": [
+    { "swatch": "ptr-front", "text": "i: the index being filled" },
+    { "swatch": "current", "text": "nums[i]: the new number" },
+    { "swatch": "new", "text": "result[i]: the sum just written" },
+    { "swatch": "zero", "text": "slot of result not written yet (dashed)" },
+    { "swatch": "band-window", "text": "result[i − 1] and result[i]: the two slots in the formula" },
+    { "swatch": "best", "text": "the finished result" }
+  ],
+  "accepted": ["python", "cpp", "c"]
+}

@@ -1,0 +1,24 @@
+{
+  "order": 1,
+  "name": "Total + running left sum",
+  "pattern": "Prefix sum",
+  "ds": ["Array"],
+  "time": "O(n)",
+  "space": "O(1)",
+  "whenToUse": "The standard answer: two passes, no extra array. The right sum comes from total − left − nums[i].",
+  "card": {
+    "signals": "\"sum of all the numbers strictly to the left\" and \"strictly to the right\" of an index: sums of a prefix and of a suffix.",
+    "pattern": "a prefix sum kept in one variable. The first pass finds total. In the second pass left is the sum of nums[0..i − 1], and right is found from total. O(n) time.",
+    "coreIdea": "The array splits into three parts: left side, nums[i], right side. So right = total − left − nums[i]. After checking i, nums[i] joins the left side: left += nums[i].",
+    "variant": "exclusive prefix sum. left does not include nums[i] (\"strictly to the left\"), so it starts at 0 and nums[i] is added only after the check. The first version of left = 0 also covers index 0 with no special case."
+  },
+  "invariant": "At index i: left = nums[0] + … + nums[i − 1], and right = nums[i + 1] + … + nums[n − 1].",
+  "phases": { "init": "start", "total": "total", "left0": "left = 0", "check": "check i", "found": "pivot", "move": "left += nums[i]", "return": "done" },
+  "legend": [
+    { "swatch": "ptr-front", "text": "i: the index being checked" },
+    { "swatch": "current", "text": "nums[i]: on neither side" },
+    { "swatch": "band-window", "text": "the left side, nums[0..i − 1]" },
+    { "swatch": "best", "text": "the pivot" }
+  ],
+  "accepted": []
+}

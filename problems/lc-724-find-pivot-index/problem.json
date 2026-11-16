@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "title": "Find Pivot Index",
+  "source": { "site": "LeetCode", "id": "724", "url": "https://leetcode.com/problems/find-pivot-index/" },
+  "difficulty": "Easy",
+  "nMax": 10000,
+  "signature": {
+    "python": "pivotIndex",
+    "cpp": "pivotIndex",
+    "c": "pivotIndex",
+    "params": [{ "name": "nums", "type": "int[]" }],
+    "returns": "int"
+  },
+  "constraints": [
+    {
+      "text": "1 ≤ nums.length ≤ 10⁴",
+      "meaning": "At least one number, at most 10,000.",
+      "impact": "O(n²) brute force is about 10⁸ iterations: slow and risky. Two passes, O(n), are expected."
+    },
+    {
+      "text": "−1000 ≤ nums[i] ≤ 1000",
+      "meaning": "Values can be negative, zero or positive.",
+      "impact": "Any sum is at most 10⁴ · 1000 = 10⁷ in absolute value, so int is enough. Because of negative values, left and right are not always growing: check every index, do not stop early."
+    },
+    {
+      "text": "edges: the missing side has sum 0 (statement)",
+      "meaning": "At index 0 the left sum is 0; at the last index the right sum is 0.",
+      "impact": "Start with left = 0. The formula right = total − left − nums[i] gives 0 at the last index by itself, so no special case is needed."
+    }
+  ],
+  "bruteForce": {
+    "summary": "for every index i, add up the numbers to its left and then the numbers to its right, and compare. That is n iterations for each i: O(n²) time. It adds the same numbers again for every i."
+  },
+  "examples": [
+    { "id": "lc1", "label": "LC 1: [1,7,3,6,5,6]", "kind": "main",
+      "args": { "nums": [1, 7, 3, 6, 5, 6] }, "expected": 3 },
+    { "id": "lc3", "label": "LC 3: [2,1,-1]", "kind": "main",
+      "args": { "nums": [2, 1, -1] }, "expected": 0 },
+    { "id": "last", "label": "Pivot at the end: [-1,1,5]", "kind": "main",
+      "args": { "nums": [-1, 1, 5] } },
+    { "id": "lc2", "label": "LC 2: [1,2,3]", "kind": "edge",
+      "args": { "nums": [1, 2, 3] }, "expected": -1 },
+    { "id": "single", "label": "One number: [7]", "kind": "edge",
+      "args": { "nums": [7] } },
+    { "id": "zeros", "label": "All zeros: [0,0,0]", "kind": "edge",
+      "args": { "nums": [0, 0, 0] } }
+  ]
+}

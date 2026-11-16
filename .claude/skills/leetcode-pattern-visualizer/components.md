@@ -10,7 +10,7 @@
 | 2 | Meta: pattern badge, data-structure badges, time · space | always (changes with the tab) | approach |
 | 3 | Approach tabs | only with 2+ approaches | approaches |
 | 4 | Compare approaches (collapsed table) | only with 2+ approaches | approach.time/space/whenToUse |
-| 5 | Constraints — what they tell you (collapsed): table + "n → fast enough" rule of thumb with the matching row highlighted | always | problem.constraints, problem.nMax |
+| 5 | Constraints — what they tell you (collapsed): table + one rule-of-thumb line for this problem's n only ("Here n ≤ …, so up to O(…) is fast enough"), with a link to complexity.html (the full table) | always | problem.constraints, problem.nMax |
 | 6 | Why this pattern? (collapsed): signals, brute force, pattern, core idea, variant (optional), ops counter "on this input", brute-force code (collapsed) | always | approach.card, problem.bruteForce, example.ops |
 | 7 | Examples / Edge cases buttons | always | problem.examples (kind main / edge) |
 | 8 | Canvas | always | canvas.js |

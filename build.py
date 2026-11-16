@@ -704,6 +704,7 @@ def emit(pages, site):
     analytics = analytics_tag(site)
     write(os.path.join(DOCS, "index.html"), read(os.path.join(CORE, "index.html")).replace("</body>", analytics + "</body>"))
     copy_to_docs(os.path.join(CORE, "gallery.html"), "gallery.html")  # no analytics on the gallery
+    copy_to_docs(os.path.join(CORE, "complexity.html"), "complexity.html")
     catalogue = []
     for name, page in pages:
         tags = []
@@ -770,7 +771,7 @@ def smoke(pages):
         return
     from playwright.sync_api import sync_playwright
     exe = os.environ.get("VIZ_CHROMIUM") or (("/opt/pw-browsers/chromium") if os.path.exists("/opt/pw-browsers/chromium") else None)
-    targets = [n + ".html" for n, _ in pages] + ["index.html", "gallery.html"]
+    targets = [n + ".html" for n, _ in pages] + ["index.html", "gallery.html", "complexity.html"]
     with sync_playwright() as pw:
         try:
             browser = pw.chromium.launch(executable_path=exe) if exe else pw.chromium.launch()
@@ -787,7 +788,7 @@ def smoke(pages):
                 page.on("console", lambda m: errors.append(m.text) if m.type == "error" else None)
                 page.goto("file://" + os.path.join(DOCS, t.split("?")[0]) + ("?" + t.split("?")[1] if "?" in t else ""))
                 page.wait_for_timeout(150)
-                if t not in ("index.html", "gallery.html"):
+                if t not in ("index.html", "gallery.html", "complexity.html"):
                     r = page.evaluate(SMOKE_JS)
                     if r.get("error"):
                         errors.append(r["error"])

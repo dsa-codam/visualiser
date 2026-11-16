@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Input size and complexity</title>
+<meta name="description" content="Which time complexity is fast enough for a given input size.">
+<link rel="stylesheet" href="core/tokens.css">
+<link rel="stylesheet" href="core/viz.css">
+</head>
+<body>
+<!-- Source: core/complexity.html (copied by build.py). The table is drawn by core/viz.js, the same data the problem pages use. -->
+<div class="wrap">
+  <a class="vz-back" href="index.html">← Main page</a>
+  <header class="vz-header"><h1>Input size and complexity</h1></header>
+  <p class="vz-sub"><b>Rule of thumb:</b> about 10⁸ simple operations run in one second. Find the row for the largest n in the constraints to see which time complexity is still fast enough.</p>
+  <div class="panel" id="sheet"></div>
+</div>
+<script src="core/viz.js"></script>
+<script>document.getElementById("sheet").innerHTML = VIZ.cheatsheetTable(-1);</script>
+</body>
+</html>

@@ -507,6 +507,16 @@
     return n.toLocaleString("en-GB");
   }
 
+  // The full table lives on its own page (complexity.html); a problem page shows only its own row.
+  VIZ.cheatsheetTable = function (hit) {
+    const rows = CHEATSHEET.map((r, i) => {
+      const prev = i === 0 ? null : CHEATSHEET[i - 1].max;
+      const range = prev === null ? `n ≤ ${fmtN(r.max)}` : r.max === Infinity ? `n > ${fmtN(prev)}` : `n ≤ ${fmtN(r.max)}`;
+      return `<tr class="${i === hit ? "hit" : ""}"><td class="mono">${range}</td><td class="mono">${r.fits}</td><td>${r.ex}</td></tr>`;
+    }).join("");
+    return `<div class="vz-table-wrap"><table class="vz-table"><thead><tr><th>n</th><th>Fast enough</th><th>Typical approach</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  };
+
   VIZ.mount = function (PAGE, root) {
     root = root || document.getElementById("app");
     const P = PAGE.problem, S = PAGE.site || {};
@@ -556,18 +566,12 @@
       const rows = (P.constraints || [])
         .map((c) => `<tr><td class="mono">${esc(c.text)}</td><td>${esc(c.meaning)}</td><td>${esc(c.impact)}</td></tr>`)
         .join("");
-      let hit = -1;
-      if (P.nMax) hit = CHEATSHEET.findIndex((r) => P.nMax <= r.max);
-      const sheet = CHEATSHEET.map((r, i) => {
-        const prev = i === 0 ? null : CHEATSHEET[i - 1].max;
-        const range = prev === null ? `n ≤ ${fmtN(r.max)}` : r.max === Infinity ? `n > ${fmtN(prev)}` : `n ≤ ${fmtN(r.max)}`;
-        return `<tr class="${i === hit ? "hit" : ""}"><td class="mono">${range}</td><td class="mono">${r.fits}</td><td>${r.ex}</td></tr>`;
-      }).join("");
+      const r = P.nMax ? CHEATSHEET.find((x) => P.nMax <= x.max) : null;
       $("vz-constraints-body").innerHTML =
         `<div class="vz-table-wrap"><table class="vz-table"><thead><tr><th>Constraint</th><th>What it means</th><th>What it changes</th></tr></thead><tbody>${rows}</tbody></table></div>` +
-        `<p class="vz-sub"><b>Rule of thumb:</b> about 10⁸ simple operations run in one second. Find the row for n to see which complexity is fast enough.` +
-        (hit >= 0 ? ` Here n can be up to ${fmtN(P.nMax)}.` : "") + `</p>` +
-        `<div class="vz-table-wrap"><table class="vz-table"><thead><tr><th>n</th><th>Fast enough</th><th>Typical approach</th></tr></thead><tbody>${sheet}</tbody></table></div>`;
+        `<p class="vz-sub"><b>Rule of thumb:</b> about 10⁸ simple operations run in one second.` +
+        (r ? ` Here n ≤ ${fmtN(P.nMax)}, so up to ${r.fits} is fast enough (${r.ex}).` : "") +
+        ` <a href="complexity.html">Table for all input sizes</a></p>`;
     })();
 
     // ---------- approach tabs ----------

@@ -17,7 +17,7 @@
     {
       "text": "0 ≤ nums.length ≤ 100",
       "meaning": "The array can be empty and has at most 100 elements.",
-      "impact": "Even O(n²) is only 10⁴ steps, so brute force passes. One pass, O(n), is still the clean answer. The code must return 0 for an empty array."
+      "impact": "Even O(n²) is only 10⁴ iterations, so brute force passes. One pass, O(n), is still the clean answer. The code must return 0 for an empty array."
     },
     {
       "text": "0 ≤ nums[i] ≤ 50",

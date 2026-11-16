@@ -16,7 +16,7 @@
     {
       "text": "1 ≤ s.length ≤ 10⁵",
       "meaning": "At least one character, at most 100,000.",
-      "impact": "O(n²) is about 10¹⁰ steps: far too slow. One pass, O(n), is the target. With one character there is nothing to swap."
+      "impact": "O(n²) is about 10¹⁰ iterations: far too slow. One pass, O(n), is the target. With one character there is nothing to swap."
     },
     {
       "text": "s[i] is a printable ASCII character",

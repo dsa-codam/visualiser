@@ -15,7 +15,7 @@
     {
       "text": "1 ≤ s.length ≤ 2 × 10⁵",
       "meaning": "The string is never empty and has at most 200,000 characters.",
-      "impact": "O(n²) is about 4 × 10¹⁰ steps: far too slow. One pass, O(n), is the target. s can still have no letters or digits at all, like \" \"."
+      "impact": "O(n²) is about 4 × 10¹⁰ iterations: far too slow. One pass, O(n), is the target. s can still have no letters or digits at all, like \" \"."
     },
     {
       "text": "s consists only of printable ASCII characters",

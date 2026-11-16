@@ -15,7 +15,7 @@
     {
       "text": "1 ≤ nums.length ≤ 10⁵",
       "meaning": "Up to 100,000 elements, never empty.",
-      "impact": "O(n²) is about 10¹⁰ steps: far too slow. Sorting, O(n log n), plus one O(n) pass is fine. The answer is always at least 1."
+      "impact": "O(n²) is about 10¹⁰ iterations: far too slow. Sorting, O(n log n), plus one O(n) pass is fine. The answer is always at least 1."
     },
     {
       "text": "1 ≤ nums[i] ≤ 10⁵",

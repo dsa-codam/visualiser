@@ -15,7 +15,7 @@
     {
       "text": "1 ≤ s.length ≤ 10⁵",
       "meaning": "Up to 100,000 characters. s is never empty.",
-      "impact": "O(n²) is about 10¹⁰ steps: far too slow. You need O(n). The answer is at least 1."
+      "impact": "O(n²) is about 10¹⁰ iterations: far too slow. You need O(n). Because s is never empty, the answer is at least 1: one letter on its own is always a valid window."
     },
     {
       "text": "s consists of only uppercase English letters",

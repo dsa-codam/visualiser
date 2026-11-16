@@ -15,7 +15,7 @@
     {
       "text": "n == blocks.length, 1 ≤ n ≤ 100",
       "meaning": "At most 100 blocks, never empty.",
-      "impact": "Even O(n·k) brute force is only about 10⁴ steps, so it would pass. The sliding window is O(n) and is the pattern this problem teaches."
+      "impact": "Even O(n·k) brute force is only about 10⁴ iterations, so it would pass. The sliding window is O(n) and is the pattern this problem teaches."
     },
     {
       "text": "blocks[i] is either 'W' or 'B'",

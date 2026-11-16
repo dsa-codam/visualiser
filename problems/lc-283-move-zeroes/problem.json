@@ -16,7 +16,7 @@
     {
       "text": "1 ≤ nums.length ≤ 10⁴",
       "meaning": "The array is never empty and has at most 10,000 elements.",
-      "impact": "O(n²) is about 10⁸ steps: slow and risky. One pass, O(n), is the safe target. No empty-array check is needed, but the code still works for n = 0."
+      "impact": "O(n²) is about 10⁸ iterations: slow and risky. One pass, O(n), is the safe target. No empty-array check is needed, but the code still works for n = 0."
     },
     {
       "text": "−2³¹ ≤ nums[i] ≤ 2³¹ − 1",

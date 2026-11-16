@@ -15,7 +15,7 @@
     {
       "text": "0 ≤ s.length ≤ 10⁵",
       "meaning": "Up to 100,000 characters. s can be empty.",
-      "impact": "O(n²) is about 10¹⁰ steps: far too slow. You need O(n). For the empty string the loop never runs, so the answer must start at 0."
+      "impact": "O(n²) is about 10¹⁰ iterations: far too slow. You need O(n). For the empty string the loop never runs, so the answer must start at 0."
     },
     {
       "text": "s consists of English letters, digits, symbols and spaces",

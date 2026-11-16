@@ -1,0 +1,24 @@
+{
+  "order": 1,
+  "name": "Prefix count of odd numbers + counting array",
+  "pattern": "Prefix sum",
+  "ds": ["Array"],
+  "time": "O(n)",
+  "space": "O(n)",
+  "whenToUse": "The standard answer for \"count subarrays with exactly k …\". The number of odd numbers in a prefix is between 0 and n, so a counting array of length n + 1 does the job of a hash map (and works in C).",
+  "card": {
+    "signals": "\"continuous subarray\" + \"exactly k\" + \"return the number of\": count subarrays by a sum. Exactly k (not at most k) is the hint for prefix sums.",
+    "pattern": "a prefix count + a counting array. odd = number of odd values in nums[0..i]. cnt[p] = how many earlier prefixes had p odd numbers. One pass: O(n) time.",
+    "coreIdea": "nums[j..i] has exactly k odd numbers when the prefix before j has odd − k of them. So at each i, cnt[odd − k] is the number of nice subarrays that end at i. Then add the current prefix: cnt[odd] += 1. cnt[0] = 1 stands for the empty prefix, so subarrays that start at index 0 are counted too.",
+    "variant": "prefix count with a counting array (the \"subarray sum equals k\" form). Each number counts as 1 (odd) or 0 (even). The values of odd are 0..n, so an array of length n + 1 replaces the usual hash map."
+  },
+  "invariant": "Before step i: cnt[p] = number of prefixes nums[0..j − 1] (j ≤ i, including the empty one) with exactly p odd numbers; nice = nice subarrays that end before i.",
+  "phases": { "init": "start", "add": "count ends at i", "store": "cnt[odd] + 1", "return": "done" },
+  "legend": [
+    { "swatch": "ptr-front", "text": "i: the end of the subarrays counted now" },
+    { "swatch": "current", "text": "nums[i] and cnt[odd − k], the slot looked up" },
+    { "swatch": "new", "text": "cnt[odd]: the slot just increased" },
+    { "swatch": "band-window", "text": "nums[0..i]: the prefix" }
+  ],
+  "accepted": []
+}

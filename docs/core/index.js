@@ -7,7 +7,7 @@
   const app = document.getElementById("app");
   const DIFF = { Easy: 1, Medium: 2, Hard: 3 };
   let sortKey = "id", sortDir = 1;
-  const F = { diff: "", pattern: "", ds: "", c: false };
+  const F = { q: "", diff: "", pattern: "", ds: "", c: false };
   const uniq = (xs) => [...new Set(xs)].sort((a, b) => a.localeCompare(b));
   const allA = C.problems.flatMap((p) => p.approaches);
   const PATTERNS = uniq(allA.map((a) => a.pattern));
@@ -18,7 +18,6 @@
   const links = [];
   if (S.notionPatterns) links.push(`<a href="${esc(S.notionPatterns)}" target="_blank" rel="noopener">Pattern guides (Notion) ↗</a>`);
   if (S.leetcodeProfile) links.push(`<a href="${esc(S.leetcodeProfile)}" target="_blank" rel="noopener">Accepted solutions on LeetCode ↗</a>`);
-  if (S.bigO) links.push(`<a href="${esc(S.bigO)}" target="_blank" rel="noopener">Big-O reference ↗</a>`);
   if (S.repoUrl) links.push(`<a href="${esc(S.repoUrl)}" target="_blank" rel="noopener">Source on GitHub ↗</a>`);
 
   const COLS = [
@@ -27,7 +26,8 @@
   app.innerHTML = `
     <header class="vz-header"><h1>${esc(S.title || "Pattern Visualiser")}</h1></header>
     <p>${esc(S.intro || "")}</p>
-    <div class="vz-meta">${links.join("")}</div>
+    <div class="vz-meta ix-top">${links.join("")}
+      <input type="search" id="f-q" class="ix-search" placeholder="Search by number or title" aria-label="Search by problem number or title" autocomplete="off"></div>
     <div class="ix-filters" role="group" aria-label="Filters">
       <label>Difficulty <select id="f-diff"><option value="">All</option>${opts(DIFFS)}</select></label>
       <label>Pattern <select id="f-pattern"><option value="">All</option>${opts(PATTERNS)}</select></label>
@@ -58,11 +58,15 @@
     document.querySelectorAll("th[data-k]").forEach((th) =>
       th.setAttribute("aria-sort", th.dataset.k === sortKey ? (sortDir > 0 ? "ascending" : "descending") : "none"));
     const match = (a) => (!F.pattern || a.pattern === F.pattern) && (!F.ds || a.ds.includes(F.ds)) && (!F.c || a.hasC);
+    // search looks only at the problem number and title; every word must appear ("sum 1480", "two sum")
+    const words = F.q.toLowerCase().split(/\s+/).filter(Boolean);
+    const found = (p) => { const hay = `${p.source.id || ""} ${p.title}`.toLowerCase(); return words.every((w) => hay.includes(w)); };
     const visible = C.problems
+      .filter((p) => !words.length || found(p))
       .filter((p) => !F.diff || p.difficulty === F.diff)
       .map((p) => ({ ...p, all: p.approaches.length, approaches: p.approaches.filter(match) }))
       .filter((p) => p.approaches.length);
-    document.getElementById("f-reset").hidden = !(F.diff || F.pattern || F.ds || F.c);
+    document.getElementById("f-reset").hidden = !(F.q || F.diff || F.pattern || F.ds || F.c);
     const n = C.problems.length, shown = visible.length;
     const cnt = document.getElementById("ix-count");
     if (cnt) cnt.textContent = shown === n ? `${n} problem${n === 1 ? "" : "s"}` : `${shown} of ${n} problems`;
@@ -86,9 +90,10 @@
   bind("f-pattern", "pattern", "value");
   bind("f-ds", "ds", "value");
   bind("f-c", "c", "checked");
+  document.getElementById("f-q").addEventListener("input", (e) => { F.q = e.target.value.trim(); render(); });
   document.getElementById("f-reset").addEventListener("click", () => {
-    Object.assign(F, { diff: "", pattern: "", ds: "", c: false });
-    ["f-diff", "f-pattern", "f-ds"].forEach((id) => (document.getElementById(id).value = ""));
+    Object.assign(F, { q: "", diff: "", pattern: "", ds: "", c: false });
+    ["f-q", "f-diff", "f-pattern", "f-ds"].forEach((id) => (document.getElementById(id).value = ""));
     document.getElementById("f-c").checked = false;
     render();
   });

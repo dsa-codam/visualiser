@@ -261,6 +261,9 @@ pre.code { margin: 0; padding: 8px 0; background: var(--code-bg); border-radius:
 .ix-wrap { overflow-x: auto; margin-top: 12px; }
 .ix-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-top: 18px; font-size: 14px; color: var(--muted); }
 .ix-filters label { display: flex; align-items: center; gap: 6px; }
+.ix-search { margin-left: auto; width: 260px; max-width: 100%; font: inherit; font-size: 15px; color: var(--ink); background: var(--panel);
+  border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px; }
+.ix-search:focus { outline: 2px solid var(--role-back); outline-offset: 1px; }
 .ix-filters select { font: inherit; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 4px 8px; max-width: 220px; }
 
 /* ---------- gallery ---------- */

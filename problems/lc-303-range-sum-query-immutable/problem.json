@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "title": "Range Sum Query - Immutable",
+  "source": { "site": "LeetCode", "id": "303", "url": "https://leetcode.com/problems/range-sum-query-immutable/" },
+  "difficulty": "Easy",
+  "nMax": 10000,
+  "signature": {
+    "design": true,
+    "class": "NumArray",
+    "cPrefix": "numArray",
+    "constructor": [{ "name": "nums", "type": "int[]" }],
+    "methods": [
+      { "name": "sumRange", "params": [{ "name": "left", "type": "int" }, { "name": "right", "type": "int" }], "returns": "int" }
+    ]
+  },
+  "constraints": [
+    {
+      "text": "1 ≤ nums.length ≤ 10⁴, at most 10⁴ calls to sumRange",
+      "meaning": "Up to 10,000 numbers and 10,000 queries on the same array.",
+      "impact": "Adding the numbers for every call is O(n) per call, up to 10⁸ in total. Doing the work once in the constructor makes every call O(1)."
+    },
+    {
+      "text": "−10⁵ ≤ nums[i] ≤ 10⁵",
+      "meaning": "Values can be negative, zero or positive.",
+      "impact": "Any prefix sum is at most 10⁴ · 10⁵ = 10⁹ in absolute value, so int is enough for pre and for every answer."
+    },
+    {
+      "text": "0 ≤ left ≤ right < nums.length",
+      "meaning": "Every query is a valid range, left = right is allowed.",
+      "impact": "With pre of length n + 1 and pre[0] = 0, sumRange is pre[right + 1] − pre[left] for every valid query, also when left = 0."
+    }
+  ],
+  "bruteForce": {
+    "summary": "keep nums as it is; every sumRange call adds nums[left] + … + nums[right] again. That is O(n) per call, and the same numbers are added again and again."
+  },
+  "examples": [
+    { "id": "lc1", "label": "LC 1: [-2,0,3,-5,2,-1], three calls", "kind": "main",
+      "args": { "calls": ["NumArray", "sumRange", "sumRange", "sumRange"],
+                "args": [[[-2, 0, 3, -5, 2, -1]], [0, 2], [2, 5], [0, 5]] },
+      "expected": [null, 1, -1, -3] },
+    { "id": "mixed", "label": "Seven numbers, four calls", "kind": "main",
+      "args": { "calls": ["NumArray", "sumRange", "sumRange", "sumRange", "sumRange"],
+                "args": [[[3, -1, 4, 1, -5, 9, 2]], [1, 1], [0, 6], [2, 4], [4, 5]] } },
+    { "id": "single", "label": "One number: [5], sumRange(0, 0)", "kind": "edge",
+      "args": { "calls": ["NumArray", "sumRange"], "args": [[[5]], [0, 0]] } }
+  ]
+}

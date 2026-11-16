@@ -1,0 +1,26 @@
+{
+  "order": 1,
+  "name": "Prefix array built in the constructor",
+  "pattern": "Prefix sum",
+  "ds": ["Array"],
+  "time": "O(n) once, then O(1) per call",
+  "space": "O(n)",
+  "whenToUse": "The standard answer whenever the array does not change and many range sums are asked: pay O(n) once, then every query is one subtraction.",
+  "card": {
+    "signals": "\"handle multiple queries\" on an array that never changes (\"Immutable\"), each query asks for the sum of nums[left..right].",
+    "pattern": "a prefix array. The constructor builds pre once; sumRange answers with pre[right + 1] − pre[left]. O(n) once, then O(1) per call.",
+    "coreIdea": "pre[right + 1] is the sum of nums[0..right] and pre[left] is the sum of nums[0..left − 1]. Their difference is exactly nums[left..right].",
+    "variant": "exclusive prefix sum with a sentinel: pre has n + 1 slots and pre[0] = 0. That is why left = 0 needs no special case. This is the base form of the pattern for range-sum queries."
+  },
+  "invariant": "pre[k] = nums[0] + … + nums[k − 1] for every written slot k.",
+  "phases": { "build": "constructor", "query": "sumRange" },
+  "legend": [
+    { "swatch": "ptr-back", "text": "left: first index of the range" },
+    { "swatch": "ptr-front", "text": "right: last index of the range" },
+    { "swatch": "current", "text": "the cells read in this step" },
+    { "swatch": "new", "text": "pre slot just written" },
+    { "swatch": "zero", "text": "pre slot not written yet (dashed)" },
+    { "swatch": "band-window", "text": "nums[left..right] and the two pre cells that give its sum" }
+  ],
+  "accepted": []
+}

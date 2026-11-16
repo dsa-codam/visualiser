@@ -628,6 +628,9 @@ PAGE_HTML = """<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{desc}">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="core/tokens.css">
 <link rel="stylesheet" href="core/viz.css">
 </head>
@@ -681,6 +684,14 @@ def copy_to_docs(src, rel):
     write(os.path.join(DOCS, rel), read(src))
 
 
+def copy_binary_to_docs(src, rel):
+    dst = os.path.join(DOCS, rel)
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    with open(src, "rb") as a, open(dst, "wb") as b:
+        b.write(a.read())
+    WRITTEN.add(rel)
+
+
 def remove_stale(written):
     """Delete files in docs/ that this build did not write (e.g. a renamed problem)."""
     keep = {"CNAME", ".nojekyll"}
@@ -705,6 +716,10 @@ def emit(pages, site):
     write(os.path.join(DOCS, "index.html"), read(os.path.join(CORE, "index.html")).replace("</body>", analytics + "</body>"))
     copy_to_docs(os.path.join(CORE, "gallery.html"), "gallery.html")  # no analytics on the gallery
     copy_to_docs(os.path.join(CORE, "complexity.html"), "complexity.html")
+    # site icon (the club's graph mark), linked from every page's <head>
+    copy_to_docs(os.path.join(CORE, "favicon.svg"), "favicon.svg")
+    for f in ("favicon.ico", "apple-touch-icon.png"):
+        copy_binary_to_docs(os.path.join(CORE, f), f)
     catalogue = []
     for name, page in pages:
         tags = []

@@ -32,8 +32,8 @@
     "summary": "for every start i, add up arr[i..i+k-1] from scratch, compute the average and count it when it is ≥ threshold. O(n·k) time, which is too slow when n = 10⁵ and k is large."
   },
   "examples": [
-    { "id": "lc1", "label": "LeetCode Example 1: [2,2,2,2,5,5,5,8], k = 3, threshold = 4", "kind": "main", "args": { "arr": [2, 2, 2, 2, 5, 5, 5, 8], "k": 3, "threshold": 4 }, "expected": 3 },
-    { "id": "lc2", "label": "LeetCode Example 2: [11,13,17,23,29,31,7,5,2,3], k = 3, threshold = 5", "kind": "main", "args": { "arr": [11, 13, 17, 23, 29, 31, 7, 5, 2, 3], "k": 3, "threshold": 5 }, "expected": 6 },
+    { "id": "lc1", "label": "LC 1: [2,2,2,2,5,5,5,8], k = 3, threshold = 4", "kind": "main", "args": { "arr": [2, 2, 2, 2, 5, 5, 5, 8], "k": 3, "threshold": 4 }, "expected": 3 },
+    { "id": "lc2", "label": "LC 2: [11,13,17,23,29,31,7,5,2,3], k = 3, threshold = 5", "kind": "main", "args": { "arr": [11, 13, 17, 23, 29, 31, 7, 5, 2, 3], "k": 3, "threshold": 5 }, "expected": 6 },
     { "id": "none", "label": "No window passes: [1,1,1], k = 2, threshold = 5", "kind": "edge", "args": { "arr": [1, 1, 1], "k": 2, "threshold": 5 } },
     { "id": "zero", "label": "threshold = 0: [3,1], k = 1", "kind": "edge", "args": { "arr": [3, 1], "k": 1, "threshold": 0 } },
     { "id": "equal", "label": "Average exactly equal, k = n: [4,4,4], k = 3, threshold = 4", "kind": "edge", "args": { "arr": [4, 4, 4], "k": 3, "threshold": 4 } }

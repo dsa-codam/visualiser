@@ -32,10 +32,10 @@
     "summary": "for every index i that has k numbers on both sides, add up nums[i − k..i + k] from scratch and divide by 2k + 1; every other index gets -1. O(n·k) time, which is too slow when n = 10⁵ and k is large."
   },
   "examples": [
-    { "id": "lc1", "label": "LeetCode Example 1: [7,4,3,9,1,8,5,2,6], k = 3", "kind": "main", "args": { "nums": [7, 4, 3, 9, 1, 8, 5, 2, 6], "k": 3 }, "expected": [-1, -1, -1, 5, 4, 4, -1, -1, -1] },
+    { "id": "lc1", "label": "LC 1: [7,4,3,9,1,8,5,2,6], k = 3", "kind": "main", "args": { "nums": [7, 4, 3, 9, 1, 8, 5, 2, 6], "k": 3 }, "expected": [-1, -1, -1, 5, 4, 4, -1, -1, -1] },
     { "id": "radius-1", "label": "Radius 1: [2,6,1,8,3,5,9,4], k = 1", "kind": "main", "args": { "nums": [2, 6, 1, 8, 3, 5, 9, 4], "k": 1 } },
-    { "id": "lc2", "label": "LeetCode Example 2: [100000], k = 0", "kind": "edge", "args": { "nums": [100000], "k": 0 }, "expected": [100000] },
-    { "id": "lc3", "label": "LeetCode Example 3: [8], k = 100000", "kind": "edge", "args": { "nums": [8], "k": 100000 }, "expected": [-1] },
+    { "id": "lc2", "label": "LC 2: [100000], k = 0", "kind": "edge", "args": { "nums": [100000], "k": 0 }, "expected": [100000] },
+    { "id": "lc3", "label": "LC 3: [8], k = 100000", "kind": "edge", "args": { "nums": [8], "k": 100000 }, "expected": [-1] },
     { "id": "size-equals-n", "label": "2k + 1 = n: [4,1,7,2,6], k = 2", "kind": "edge", "args": { "nums": [4, 1, 7, 2, 6], "k": 2 } }
   ]
 }

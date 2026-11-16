@@ -35,8 +35,8 @@
   "examples": [
     { "id": "even", "label": "Even length: \"Codam DSA!\"", "kind": "main", "args": { "s": ["C", "o", "d", "a", "m", " ", "D", "S", "A", "!"] } },
     { "id": "odd", "label": "Odd length: \"Hi, Codam\"", "kind": "main", "args": { "s": ["H", "i", ",", " ", "C", "o", "d", "a", "m"] } },
-    { "id": "lc1", "label": "LeetCode Example 1: \"hello\"", "kind": "edge", "args": { "s": ["h", "e", "l", "l", "o"] }, "expected": ["o", "l", "l", "e", "h"] },
-    { "id": "lc2", "label": "LeetCode Example 2: \"Hannah\"", "kind": "edge", "args": { "s": ["H", "a", "n", "n", "a", "h"] }, "expected": ["h", "a", "n", "n", "a", "H"] },
+    { "id": "lc1", "label": "LC 1: \"hello\"", "kind": "edge", "args": { "s": ["h", "e", "l", "l", "o"] }, "expected": ["o", "l", "l", "e", "h"] },
+    { "id": "lc2", "label": "LC 2: \"Hannah\"", "kind": "edge", "args": { "s": ["H", "a", "n", "n", "a", "h"] }, "expected": ["h", "a", "n", "n", "a", "H"] },
     { "id": "single", "label": "One character: \"x\"", "kind": "edge", "args": { "s": ["x"] } },
     { "id": "two", "label": "Two characters: \"ab\"", "kind": "edge", "args": { "s": ["a", "b"] } }
   ]

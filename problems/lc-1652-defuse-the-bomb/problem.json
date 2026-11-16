@@ -32,10 +32,10 @@
     "summary": "for every i, add up the |k| numbers after it (or before it) from scratch, with indices taken modulo n. O(n·|k|) time."
   },
   "examples": [
-    { "id": "lc1", "label": "LeetCode Example 1: [5,7,1,4], k = 3", "kind": "main", "args": { "code": [5, 7, 1, 4], "k": 3 }, "expected": [12, 10, 16, 13] },
-    { "id": "lc3", "label": "LeetCode Example 3: [2,4,9,3], k = -2", "kind": "main", "args": { "code": [2, 4, 9, 3], "k": -2 }, "expected": [12, 5, 6, 13] },
+    { "id": "lc1", "label": "LC 1: [5,7,1,4], k = 3", "kind": "main", "args": { "code": [5, 7, 1, 4], "k": 3 }, "expected": [12, 10, 16, 13] },
+    { "id": "lc3", "label": "LC 3: [2,4,9,3], k = -2", "kind": "main", "args": { "code": [2, 4, 9, 3], "k": -2 }, "expected": [12, 5, 6, 13] },
     { "id": "wrap", "label": "Window wraps late: [3,1,6,2,5,4], k = 2", "kind": "main", "args": { "code": [3, 1, 6, 2, 5, 4], "k": 2 } },
-    { "id": "lc2", "label": "LeetCode Example 2: [1,2,3,4], k = 0", "kind": "edge", "args": { "code": [1, 2, 3, 4], "k": 0 }, "expected": [0, 0, 0, 0] },
+    { "id": "lc2", "label": "LC 2: [1,2,3,4], k = 0", "kind": "edge", "args": { "code": [1, 2, 3, 4], "k": 0 }, "expected": [0, 0, 0, 0] },
     { "id": "k-min", "label": "k = -(n - 1): [1,2,3], k = -2", "kind": "edge", "args": { "code": [1, 2, 3], "k": -2 } },
     { "id": "single", "label": "One number: [7], k = 0", "kind": "edge", "args": { "code": [7], "k": 0 } }
   ]

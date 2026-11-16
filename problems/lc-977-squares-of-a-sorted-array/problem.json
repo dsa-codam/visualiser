@@ -32,9 +32,9 @@
     "summary": "square every value, then sort the squares: O(n log n) with a library sort. It throws away the fact that nums is already sorted. The code below sorts with insertion sort so each iteration can be counted."
   },
   "examples": [
-    { "id": "lc1", "label": "LeetCode Example 1: [-4,-1,0,3,10]", "kind": "main",
+    { "id": "lc1", "label": "LC 1: [-4,-1,0,3,10]", "kind": "main",
       "args": { "nums": [-4, -1, 0, 3, 10] }, "expected": [0, 1, 9, 16, 100] },
-    { "id": "lc2", "label": "LeetCode Example 2: [-7,-3,2,3,11]", "kind": "main",
+    { "id": "lc2", "label": "LC 2: [-7,-3,2,3,11]", "kind": "main",
       "args": { "nums": [-7, -3, 2, 3, 11] }, "expected": [4, 9, 9, 49, 121] },
     { "id": "zigzag", "label": "Both ends take turns: [-9,-6,-2,1,4,7,8]", "kind": "main",
       "args": { "nums": [-9, -6, -2, 1, 4, 7, 8] } },

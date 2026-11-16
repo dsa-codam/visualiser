@@ -32,11 +32,11 @@
     "summary": "take every pair of scores as the lowest and the highest, and count how many scores lie between them. If at least k do, that difference is possible; keep the smallest one. O(n³) time, about 10⁹ iterations for n = 1000: too slow."
   },
   "examples": [
-    { "id": "lc2", "label": "LeetCode Example 2: [9,4,1,7], k = 2", "kind": "main",
+    { "id": "lc2", "label": "LC 2: [9,4,1,7], k = 2", "kind": "main",
       "args": { "nums": [9, 4, 1, 7], "k": 2 }, "expected": 2 },
     { "id": "slide", "label": "Window of 3 slides: [12,3,18,7,9,4,15,10], k = 3", "kind": "main",
       "args": { "nums": [12, 3, 18, 7, 9, 4, 15, 10], "k": 3 } },
-    { "id": "lc1", "label": "LeetCode Example 1: [90], k = 1", "kind": "edge",
+    { "id": "lc1", "label": "LC 1: [90], k = 1", "kind": "edge",
       "args": { "nums": [90], "k": 1 }, "expected": 0 },
     { "id": "k-equals-n", "label": "k = n, one window: [5,1,3], k = 3", "kind": "edge",
       "args": { "nums": [5, 1, 3], "k": 3 } },

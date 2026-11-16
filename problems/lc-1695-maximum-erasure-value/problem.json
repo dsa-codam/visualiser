@@ -32,9 +32,9 @@
     "summary": "try every start i, extend j to the right while the values stay unique, and keep the largest sum. O(n²) time, which is too slow for n = 10⁵."
   },
   "examples": [
-    { "id": "lc1", "label": "LeetCode Example 1: [4,2,4,5,6]", "kind": "main", "args": { "nums": [4, 2, 4, 5, 6] }, "expected": 17 },
+    { "id": "lc1", "label": "LC 1: [4,2,4,5,6]", "kind": "main", "args": { "nums": [4, 2, 4, 5, 6] }, "expected": 17 },
     { "id": "short-wins", "label": "Short window wins: [1,2,3,4,4,50,50]", "kind": "main", "args": { "nums": [1, 2, 3, 4, 4, 50, 50] } },
-    { "id": "lc2", "label": "LeetCode Example 2: [5,2,1,2,5,2,1,2,5]", "kind": "main", "args": { "nums": [5, 2, 1, 2, 5, 2, 1, 2, 5] }, "expected": 8 },
+    { "id": "lc2", "label": "LC 2: [5,2,1,2,5,2,1,2,5]", "kind": "main", "args": { "nums": [5, 2, 1, 2, 5, 2, 1, 2, 5] }, "expected": 8 },
     { "id": "all-same", "label": "All the same: [3,3,3]", "kind": "edge", "args": { "nums": [3, 3, 3] } },
     { "id": "all-unique", "label": "All unique: [1,2,3]", "kind": "edge", "args": { "nums": [1, 2, 3] } },
     { "id": "single", "label": "One element: [7]", "kind": "edge", "args": { "nums": [7] } }

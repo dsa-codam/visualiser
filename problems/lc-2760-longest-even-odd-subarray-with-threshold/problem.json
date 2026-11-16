@@ -37,15 +37,15 @@
     "summary": "try every start l with an even value ≤ threshold, extend r to the right while the next value is ≤ threshold and has the other parity, and keep the longest length. O(n²) time. It passes for n ≤ 100, but it checks the same elements again for every start."
   },
   "examples": [
-    { "id": "lc1", "label": "LeetCode Example 1: [3,2,5,4], threshold = 5", "kind": "edge",
+    { "id": "lc1", "label": "LC 1: [3,2,5,4], threshold = 5", "kind": "edge",
       "args": { "nums": [3, 2, 5, 4], "threshold": 5 }, "expected": 3 },
-    { "id": "lc3", "label": "LeetCode Example 3: [2,3,4,5], threshold = 4", "kind": "edge",
+    { "id": "lc3", "label": "LC 3: [2,3,4,5], threshold = 4", "kind": "edge",
       "args": { "nums": [2, 3, 4, 5], "threshold": 4 }, "expected": 3 },
     { "id": "restarts", "label": "Every kind of restart: [2,3,3,4,7,6,6,9,2,5], threshold = 8", "kind": "main",
       "args": { "nums": [2, 3, 3, 4, 7, 6, 6, 9, 2, 5], "threshold": 8 } },
     { "id": "cut", "label": "Run cut by threshold: [2,5,4,9,4,1,2,3], threshold = 8", "kind": "main",
       "args": { "nums": [2, 5, 4, 9, 4, 1, 2, 3], "threshold": 8 } },
-    { "id": "lc2", "label": "LeetCode Example 2: [1,2], threshold = 2", "kind": "edge",
+    { "id": "lc2", "label": "LC 2: [1,2], threshold = 2", "kind": "edge",
       "args": { "nums": [1, 2], "threshold": 2 }, "expected": 1 },
     { "id": "single", "label": "One element: [2], threshold = 2", "kind": "edge",
       "args": { "nums": [2], "threshold": 2 } },

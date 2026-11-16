@@ -37,11 +37,11 @@
     "summary": "try every start of the technique. For each start, go through the whole day and add the customers of calm minutes and of minutes inside the technique. Keep the largest total. O(n²) time, about 4 × 10⁸ iterations for n = 2 × 10⁴: too slow."
   },
   "examples": [
-    { "id": "lc1", "label": "LeetCode Example 1: minutes = 3", "kind": "main",
+    { "id": "lc1", "label": "LC 1: minutes = 3", "kind": "main",
       "args": { "customers": [1, 0, 1, 2, 1, 1, 7, 5], "grumpy": [0, 1, 0, 1, 0, 1, 0, 1], "minutes": 3 }, "expected": 16 },
     { "id": "middle", "label": "Best window in the middle: minutes = 2", "kind": "main",
       "args": { "customers": [3, 8, 2, 0, 6, 4], "grumpy": [0, 1, 1, 0, 1, 0], "minutes": 2 } },
-    { "id": "lc2", "label": "LeetCode Example 2: one minute", "kind": "edge",
+    { "id": "lc2", "label": "LC 2: one minute", "kind": "edge",
       "args": { "customers": [1], "grumpy": [0], "minutes": 1 }, "expected": 1 },
     { "id": "all-grumpy", "label": "Always grumpy, minutes = n", "kind": "edge",
       "args": { "customers": [2, 5, 1], "grumpy": [1, 1, 1], "minutes": 3 } },

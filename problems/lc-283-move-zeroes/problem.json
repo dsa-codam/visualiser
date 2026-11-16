@@ -39,8 +39,8 @@
   },
   "examples": [
     { "id": "mixed", "label": "Mixed: [2,0,1,0,0,3,12,0,5]", "kind": "main", "args": { "nums": [2, 0, 1, 0, 0, 3, 12, 0, 5] } },
-    { "id": "lc1", "label": "LeetCode Example 1: [0,1,0,3,12]", "kind": "main", "args": { "nums": [0, 1, 0, 3, 12] }, "expected": [1, 3, 12, 0, 0] },
-    { "id": "lc2", "label": "LeetCode Example 2: [0]", "kind": "edge", "args": { "nums": [0] }, "expected": [0] },
+    { "id": "lc1", "label": "LC 1: [0,1,0,3,12]", "kind": "main", "args": { "nums": [0, 1, 0, 3, 12] }, "expected": [1, 3, 12, 0, 0] },
+    { "id": "lc2", "label": "LC 2: [0]", "kind": "edge", "args": { "nums": [0] }, "expected": [0] },
     { "id": "no-zeros", "label": "No zeros: [4,-1,7]", "kind": "edge", "args": { "nums": [4, -1, 7] } },
     { "id": "all-zeros", "label": "All zeros: [0,0,0]", "kind": "edge", "args": { "nums": [0, 0, 0] } }
   ]

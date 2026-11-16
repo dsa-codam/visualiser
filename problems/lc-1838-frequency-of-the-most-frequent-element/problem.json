@@ -37,13 +37,13 @@
     "summary": "sort nums, then for each right try every left from right down to 0, adding up the increments needed to raise nums[left..right] to nums[right]. Stop when the cost goes over k. O(n²) time, which is too slow for n = 10⁵."
   },
   "examples": [
-    { "id": "lc1", "label": "LeetCode Example 1: [1,2,4], k = 5", "kind": "edge",
+    { "id": "lc1", "label": "LC 1: [1,2,4], k = 5", "kind": "edge",
       "args": { "nums": [1, 2, 4], "k": 5 }, "expected": 3 },
-    { "id": "lc2", "label": "LeetCode Example 2: [1,4,8,13], k = 5", "kind": "main",
+    { "id": "lc2", "label": "LC 2: [1,4,8,13], k = 5", "kind": "main",
       "args": { "nums": [1, 4, 8, 13], "k": 5 }, "expected": 2 },
     { "id": "shrink", "label": "Window grows and shrinks: [9,2,1,4,4,8,3], k = 6", "kind": "main",
       "args": { "nums": [9, 2, 1, 4, 4, 8, 3], "k": 6 } },
-    { "id": "lc3", "label": "LeetCode Example 3: [3,9,6], k = 2", "kind": "edge",
+    { "id": "lc3", "label": "LC 3: [3,9,6], k = 2", "kind": "edge",
       "args": { "nums": [3, 9, 6], "k": 2 }, "expected": 1 },
     { "id": "single", "label": "One element: [5], k = 1", "kind": "edge",
       "args": { "nums": [5], "k": 1 } },

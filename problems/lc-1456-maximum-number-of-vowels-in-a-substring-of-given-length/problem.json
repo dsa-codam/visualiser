@@ -32,9 +32,9 @@
     "summary": "for every start i, count the vowels in s[i..i+k-1] from scratch and keep the largest count. O(n·k) time, which is too slow when n = 10⁵ and k is large."
   },
   "examples": [
-    { "id": "lc1", "label": "LeetCode Example 1: \"abciiidef\", k = 3", "kind": "main", "args": { "s": "abciiidef", "k": 3 }, "expected": 3 },
-    { "id": "lc3", "label": "LeetCode Example 3: \"leetcode\", k = 3", "kind": "main", "args": { "s": "leetcode", "k": 3 }, "expected": 2 },
-    { "id": "lc2", "label": "LeetCode Example 2: \"aeiou\", k = 2", "kind": "main", "args": { "s": "aeiou", "k": 2 }, "expected": 2 },
+    { "id": "lc1", "label": "LC 1: \"abciiidef\", k = 3", "kind": "main", "args": { "s": "abciiidef", "k": 3 }, "expected": 3 },
+    { "id": "lc3", "label": "LC 3: \"leetcode\", k = 3", "kind": "main", "args": { "s": "leetcode", "k": 3 }, "expected": 2 },
+    { "id": "lc2", "label": "LC 2: \"aeiou\", k = 2", "kind": "main", "args": { "s": "aeiou", "k": 2 }, "expected": 2 },
     { "id": "no-vowels", "label": "No vowels: \"rhythm\", k = 4", "kind": "edge", "args": { "s": "rhythm", "k": 4 } },
     { "id": "k-equals-n", "label": "k = n: \"tree\", k = 4", "kind": "edge", "args": { "s": "tree", "k": 4 } },
     { "id": "single", "label": "One letter: \"a\", k = 1", "kind": "edge", "args": { "s": "a", "k": 1 } }

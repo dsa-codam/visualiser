@@ -32,8 +32,8 @@
     "summary": "for every start i, count the 'W' in blocks[i..i+k-1] from scratch and keep the smallest count. O(n·k) time."
   },
   "examples": [
-    { "id": "lc1", "label": "LeetCode Example 1: \"WBBWWBBWBW\", k = 7", "kind": "main", "args": { "blocks": "WBBWWBBWBW", "k": 7 }, "expected": 3 },
-    { "id": "lc2", "label": "LeetCode Example 2: \"WBWBBBW\", k = 2", "kind": "main", "args": { "blocks": "WBWBBBW", "k": 2 }, "expected": 0 },
+    { "id": "lc1", "label": "LC 1: \"WBBWWBBWBW\", k = 7", "kind": "main", "args": { "blocks": "WBBWWBBWBW", "k": 7 }, "expected": 3 },
+    { "id": "lc2", "label": "LC 2: \"WBWBBBW\", k = 2", "kind": "main", "args": { "blocks": "WBWBBBW", "k": 2 }, "expected": 0 },
     { "id": "all-black", "label": "All black: \"BBB\", k = 2", "kind": "edge", "args": { "blocks": "BBB", "k": 2 } },
     { "id": "all-white", "label": "All white, k = n: \"WWW\", k = 3", "kind": "edge", "args": { "blocks": "WWW", "k": 3 } },
     { "id": "k-one", "label": "k = 1: \"WWB\"", "kind": "edge", "args": { "blocks": "WWB", "k": 1 } }

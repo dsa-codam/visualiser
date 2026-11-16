@@ -32,10 +32,10 @@
     "summary": "try every start i, extend j to the right while the characters stay unique, and keep the longest length. O(n²) time, which is too slow for n = 10⁵."
   },
   "examples": [
-    { "id": "lc1", "label": "LeetCode Example 1: \"abcabcbb\"", "kind": "main", "args": { "s": "abcabcbb" }, "expected": 3 },
-    { "id": "lc3", "label": "LeetCode Example 3: \"pwwkew\"", "kind": "main", "args": { "s": "pwwkew" }, "expected": 3 },
+    { "id": "lc1", "label": "LC 1: \"abcabcbb\"", "kind": "main", "args": { "s": "abcabcbb" }, "expected": 3 },
+    { "id": "lc3", "label": "LC 3: \"pwwkew\"", "kind": "main", "args": { "s": "pwwkew" }, "expected": 3 },
     { "id": "long-shrink", "label": "Long shrink: \"tmmzuxt\"", "kind": "main", "args": { "s": "tmmzuxt" } },
-    { "id": "lc2", "label": "LeetCode Example 2: \"bbbbb\"", "kind": "edge", "args": { "s": "bbbbb" }, "expected": 1 },
+    { "id": "lc2", "label": "LC 2: \"bbbbb\"", "kind": "edge", "args": { "s": "bbbbb" }, "expected": 1 },
     { "id": "single", "label": "One character: \"a\"", "kind": "edge", "args": { "s": "a" } },
     { "id": "dvdf", "label": "Repeat in the middle: \"dvdf\"", "kind": "edge", "args": { "s": "dvdf" } },
     { "id": "spaces", "label": "Spaces and symbols: \"a b!a\"", "kind": "edge", "args": { "s": "a b!a" } },

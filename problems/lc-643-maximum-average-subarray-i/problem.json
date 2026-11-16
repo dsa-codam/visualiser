@@ -32,9 +32,9 @@
     "summary": "for every start i, add up nums[i..i+k-1] from scratch and keep the largest sum. O(n·k) time, which is too slow when n = 10⁵ and k is large."
   },
   "examples": [
-    { "id": "lc1", "label": "LeetCode Example 1: [1,12,-5,-6,50,3], k = 4", "kind": "main", "args": { "nums": [1, 12, -5, -6, 50, 3], "k": 4 }, "expected": 12.75 },
+    { "id": "lc1", "label": "LC 1: [1,12,-5,-6,50,3], k = 4", "kind": "main", "args": { "nums": [1, 12, -5, -6, 50, 3], "k": 4 }, "expected": 12.75 },
     { "id": "best-early", "label": "Best window early: [4,2,-3,8,1,-7,6,5], k = 3", "kind": "main", "args": { "nums": [4, 2, -3, 8, 1, -7, 6, 5], "k": 3 } },
-    { "id": "lc2", "label": "LeetCode Example 2: [5], k = 1", "kind": "edge", "args": { "nums": [5], "k": 1 }, "expected": 5.0 },
+    { "id": "lc2", "label": "LC 2: [5], k = 1", "kind": "edge", "args": { "nums": [5], "k": 1 }, "expected": 5.0 },
     { "id": "all-negative", "label": "All negative: [-3,-1,-2], k = 2", "kind": "edge", "args": { "nums": [-3, -1, -2], "k": 2 } },
     { "id": "k-equals-n", "label": "k = n: [1,2,3], k = 3", "kind": "edge", "args": { "nums": [1, 2, 3], "k": 3 } }
   ]

@@ -25,7 +25,7 @@ schemaVersion: 1. All files are plain JSON (no comments, no trailing commas). Th
                                                       // once per loop-body run, outer and inner loops, in brute.py and solution.py;
                                                       // loops of fixed size (e.g. 26 letters) are not counted (ADR 032)
   "examples": [
-    { "id": "lc1", "label": "LeetCode Example 1: [0,1,0,3,12]", "kind": "main",
+    { "id": "lc1", "label": "LC 1: [0,1,0,3,12]", "kind": "main",
       "args": { "nums": [0, 1, 0, 3, 12] }, "expected": [1, 3, 12, 0, 0] }
   ]
 }

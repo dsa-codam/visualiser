@@ -37,8 +37,8 @@
     "summary": "try every start i, extend j to the right, keep the count of each letter and the top count, and record j - i + 1 when length - top count ≤ k. O(n²) time, which is too slow for n = 10⁵."
   },
   "examples": [
-    { "id": "lc2", "label": "LeetCode Example 2: \"AABABBA\", k = 1", "kind": "main", "args": { "s": "AABABBA", "k": 1 }, "expected": 4 },
-    { "id": "lc1", "label": "LeetCode Example 1: \"ABAB\", k = 2", "kind": "main", "args": { "s": "ABAB", "k": 2 }, "expected": 4 },
+    { "id": "lc2", "label": "LC 2: \"AABABBA\", k = 1", "kind": "main", "args": { "s": "AABABBA", "k": 1 }, "expected": 4 },
+    { "id": "lc1", "label": "LC 1: \"ABAB\", k = 2", "kind": "main", "args": { "s": "ABAB", "k": 2 }, "expected": 4 },
     { "id": "k0-runs", "label": "No changes: \"AABBBC\", k = 0", "kind": "main", "args": { "s": "AABBBC", "k": 0 } },
     { "id": "late-best", "label": "Best window at the end: \"ABCBBCB\", k = 1", "kind": "main", "args": { "s": "ABCBBCB", "k": 1 } },
     { "id": "single", "label": "One character: \"A\", k = 0", "kind": "edge", "args": { "s": "A", "k": 0 } },

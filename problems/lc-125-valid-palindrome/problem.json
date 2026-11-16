@@ -38,8 +38,8 @@
   },
   "examples": [
     { "id": "taco-cat", "label": "Mixed: \"Taco cat!\"", "kind": "main", "args": { "s": "Taco cat!" } },
-    { "id": "lc2", "label": "LeetCode Example 2: \"race a car\"", "kind": "main", "args": { "s": "race a car" }, "expected": false },
-    { "id": "lc3", "label": "LeetCode Example 3: \" \"", "kind": "edge", "args": { "s": " " }, "expected": true },
+    { "id": "lc2", "label": "LC 2: \"race a car\"", "kind": "main", "args": { "s": "race a car" }, "expected": false },
+    { "id": "lc3", "label": "LC 3: \" \"", "kind": "edge", "args": { "s": " " }, "expected": true },
     { "id": "digit-letter", "label": "Digit and letter: \"0P\"", "kind": "edge", "args": { "s": "0P" } },
     { "id": "no-alnum", "label": "Only punctuation: \".,!\"", "kind": "edge", "args": { "s": ".,!" } },
     { "id": "single", "label": "One letter: \"a\"", "kind": "edge", "args": { "s": "a" } }

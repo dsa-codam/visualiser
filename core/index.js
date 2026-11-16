@@ -16,17 +16,18 @@
   const opts = (xs) => xs.map((x) => `<option value="${esc(x)}">${esc(x)}</option>`).join("");
 
   const links = [];
-  if (S.notionPatterns) links.push(`<a href="${esc(S.notionPatterns)}" target="_blank" rel="noopener">Pattern guides (Notion) ↗</a>`);
-  if (S.leetcodeProfile) links.push(`<a href="${esc(S.leetcodeProfile)}" target="_blank" rel="noopener">Accepted solutions on LeetCode ↗</a>`);
-  if (S.repoUrl) links.push(`<a href="${esc(S.repoUrl)}" target="_blank" rel="noopener">Source on GitHub ↗</a>`);
+  // link buttons in the same place and style as on the problem pages (.vz-btn above the title)
+  if (S.notionPatterns) links.push(`<a class="vz-btn" href="${esc(S.notionPatterns)}" target="_blank" rel="noopener">Pattern guides ↗</a>`);
+  if (S.leetcodeProfile) links.push(`<a class="vz-btn" href="${esc(S.leetcodeProfile)}" target="_blank" rel="noopener">Accepted solutions on LeetCode ↗</a>`);
+  if (S.repoUrl) links.push(`<a class="vz-btn" href="${esc(S.repoUrl)}" target="_blank" rel="noopener">Source on GitHub ↗</a>`);
 
   const COLS = [
     ["id", "#"], ["title", "Problem"], ["difficulty", "Difficulty"], ["pattern", "Pattern"], ["ds", "Data structure"],
   ];
   app.innerHTML = `
-    <header class="vz-header"><h1>${esc(S.title || "Pattern Visualiser")}</h1></header>
-    <div class="vz-meta ix-top">${links.join("")}
-      <input type="search" id="f-q" class="ix-search" placeholder="Search by number or title" aria-label="Search by problem number or title" autocomplete="off"></div>
+    <header class="ix-top"><nav class="vz-links" aria-label="Links">${links.join("")}</nav>
+      <h1 class="ix-title">${esc(S.title || "Pattern Visualiser")}</h1>
+      <input type="search" id="f-q" class="ix-search" placeholder="Search by number or title" aria-label="Search by problem number or title" autocomplete="off"></header>
     <div class="ix-filters" role="group" aria-label="Filters">
       <label>Difficulty <select id="f-diff"><option value="">All</option>${opts(DIFFS)}</select></label>
       <label>Pattern <select id="f-pattern"><option value="">All</option>${opts(PATTERNS)}</select></label>

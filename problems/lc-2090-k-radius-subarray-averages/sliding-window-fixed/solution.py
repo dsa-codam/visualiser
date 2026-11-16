@@ -37,6 +37,7 @@ class Solution:
         total = 0  # sum of the window; up to 10^10, Python ints do not overflow  # @a:total
         T.step("total", "init", "total = 0. We add the first window nums[0..size − 1] one by one.", **snap(None, None))  # @trace
         for right in range(size):  # build the first window nums[0..size-1]  # @a:build-loop
+            T.op()  # @trace
             # @trace-begin
             T.step("build-loop", "build", f"The first for loop fills the first window: right = {right}." if right == 0 else
                    f"Next round of the first for loop: right = {right} < size = {size}.",
@@ -44,7 +45,6 @@ class Solution:
             # @trace-end
             total += nums[right]  # @a:build
             # @trace-begin
-            T.op()
             T.step("build", "build", f"nums[{right}] = {nums[right]} is added, so total = {total}.",
                    **snap(right, [0, right], {right: "current"}))
             # @trace-end
@@ -57,10 +57,10 @@ class Solution:
         # @trace-end
         left = 0  # left edge of the window
         for right in range(size, n):  # slide: one number in, one out  # @a:loop
+            T.op()  # @trace
             T.step("loop", "next", f"Next round of the second for loop: right moves to index {right}. The window slides one step to the right.", **snap(right, [left, right - 1]))  # @trace
             total += nums[right]  # new number enters on the right  # @a:add
             # @trace-begin
-            T.op()
             T.step("add", "add", f"nums[{right}] = {nums[right]} enters, so total = {total}. "
                    f"The window now has size + 1 = {size + 1} numbers, one too many.",
                    **snap(right, [left, right], {right: "current"}))
@@ -68,7 +68,6 @@ class Solution:
             total -= nums[left]  # oldest number leaves on the left  # @a:drop
             left += 1
             # @trace-begin
-            T.op()
             T.step("drop", "drop", f"nums[{left - 1}] = {nums[left - 1]} leaves, so total = {total}. "
                    f"left moves to {left}, and the window [{left}, {right}] has size = {size} numbers again.",
                    **snap(right, [left, right], {left - 1: "removed"}))

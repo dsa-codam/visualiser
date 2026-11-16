@@ -1,6 +1,7 @@
 def brute(s):
     longest = 0
     for i in range(len(s)):  # every start
+        T.op()  # @trace
         seen = [False] * 128  # characters in s[i..j]
         j = i
         while j < len(s):

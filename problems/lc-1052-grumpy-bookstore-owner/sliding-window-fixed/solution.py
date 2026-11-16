@@ -32,11 +32,11 @@ class Solution:
         satisfied = 0  # customers of calm minutes: happy without the technique
         T.step("init", "init", f"satisfied = 0. First count the customers who are happy anyway: the ones in minutes where grumpy[i] = 0.", **snap(None, None))  # @trace
         for i in range(n):  # @a:base-loop
+            T.op()  # @trace
             T.step("base-loop", "base", "The first for loop starts: i = 0." if i == 0 else f"Next round of the first for loop: i = {i}.", **snap(None, None, {i: "current"}))  # @trace
             if grumpy[i] == 0:  # the owner is calm, so these customers are happy  # @a:base
                 satisfied += customers[i]
             # @trace-begin
-            T.op()
             scanned = i + 1
             if grumpy[i] == 0:
                 T.step("base", "base", f"grumpy[{i}] = 0: the owner is calm. Add customers[{i}] = {customers[i]}, satisfied = {satisfied}.", **snap(None, None, {i: "current"}))
@@ -50,11 +50,11 @@ class Solution:
         extra = 0  # grumpy-minute customers in the window: the technique wins them back  # @a:extra
         T.step("extra", "build", f"extra = 0. The window has minutes = {minutes} cells. extra counts customers[j] only where grumpy[j] = 1.", **snap(None, None))  # @trace
         for right in range(minutes):  # build the first window [0, minutes - 1]  # @a:build-loop
+            T.op()  # @trace
             T.step("build-loop", "build", f"The second for loop fills the first window: right = {right}." if right == 0 else f"Next round of the second for loop: right = {right} < minutes = {minutes}.", **snap(right, [0, right - 1] if right > 0 else None))  # @trace
             if grumpy[right] == 1:  # @a:build
                 extra += customers[right]
             # @trace-begin
-            T.op()
             if grumpy[right] == 1:
                 T.step("build", "build", f"grumpy[{right}] = 1: add customers[{right}] = {customers[right]}, extra = {extra}.", **snap(right, [0, right], {right: "current"}))
             else:
@@ -67,11 +67,11 @@ class Solution:
         T.step("first", "update", f"The first window [0, {minutes - 1}] is full, so max_extra = extra = {max_extra}. left = 0.", **snap(None, [0, minutes - 1], flash=True))
         # @trace-end
         for right in range(minutes, n):  # slide: one minute in, one out  # @a:loop
+            T.op()  # @trace
             T.step("loop", "next", f"Next round of the third for loop: right moves to minute {right}. The window slides one step to the right.", **snap(right, [left, right - 1]))  # @trace
             if grumpy[right] == 1:  # new minute enters on the right  # @a:add
                 extra += customers[right]
             # @trace-begin
-            T.op()
             if grumpy[right] == 1:
                 T.step("add", "add", f"grumpy[{right}] = 1: add customers[{right}] = {customers[right]}, extra = {extra}.", **snap(right, [left, right], {right: "current"}))
             else:
@@ -81,7 +81,6 @@ class Solution:
                 extra -= customers[left]
             left += 1
             # @trace-begin
-            T.op()
             j = left - 1
             if grumpy[j] == 1:
                 T.step("drop", "drop", f"grumpy[{j}] = 1: drop customers[{j}] = {customers[j]}, extra = {extra}. left moves to {left}; the window [{left}, {right}] has {minutes} minutes again.", **snap(right, [left, right], {j: "removed"}))

@@ -34,8 +34,7 @@
     }
   ],
   "bruteForce": {
-    "summary": "build a cleaned, lowercase copy of s and compare it with its reverse: O(n) time, but O(n) extra space for the copy. Two pointers do the same check in O(1) extra space.",
-    "opsUnit": "character checks"
+    "summary": "build a cleaned, lowercase copy of s and compare it with its reverse: O(n) time, but O(n) extra space for the copy. Two pointers do the same check in O(1) extra space."
   },
   "examples": [
     { "id": "taco-cat", "label": "Mixed: \"Taco cat!\"", "kind": "main", "args": { "s": "Taco cat!" } },

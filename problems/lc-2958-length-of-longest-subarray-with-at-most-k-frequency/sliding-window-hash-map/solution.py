@@ -30,10 +30,10 @@ class Solution:
                f"time{'s' if k != 1 else ''} in the window.", **snap(None, None))
         # @trace-end
         for right in range(len(nums)):  # right edge, moves every step  # @a:loop
+            T.op()  # @trace
             length = None  # @trace
             T.step("loop", "next", f"Next round of the for loop: right moves to index {right}." if right else "The for loop starts: right = 0.", **snap(right, [left, right - 1] if right > left else None))  # @trace
             count[nums[right]] += 1  # add nums[right] to the window  # @a:expand
-            T.op()  # @trace
             # @trace-begin
             v = nums[right]
             if count[v] > k:
@@ -45,11 +45,11 @@ class Solution:
                        f"so the window [{left}, {right}] is still good.", **snap(right, [left, right], {right: "current"}))
             # @trace-end
             while count[nums[right]] > k:  # only nums[right] can be over the limit  # @a:while
+                T.op()  # @trace
                 T.step("while", "check", f"while count[{nums[right]}] = {count[nums[right]]} > k = {k}: the loop runs, so the window shrinks from the left.", **snap(right, [left, right], over=nums[right]))  # @trace
                 count[nums[left]] -= 1  # drop nums[left] from the window  # @a:shrink
                 left += 1
                 # @trace-begin
-                T.op()
                 d, v = nums[left - 1], nums[right]
                 if count[v] > k:
                     T.step("shrink", "shrink", f"Drop nums[{left - 1}] = {d}, left moves to {left}. It is not a {v}, "

@@ -35,8 +35,7 @@
     }
   ],
   "bruteForce": {
-    "summary": "move each non-zero left past the zeros, like bubble sort: O(n²) time, O(1) space. Copying the non-zeros into a new array is O(n) time, but it needs O(n) extra space, which breaks the in-place rule.",
-    "opsUnit": "element checks"
+    "summary": "move each non-zero left past the zeros, like bubble sort: O(n²) time, O(1) space. Copying the non-zeros into a new array is O(n) time, but it needs O(n) extra space, which breaks the in-place rule."
   },
   "examples": [
     { "id": "mixed", "label": "Mixed: [2,0,1,0,0,3,12,0,5]", "kind": "main", "args": { "nums": [2, 0, 1, 0, 0, 3, 12, 0, 5] } },

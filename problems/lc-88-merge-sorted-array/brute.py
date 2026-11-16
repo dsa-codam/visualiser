@@ -1,8 +1,10 @@
 def brute(nums1, m, nums2, n):
     nums1 = nums1[:]  # work on a copy
     for j in range(n):
+        T.op()  # @trace
         nums1[m + j] = nums2[j]  # fill the empty tail with nums2
     for i in range(1, m + n):  # insertion sort on the whole array
+        T.op()  # @trace
         value = nums1[i]
         k = i - 1
         while k >= 0:

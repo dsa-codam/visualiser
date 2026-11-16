@@ -2,6 +2,7 @@ def brute(nums, k):
     nums = sorted(nums)  # the target of a group is its largest value
     longest = 0
     for right in range(len(nums)):  # nums[right] is the target value
+        T.op()  # @trace
         cost = 0  # increments needed so far
         left = right
         while left >= 0:

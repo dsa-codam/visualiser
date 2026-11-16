@@ -29,8 +29,7 @@
     }
   ],
   "bruteForce": {
-    "summary": "take every pair of scores as the lowest and the highest, and count how many scores lie between them. If at least k do, that difference is possible; keep the smallest one. O(n³) time, about 10⁹ steps for n = 1000: too slow.",
-    "opsUnit": "score checks"
+    "summary": "take every pair of scores as the lowest and the highest, and count how many scores lie between them. If at least k do, that difference is possible; keep the smallest one. O(n³) time, about 10⁹ iterations for n = 1000: too slow."
   },
   "examples": [
     { "id": "lc2", "label": "LeetCode Example 2: [9,4,1,7], k = 2", "kind": "main",

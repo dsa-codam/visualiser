@@ -612,6 +612,7 @@
         (bf.summary ? `<li><b>Brute force:</b> ${esc(bf.summary)}</li>` : "") +
         (C.pattern ? `<li><b>Pattern:</b> ${esc(C.pattern)}</li>` : "") +
         (C.coreIdea ? `<li><b>Core idea:</b> ${esc(C.coreIdea)}</li>` : "") +
+        (C.variant ? `<li><b>Variant:</b> ${esc(C.variant)}</li>` : "") +  // optional: which form of the pattern, and why
         `<li id="vz-ops"></li></ul>` +
         (bf.code ? `<details><summary>Brute force code (Python3)</summary><div id="vz-bf-code"></div></details>` : "");
       if (bf.code) $("vz-bf-code").append(VIZ.codeBlock(bf.code));
@@ -685,9 +686,14 @@
       } };
       canvasImpl.build(ctx);
       const ops = X.ops || {};
-      const unit = P.bruteForce && P.bruteForce.opsUnit ? P.bruteForce.opsUnit : "operations";
+      // ADR 032: the unit is loop iterations; the line names the selected chip and its n
+      const unit = P.bruteForce && P.bruteForce.opsUnit ? P.bruteForce.opsUnit : "iterations";
+      const word = unit === "iterations" && ops.brute === 1 ? "iteration" : unit;
+      const lens = Object.values(X.args || {}).filter((v) => Array.isArray(v) || typeof v === "string").map((v) => v.length);
+      const size = lens.length ? ` (size = ${Math.max(...lens)})` : "";
+      const small = ops.approach >= ops.brute ? " Small inputs hide the gain; it grows with input size." : "";
       $("vz-ops").innerHTML = ops.brute != null
-        ? `<b>On this input:</b> brute force needs ${ops.brute} ${esc(unit)}, this approach needs ${ops.approach}.`
+        ? `<b>On this input${size}:</b> brute force needs ${ops.brute} ${esc(word)}, this approach needs ${ops.approach}.${small}`
         : "";
     }
 

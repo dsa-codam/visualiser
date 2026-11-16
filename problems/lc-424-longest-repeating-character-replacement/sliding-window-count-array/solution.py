@@ -56,13 +56,13 @@ class Solution:
                "changes = length − (count of its most common letter).", **snap(None))
         # @trace-end
         for right in range(len(s)):  # right edge, moves every step  # @a:add
+            T.op()  # @trace
             count[idx(s[right])] += 1  # add s[right] to the window  # @a:add
             length = right - left + 1  # letters in the window [left, right]
             top_letter = find_top(count)  # most common letter in the window
             top_count = count[idx(top_letter)]  # how often top_letter is in the window
             changes = length - top_count  # letters to change so that all are top_letter
             # @trace-begin
-            T.op()
             head = (f"The for loop starts: right = 0, add '{s[right]}'." if right == 0
                     else f"Next round: right moves to {right}, add '{s[right]}'.") + f" Recompute: {check_text()}"
             if changes > k:
@@ -73,6 +73,7 @@ class Solution:
                        **snap(right, {right: "current"}))
             # @trace-end
             while changes > k:  # bad window: more letters to change than k  # @a:drop
+                T.op()  # @trace
                 count[idx(s[left])] -= 1  # drop s[left] from the window  # @a:drop
                 left += 1  # shrink from the left  # @a:drop
                 length = right - left + 1  # length of the smaller window
@@ -80,7 +81,6 @@ class Solution:
                 top_count = count[idx(top_letter)]  # its count in the smaller window
                 changes = length - top_count  # letters to change in the smaller window
                 # @trace-begin
-                T.op()
                 head = f"while changes > k: drop s[{left - 1}] = '{s[left - 1]}', left moves to {left}. Recompute: {check_text()}"
                 if changes > k:
                     T.step("drop", "shrink", f"{head} Still > k = {k}, so the loop runs again.", **snap(right, {left - 1: "removed"}))

@@ -34,8 +34,7 @@
     }
   ],
   "bruteForce": {
-    "summary": "sort nums, then for each right try every left from right down to 0, adding up the increments needed to raise nums[left..right] to nums[right]. Stop when the cost goes over k. O(n²) time, which is too slow for n = 10⁵.",
-    "opsUnit": "increment checks"
+    "summary": "sort nums, then for each right try every left from right down to 0, adding up the increments needed to raise nums[left..right] to nums[right]. Stop when the cost goes over k. O(n²) time, which is too slow for n = 10⁵."
   },
   "examples": [
     { "id": "lc1", "label": "LeetCode Example 1: [1,2,4], k = 5", "kind": "edge",

@@ -30,8 +30,8 @@ class Solution:
         T.step("init", "init", f"left = 0, longest = 0. A valid window starts with an even value, alternates even / odd, and has no value above threshold = {threshold}.", **snap(None, None))
         # @trace-end
         for right in range(len(nums)):  # right edge, moves every step  # @a:loop
+            T.op()  # @trace
             # @trace-begin
-            T.op()
             T.step("loop", "next", (f"Next round of the for loop: right moves to index {right}." if right else "The for loop starts: right = 0.")
                    + ("" if left < right else " There is no window before it."),
                    **snap(right, [left, right - 1] if left < right else None))

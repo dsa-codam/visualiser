@@ -29,8 +29,7 @@
     }
   ],
   "bruteForce": {
-    "summary": "try every start i, extend j to the right while the values stay unique, and keep the largest sum. O(n²) time, which is too slow for n = 10⁵.",
-    "opsUnit": "element visits"
+    "summary": "try every start i, extend j to the right while the values stay unique, and keep the largest sum. O(n²) time, which is too slow for n = 10⁵."
   },
   "examples": [
     { "id": "lc1", "label": "LeetCode Example 1: [4,2,4,5,6]", "kind": "main", "args": { "nums": [4, 2, 4, 5, 6] }, "expected": 17 },

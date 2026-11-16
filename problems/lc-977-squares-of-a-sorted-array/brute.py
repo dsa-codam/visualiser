@@ -1,6 +1,8 @@
 def brute(nums):
     squares = [x * x for x in nums]  # square every value
+    T.op(len(nums))  # @trace
     for i in range(1, len(squares)):  # insertion sort on the squares
+        T.op()  # @trace
         value = squares[i]
         k = i - 1
         while k >= 0:

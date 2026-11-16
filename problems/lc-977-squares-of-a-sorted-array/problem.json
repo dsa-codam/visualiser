@@ -29,8 +29,7 @@
     }
   ],
   "bruteForce": {
-    "summary": "square every value, then sort the squares: O(n log n) with a library sort. It throws away the fact that nums is already sorted. The code below sorts with insertion sort so each comparison can be counted.",
-    "opsUnit": "comparisons"
+    "summary": "square every value, then sort the squares: O(n log n) with a library sort. It throws away the fact that nums is already sorted. The code below sorts with insertion sort so each iteration can be counted."
   },
   "examples": [
     { "id": "lc1", "label": "LeetCode Example 1: [-4,-1,0,3,10]", "kind": "main",

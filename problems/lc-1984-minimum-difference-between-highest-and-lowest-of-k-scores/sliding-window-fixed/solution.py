@@ -46,6 +46,7 @@ class Solution:
                "the highest minus the lowest of all scores, so no group can have a bigger difference.", **snap(None, None))
         # @trace-end
         for right in range(k - 1, len(nums)):  # right edge: nums[left..right] has k scores  # @a:loop
+            T.op()  # @trace
             # @trace-begin
             diff = None
             T.step("loop", "next", f"The for loop starts: right = k − 1 = {right}, so the first window is [{left}, {right}]." if right == k - 1 else
@@ -54,7 +55,6 @@ class Solution:
             # @trace-end
             diff = nums[right] - nums[left]  # sorted, so this is the highest minus the lowest of the window  # @a:diff
             # @trace-begin
-            T.op()
             T.step("diff", "diff", f"diff = nums[{right}] − nums[{left}] = {nums[right]} − {nums[left]} = {diff}. "
                    "nums is sorted, so nums[right] is the highest and nums[left] the lowest score in the window.",
                    **snap(right, [left, right], {left: "current", right: "current"}))

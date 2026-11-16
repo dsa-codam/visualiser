@@ -29,8 +29,7 @@
     }
   ],
   "bruteForce": {
-    "summary": "for every start i, count the 'W' in blocks[i..i+k-1] from scratch and keep the smallest count. O(n·k) time.",
-    "opsUnit": "block checks"
+    "summary": "for every start i, count the 'W' in blocks[i..i+k-1] from scratch and keep the smallest count. O(n·k) time."
   },
   "examples": [
     { "id": "lc1", "label": "LeetCode Example 1: \"WBBWWBBWBW\", k = 7", "kind": "main", "args": { "blocks": "WBBWWBBWBW", "k": 7 }, "expected": 3 },

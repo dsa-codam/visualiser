@@ -15,7 +15,7 @@
     {
       "text": "n == nums.length, 1 ≤ k ≤ n ≤ 10⁵",
       "meaning": "Up to 100,000 elements. The window length k is at least 1 and never longer than the array.",
-      "impact": "Summing every window from scratch is O(n·k), up to about 10¹⁰ steps when k is near n/2: too slow. You need O(n). There is always at least one full window, so the answer always exists."
+      "impact": "Summing every window from scratch is O(n·k), up to about 10¹⁰ iterations when k is near n/2: too slow. You need O(n). There is always at least one full window, so the answer always exists."
     },
     {
       "text": "-10⁴ ≤ nums[i] ≤ 10⁴",
@@ -29,8 +29,7 @@
     }
   ],
   "bruteForce": {
-    "summary": "for every start i, add up nums[i..i+k-1] from scratch and keep the largest sum. O(n·k) time, which is too slow when n = 10⁵ and k is large.",
-    "opsUnit": "element additions"
+    "summary": "for every start i, add up nums[i..i+k-1] from scratch and keep the largest sum. O(n·k) time, which is too slow when n = 10⁵ and k is large."
   },
   "examples": [
     { "id": "lc1", "label": "LeetCode Example 1: [1,12,-5,-6,50,3], k = 4", "kind": "main", "args": { "nums": [1, 12, -5, -6, 50, 3], "k": 4 }, "expected": 12.75 },

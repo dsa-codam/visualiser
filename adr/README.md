@@ -34,3 +34,5 @@ Why the visualiser is built the way it is. One file per decision. To change a de
 | 028 | Same steps in every language, no hidden work |
 | 029 | Steps grouped by meaning; one step can highlight several lines |
 | 030 | No step-count range; warn only on long inputs, never on LeetCode examples (replaces the step part of 012) |
+| 031 | card.variant: the form of the pattern (optional, free text, filled when a page is next edited) |
+| 032 | "On this input" counts loop iterations on every page (replaces the per-page unit of 013) |

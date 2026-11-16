@@ -21,7 +21,9 @@ schemaVersion: 1. All files are plain JSON (no comments, no trailing commas). Th
                                                         // sorted(inPlace[:k]), like LeetCode's custom judge
   },
   "constraints": [{ "text": "1 ≤ nums.length ≤ 10⁴", "meaning": "...", "impact": "..." }],
-  "bruteForce": { "summary": "...", "opsUnit": "element checks" },
+  "bruteForce": { "summary": "..." },                 // opsUnit optional, default "iterations": T.op() is called
+                                                      // once per loop-body run, outer and inner loops, in brute.py and solution.py;
+                                                      // loops of fixed size (e.g. 26 letters) are not counted (ADR 032)
   "examples": [
     { "id": "lc1", "label": "LeetCode Example 1: [0,1,0,3,12]", "kind": "main",
       "args": { "nums": [0, 1, 0, 3, 12] }, "expected": [1, 3, 12, 0, 0] }
@@ -33,7 +35,7 @@ schemaVersion: 1. All files are plain JSON (no comments, no trailing commas). Th
 - More param or return types: extend `make_driver()` in build.py first.
 
 ## problems/<…>/brute.py
-`def brute(<params in signature order>)` → answer (in-place problems: the final array; judge "sortedPrefix": the sorted first k elements). One `T.op()  # @trace` per basic operation. Shown on the page (minus @trace lines).
+`def brute(<params in signature order>)` → answer (in-place problems: the final array; judge "sortedPrefix": the sorted first k elements). One `T.op()  # @trace` per run of every loop body, outer and inner (unit "iterations", ADR 032). Loops of fixed size that do not grow with n are not counted. Shown on the page (minus @trace lines).
 
 ## problems/<…>/gen.py
 `def gen(rng)` → dict of args inside the constraints. `rng` is `random.Random` with a fixed seed, so runs repeat.
@@ -51,7 +53,11 @@ schemaVersion: 1. All files are plain JSON (no comments, no trailing commas). Th
   "time": "O(n)", "space": "O(n)",
   "whenToUse": "...",                          // compare table
   "noC": "...",                                // required when there is no solution.c
-  "card": { "signals": "...", "pattern": "...", "coreIdea": "..." },
+  "card": { "signals": "...", "pattern": "...", "coreIdea": "...", "variant": "..." },   // variant optional (ADR 031): the sub-type of the pattern this
+                                                // solution uses ("inclusive prefix sum", "fixed-size window",
+                                                // "opposite-direction pointers") and in 1–2 sentences why it fits.
+                                                // Fill it when the pattern has more than one form. Free text, no
+                                                // fixed list. Old pages get it the next time they are edited.
   "invariant": "...",
   "phases": { "expand": "expand", "update": "best ↑" },   // phase → tag text
   "legend": [{ "swatch": "ptr-back", "text": "left: left edge of the window" }],

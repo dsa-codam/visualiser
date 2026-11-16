@@ -610,7 +610,7 @@ def build_problem(pb, n_random):
         "problem": {
             "source": meta["source"], "title": meta["title"], "difficulty": meta["difficulty"], "nMax": meta["nMax"],
             "constraints": meta["constraints"],
-            "bruteForce": {"summary": meta["bruteForce"].get("summary", ""), "opsUnit": meta["bruteForce"].get("opsUnit", "operations"),
+            "bruteForce": {"summary": meta["bruteForce"].get("summary", ""), "opsUnit": meta["bruteForce"].get("opsUnit", "iterations"),
                            "code": brute_lines},
         },
         "approaches": approaches_out,

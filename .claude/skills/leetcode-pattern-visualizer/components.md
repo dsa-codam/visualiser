@@ -11,7 +11,7 @@
 | 3 | Approach tabs | only with 2+ approaches | approaches |
 | 4 | Compare approaches (collapsed table) | only with 2+ approaches | approach.time/space/whenToUse |
 | 5 | Constraints — what they tell you (collapsed): table + "n → fast enough" rule of thumb with the matching row highlighted | always | problem.constraints, problem.nMax |
-| 6 | Why this pattern? (collapsed): signals, brute force, pattern, core idea, ops counter "on this input", brute-force code (collapsed) | always | approach.card, problem.bruteForce, example.ops |
+| 6 | Why this pattern? (collapsed): signals, brute force, pattern, core idea, variant (optional), ops counter "on this input", brute-force code (collapsed) | always | approach.card, problem.bruteForce, example.ops |
 | 7 | Examples / Edge cases buttons | always | problem.examples (kind main / edge) |
 | 8 | Canvas | always | canvas.js |
 | 9 | Side panels: Variables (always) + extra panels from canvas.js | always | step.vars |

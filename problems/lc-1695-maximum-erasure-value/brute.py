@@ -1,6 +1,7 @@
 def brute(nums):
     best = 0
     for i in range(len(nums)):  # every possible start
+        T.op()  # @trace
         seen = set()  # fresh set for each start
         total = 0
         for j in range(i, len(nums)):  # extend to the right

@@ -15,7 +15,7 @@
     {
       "text": "n == code.length, 1 ≤ n ≤ 100",
       "meaning": "At least one number, at most 100.",
-      "impact": "Brute force, O(n·|k|), is at most about 10⁴ additions, so it is fast enough. The sliding window does it in O(n), and it is the idea the problem trains."
+      "impact": "Brute force, O(n·|k|), is at most about 10⁴ iterations, so it is fast enough. The sliding window does it in O(n), and it is the idea the problem trains."
     },
     {
       "text": "1 ≤ code[i] ≤ 100",
@@ -29,8 +29,7 @@
     }
   ],
   "bruteForce": {
-    "summary": "for every i, add up the |k| numbers after it (or before it) from scratch, with indices taken modulo n. O(n·|k|) time.",
-    "opsUnit": "additions"
+    "summary": "for every i, add up the |k| numbers after it (or before it) from scratch, with indices taken modulo n. O(n·|k|) time."
   },
   "examples": [
     { "id": "lc1", "label": "LeetCode Example 1: [5,7,1,4], k = 3", "kind": "main", "args": { "code": [5, 7, 1, 4], "k": 3 }, "expected": [12, 10, 16, 13] },

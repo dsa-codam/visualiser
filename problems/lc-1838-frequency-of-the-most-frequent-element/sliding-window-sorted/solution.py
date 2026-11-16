@@ -39,10 +39,10 @@ class Solution:
         longest = 0  # largest valid window so far
         T.step("init", "init", "left = 0, total = 0, longest = 0. Rule: cost = nums[right] × length − total, the increments the window needs, must stay ≤ k.", **snap(None, None, total))  # @trace
         for right in range(len(nums)):  # right edge: nums[right] is the target value  # @a:loop
+            T.op()  # @trace
             T.step("loop", "next", f"Next round of the for loop: right moves to index {right}." if right else "The for loop starts: right = 0.", **snap(right, [left, right - 1] if right > left else None, total))  # @trace
             total += nums[right]  # add nums[right] to the window  # @a:expand
             cost = nums[right] * (right - left + 1) - total  # increments to raise the whole window to nums[right]
-            T.op()  # @trace
             # @trace-begin
             v, ln = nums[right], right - left + 1
             if cost > k:
@@ -53,12 +53,12 @@ class Solution:
                        **snap(right, [left, right], total, cost, roles={right: "current"}))
             # @trace-end
             while cost > k:  # too many increments: shrink from the left  # @a:while
+                T.op()  # @trace
                 T.step("while", "check", f"while cost = {cost} > k = {k}: the loop runs. Drop the smallest value, nums[left] = {nums[left]}: it needs the most increments.", **snap(right, [left, right], total, cost, roles={right: "conflict"}, tags={right: ">k"}))  # @trace
                 total -= nums[left]  # drop nums[left] from the window  # @a:shrink
                 left += 1
                 cost = nums[right] * (right - left + 1) - total
                 # @trace-begin
-                T.op()
                 d, ln = nums[left - 1], right - left + 1
                 if cost > k:
                     T.step("shrink", "shrink", f"Drop {d}, total = {total}, left moves to {left}. cost = {nums[right]} × {ln} − {total} = {cost}, still > k = {k}.",

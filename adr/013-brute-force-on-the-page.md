@@ -1,6 +1,6 @@
 # 013 — Brute force on the page: code and an operation counter, no animation
 
-Status: accepted · 2026-10-06
+Status: accepted · 2026-10-06 · superseded in part by 032 (the unit of the counter)
 
 ## Context
 Brute force exists anyway as the test oracle (ADR 003). We asked whether to animate it too.

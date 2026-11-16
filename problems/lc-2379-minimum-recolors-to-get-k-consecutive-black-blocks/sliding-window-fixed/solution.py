@@ -23,6 +23,7 @@ class Solution:
                "each 'W' in it needs one recolor, so we count the 'W' in the window.", **snap(None, None))
         # @trace-end
         for right in range(k):  # build the first window blocks[0..k-1]  # @a:build-loop
+            T.op()  # @trace
             # @trace-begin
             T.step("build-loop", "build", f"The first for loop fills the first window: right = {right}." if right == 0 else
                    f"Next round of the first for loop: right = {right} < k = {k}.",
@@ -31,7 +32,6 @@ class Solution:
             if blocks[right] == 'W':  # @a:build
                 whites += 1
             # @trace-begin
-            T.op()
             T.step("build", "build", f"blocks[{right}] = '{blocks[right]}': " +
                    (f"a white block enters, whites = {whites}." if blocks[right] == 'W' else f"already black, whites stays {whites}."),
                    **snap(right, [0, right], {right: "current"}))
@@ -43,11 +43,11 @@ class Solution:
                **snap(None, [0, k - 1], flash=True))
         # @trace-end
         for right in range(k, len(blocks)):  # slide: one block in, one out  # @a:loop
+            T.op()  # @trace
             T.step("loop", "next", f"Next round of the second for loop: right moves to index {right}. The window slides one step to the right.", **snap(right, [left, right - 1]))  # @trace
             if blocks[right] == 'W':  # new block enters on the right  # @a:add
                 whites += 1
             # @trace-begin
-            T.op()
             T.step("add", "add", f"blocks[{right}] = '{blocks[right]}' enters: " +
                    (f"it is white, so whites = {whites}." if blocks[right] == 'W' else f"it is black, so whites stays {whites}."),
                    **snap(right, [left, right], {right: "current"}))
@@ -56,7 +56,6 @@ class Solution:
                 whites -= 1
             left += 1
             # @trace-begin
-            T.op()
             T.step("drop", "drop", f"blocks[{left - 1}] = '{blocks[left - 1]}' leaves: " +
                    (f"it was white, so whites = {whites}." if blocks[left - 1] == 'W' else f"it was black, so whites stays {whites}.") +
                    f" left moves to {left}, and the window [{left}, {right}] has k = {k} blocks again.",

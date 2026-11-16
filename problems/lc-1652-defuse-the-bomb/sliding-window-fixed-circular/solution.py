@@ -49,6 +49,7 @@ class Solution:
         total = 0  # sum of the numbers in the window  # @a:total
         T.step("total", "init", "total = 0. We add the numbers of the first window one by one.", **snap())  # @trace
         for j in range(left, right + 1):  # build the first window code[left..right]  # @a:build-loop
+            T.op()  # @trace
             # @trace-begin
             T.step("build-loop", "build", f"The first for loop adds the first window: j = {j}." if j == left else
                    f"Next round of the first for loop: j = {j} ≤ right = {right}.",
@@ -56,7 +57,6 @@ class Solution:
             # @trace-end
             total += code[j]  # @a:build
             # @trace-begin
-            T.op()
             T.step("build", "build", f"code[{j}] = {code[j]} is added, so total = {total}.",
                    **snap([left, j], {j: "current"}))
             # @trace-end
@@ -70,11 +70,11 @@ class Solution:
                **snap(win(), new=0, flash=True))
         # @trace-end
         for i in range(1, n):  # slide the window one step for each next i  # @a:loop
+            T.op()  # @trace
             T.step("loop", "next", f"Next round of the second for loop: i = {i}. The window moves one step to the right.", **snap(win()))  # @trace
             right = (right + 1) % n  # after n - 1 comes 0  # @a:add
             total += code[right]  # new number enters on the right
             # @trace-begin
-            T.op()
             wrap = " (it wraps from n − 1 to 0)" if right == 0 else ""
             T.step("add", "add", f"right = {right}{wrap}. code[{right}] = {code[right]} enters, so total = {total}. "
                    f"The window now has |k| + 1 = {abs(k) + 1} numbers, one too many.",
@@ -85,7 +85,6 @@ class Solution:
             # @trace-begin
             gone = (left - 1) % n
             wrap = " (it wraps from n − 1 to 0)" if left == 0 else ""
-            T.op()
             T.step("drop", "drop", f"code[{gone}] = {code[gone]} leaves, so total = {total}. left = {left}{wrap}, "
                    f"and the window has |k| = {abs(k)} numbers again.", **snap(win(), {gone: "removed"}))
             # @trace-end

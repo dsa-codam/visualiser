@@ -34,8 +34,7 @@
     }
   ],
   "bruteForce": {
-    "summary": "try every start i, extend j to the right, keep the count of each letter and the top count, and record j - i + 1 when length - top count ≤ k. O(n²) time, which is too slow for n = 10⁵.",
-    "opsUnit": "character visits"
+    "summary": "try every start i, extend j to the right, keep the count of each letter and the top count, and record j - i + 1 when length - top count ≤ k. O(n²) time, which is too slow for n = 10⁵."
   },
   "examples": [
     { "id": "lc2", "label": "LeetCode Example 2: \"AABABBA\", k = 1", "kind": "main", "args": { "s": "AABABBA", "k": 1 }, "expected": 4 },

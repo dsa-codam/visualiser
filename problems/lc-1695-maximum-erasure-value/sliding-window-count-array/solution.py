@@ -28,10 +28,10 @@ class Solution:
         T.step("init", "init", "count is all zeros, left = 0, total = 0, largest = 0. Rule: no value may appear twice in the window.", **snap(None, None))
         # @trace-end
         for right in range(len(nums)):  # right edge, moves every step  # @a:loop
+            T.op()  # @trace
             T.step("loop", "next", f"Next round of the for loop: right moves to index {right}." if right else "The for loop starts: right = 0.", **snap(right, [left, right - 1] if right > left else None))  # @trace
             count[nums[right]] += 1  # add nums[right] to the window  # @a:expand
             total += nums[right]
-            T.op()  # @trace
             # @trace-begin
             v = nums[right]
             if count[v] > 1:
@@ -43,12 +43,12 @@ class Solution:
                        f"so the window [{left}, {right}] is still unique.", **snap(right, [left, right], {right: "current"}))
             # @trace-end
             while count[nums[right]] > 1:  # only nums[right] can be a repeat  # @a:while
+                T.op()  # @trace
                 T.step("while", "check", f"while count[{nums[right]}] = 2 > 1: the loop runs, so the window shrinks from the left until the old {nums[right]} is gone.", **snap(right, [left, right], dup=nums[right]))  # @trace
                 count[nums[left]] -= 1  # drop nums[left] from the window  # @a:shrink
                 total -= nums[left]
                 left += 1
                 # @trace-begin
-                T.op()
                 d, v = nums[left - 1], nums[right]
                 if count[v] > 1:
                     T.step("shrink", "shrink", f"Drop nums[{left - 1}] = {d}, total = {total}, left moves to {left}. "

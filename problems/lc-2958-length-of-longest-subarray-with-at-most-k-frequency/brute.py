@@ -1,6 +1,7 @@
 def brute(nums, k):
     best = 0
     for i in range(len(nums)):  # every possible start
+        T.op()  # @trace
         count = {}  # fresh counts for each start
         for j in range(i, len(nums)):  # extend to the right
             T.op()  # @trace

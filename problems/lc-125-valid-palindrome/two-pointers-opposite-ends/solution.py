@@ -25,6 +25,7 @@ class Solution:
         left, right = 0, len(s) - 1  # start at both ends  # @a:init
         T.step("init", "init", f"left = 0 and right = {right}: compare the string from both ends at once.", **snap(left, right))  # @trace
         while left < right:  # @a:loop
+            T.op()  # @trace
             # @trace-begin
             rounds += 1
             T.step("loop", "next", (f"while left < right: {left} < {right}, so the loop runs." if rounds == 1
@@ -38,7 +39,6 @@ class Solution:
                 T.op()  # @trace
                 right -= 1  # @a:skipRight
                 T.step("skipRight", "skip", f"s[{right + 1}] = {show(s[right + 1])} is not a letter or digit, so it does not count. right moves to {right}.", **snap(left, right))  # @trace
-            T.op()  # @trace
             if s[left].lower() != s[right].lower():  # compare, ignoring case  # @a:compare
                 # @trace-begin
                 T.step("mismatch", "mismatch", (f"s[{left}] = {show(s[left])} and s[{right}] = {show(s[right])} are different, even in lowercase. "

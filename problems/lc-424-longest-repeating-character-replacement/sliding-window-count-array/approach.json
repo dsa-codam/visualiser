@@ -8,7 +8,7 @@
   "whenToUse": "The standard answer. s has only 'A' to 'Z', so a counting array of 26 works, and finding the top letter is one pass over 26 counters; for any other alphabet you would use a hash map instead.",
   "card": {
     "signals": "\"substring\" (contiguous), \"at most k\" changes (a limit every window must keep) and \"longest\". A window is good when changes = length - (count of its most common letter) ≤ k: change all the other letters.",
-    "pattern": "a variable-size window. right adds one letter every round; while the window is bad, left drops letters. Each index enters the window once and leaves at most once.",
+    "pattern": "a variable-size window. right adds one letter every round; while the window is bad, left drops letters. Each index enters the window once and leaves at most once. Each step also scans the 26 letters in find_top: a constant that does not grow with n, so the counter below does not count it.",
     "coreIdea": "add s[right] to count. Compute length, the top letter (find_top: one pass over the 26 counters), top_count and changes = length - top_count. While changes > k, drop s[left], move left and compute the four values again. After the while loop the window is good, so it is a candidate for longest."
   },
   "invariant": "After the while loop, changes = (right - left + 1) - top_count ≤ k, and count holds how often each letter is in s[left..right].",

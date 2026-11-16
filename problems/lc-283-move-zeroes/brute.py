@@ -2,6 +2,7 @@ def brute(nums):
     nums = nums[:]  # work on a copy
     n = len(nums)
     for i in range(n):  # n passes, like bubble sort
+        T.op()  # @trace
         for j in range(n - 1 - i):
             T.op()  # @trace
             if nums[j] == 0 and nums[j + 1] != 0:  # a zero sits before a non-zero

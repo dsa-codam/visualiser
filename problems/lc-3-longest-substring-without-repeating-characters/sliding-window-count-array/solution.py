@@ -28,9 +28,9 @@ class Solution:
         T.step("init", "init", "count is all zeros, left = 0, longest = 0. Rule: no character may appear twice in the window.", **snap(None, None))
         # @trace-end
         for right in range(len(s)):  # right edge, moves every step  # @a:loop
+            T.op()  # @trace
             T.step("loop", "next", f"Next round of the for loop: right moves to index {right}." if right else "The for loop starts: right = 0.", **snap(right, [left, right - 1] if right > left else None))  # @trace
             count[ord(s[right])] += 1  # add s[right] to the window  # @a:expand
-            T.op()  # @trace
             # @trace-begin
             c = show(s[right])
             if count[ord(s[right])] > 1:
@@ -41,11 +41,11 @@ class Solution:
                        **snap(right, [left, right], {right: "current"}))
             # @trace-end
             while count[ord(s[right])] > 1:  # only s[right] can be a repeat  # @a:while
+                T.op()  # @trace
                 T.step("while", "check", f"while count[{show(s[right])}] = 2 > 1: the loop runs, so the window shrinks from the left until the old {show(s[right])} is gone.", **snap(right, [left, right], dup=s[right]))  # @trace
                 count[ord(s[left])] -= 1  # drop s[left] from the window  # @a:shrink
                 left += 1
                 # @trace-begin
-                T.op()
                 d, c = show(s[left - 1]), show(s[right])
                 if count[ord(s[right])] > 1:
                     T.step("shrink", "shrink", f"Drop s[{left - 1}] = {d}, left moves to {left}. It is not the old {c}, so {c} still appears twice.",

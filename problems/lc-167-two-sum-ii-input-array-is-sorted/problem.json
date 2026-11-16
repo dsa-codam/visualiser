@@ -49,8 +49,7 @@
     }
   ],
   "bruteForce": {
-    "summary": "check every pair (i, j) with i < j: O(n²) time, O(1) space. A hash map finds the pair in O(n) time, but it needs O(n) extra space, which breaks the constant-space rule.",
-    "opsUnit": "pair sums"
+    "summary": "check every pair (i, j) with i < j: O(n²) time, O(1) space. A hash map finds the pair in O(n) time, but it needs O(n) extra space, which breaks the constant-space rule."
   },
   "examples": [
     { "id": "both-move", "label": "Both pointers move: [-5,-1,2,3,8,11,14,22,24], target = 14", "kind": "main", "args": { "numbers": [-5, -1, 2, 3, 8, 11, 14, 22, 24], "target": 14 } },

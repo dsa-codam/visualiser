@@ -1,6 +1,7 @@
 def brute(s, k):
     longest = 0
     for i in range(len(s)):  # every start
+        T.op()  # @trace
         count = [0] * 26  # letter -> times in s[i..j]
         top = 0  # highest count of one letter in s[i..j]
         for j in range(i, len(s)):

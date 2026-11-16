@@ -2,7 +2,9 @@ def brute(nums, k):
     n = len(nums)
     smallest = None
     for i in range(n):  # nums[i] as the lowest score of the group
+        T.op()  # @trace
         for j in range(n):  # nums[j] as the highest score of the group
+            T.op()  # @trace
             if nums[j] < nums[i]:
                 continue
             count = 0  # scores between nums[i] and nums[j]

@@ -26,6 +26,7 @@ class Solution:
                "so the largest average belongs to the window with the largest sum.", **snap(None, None))
         # @trace-end
         for right in range(k):  # build the first window nums[0..k-1]  # @a:build-loop
+            T.op()  # @trace
             # @trace-begin
             T.step("build-loop", "build", f"The first for loop fills the first window: right = {right}." if right == 0 else
                    f"Next round of the first for loop: right = {right} < k = {k}.",
@@ -33,7 +34,6 @@ class Solution:
             # @trace-end
             total += nums[right]  # @a:build
             # @trace-begin
-            T.op()
             T.step("build", "build", f"Add nums[{right}] = {nums[right]}, total = {total}.",
                    **snap(right, [0, right], {right: "current"}))
             # @trace-end
@@ -44,10 +44,10 @@ class Solution:
                "Do not start largest at 0: every sum can be negative.", **snap(None, [0, k - 1], flash=True))
         # @trace-end
         for right in range(k, len(nums)):  # slide: one element in, one out  # @a:loop
+            T.op()  # @trace
             T.step("loop", "next", f"Next round of the second for loop: right moves to index {right}. The window slides one step to the right.", **snap(right, [left, right - 1]))  # @trace
             total += nums[right]  # new element enters on the right  # @a:add
             # @trace-begin
-            T.op()
             T.step("add", "add", f"Add nums[{right}] = {nums[right]}, total = {total}. "
                    f"The window now has k + 1 = {k + 1} elements, one too many.",
                    **snap(right, [left, right], {right: "current"}))
@@ -55,7 +55,6 @@ class Solution:
             total -= nums[left]  # oldest element leaves on the left  # @a:drop
             left += 1
             # @trace-begin
-            T.op()
             T.step("drop", "drop", f"Drop nums[{left - 1}] = {nums[left - 1]}, total = {total}, left moves to {left}. "
                    f"The window [{left}, {right}] has k = {k} elements again.",
                    **snap(right, [left, right], {left - 1: "removed"}))

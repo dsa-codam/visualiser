@@ -79,7 +79,7 @@ tools/issues.py  prints open issues and sub-issues as a tree (needs gh)
    - `# @a:<name>` at the end of every line a step points at (same names in every language)
    - `# @trace` on single lines that only record steps; `# @trace-begin` / `# @trace-end` around blocks
    - `# @hide` on imports
-   - `T.step(anchor, phase, caption, state=..., roles=..., vars=...)` at each meaningful moment; `T.op()` once per element visit (for the ops counter)
+   - `T.step(anchor, phase, caption, state=..., roles=..., vars=...)` at each meaningful moment; `T.op()` once per run of every loop body, outer and inner, including loops in helper functions; not in loops of fixed size that do not grow with n (for the "On this input" counter, unit "iterations", ADR 032)
    - Removing every @trace line must leave a clean, submittable solution. build.py tests both versions.
    - Write it so it could be ported to JavaScript line by line later (ADR 005): no clever Python-only tricks in the logic.
 3. **solution.cpp** (always) and **solution.c** (only if allowed): same logic, same anchor names (`// @a:<name>`), `// @hide` on includes and `using namespace std;`. Use long long where overflow is possible, `mid = lo + (hi - lo) / 2`.

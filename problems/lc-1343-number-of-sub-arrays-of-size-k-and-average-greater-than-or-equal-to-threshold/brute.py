@@ -1,6 +1,7 @@
 def brute(arr, k, threshold):
     count = 0
     for i in range(len(arr) - k + 1):  # every possible start of a window
+        T.op()  # @trace
         total = 0
         for j in range(i, i + k):  # add up the window from scratch
             T.op()  # @trace

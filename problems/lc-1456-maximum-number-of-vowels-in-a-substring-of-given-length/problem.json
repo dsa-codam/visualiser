@@ -15,7 +15,7 @@
     {
       "text": "1 ≤ s.length ≤ 10⁵",
       "meaning": "Up to 100,000 characters, never empty.",
-      "impact": "Counting the vowels of every substring from scratch is O(n·k), up to about 10¹⁰ steps when k is near n/2: too slow. You need O(n)."
+      "impact": "Counting the vowels of every substring from scratch is O(n·k), up to about 10¹⁰ iterations when k is near n/2: too slow. You need O(n)."
     },
     {
       "text": "s consists of lowercase English letters",
@@ -29,8 +29,7 @@
     }
   ],
   "bruteForce": {
-    "summary": "for every start i, count the vowels in s[i..i+k-1] from scratch and keep the largest count. O(n·k) time, which is too slow when n = 10⁵ and k is large.",
-    "opsUnit": "letter checks"
+    "summary": "for every start i, count the vowels in s[i..i+k-1] from scratch and keep the largest count. O(n·k) time, which is too slow when n = 10⁵ and k is large."
   },
   "examples": [
     { "id": "lc1", "label": "LeetCode Example 1: \"abciiidef\", k = 3", "kind": "main", "args": { "s": "abciiidef", "k": 3 }, "expected": 3 },

@@ -15,7 +15,7 @@
     {
       "text": "n == nums.length, 1 ≤ n ≤ 10⁵",
       "meaning": "Up to 100,000 numbers, never empty.",
-      "impact": "Adding up 2k + 1 numbers from scratch for every centre is O(n·k), up to about 10¹⁰ steps when k is near n/2: too slow. You need O(n)."
+      "impact": "Adding up 2k + 1 numbers from scratch for every centre is O(n·k), up to about 10¹⁰ iterations when k is near n/2: too slow. You need O(n)."
     },
     {
       "text": "0 ≤ nums[i] ≤ 10⁵",
@@ -29,8 +29,7 @@
     }
   ],
   "bruteForce": {
-    "summary": "for every index i that has k numbers on both sides, add up nums[i − k..i + k] from scratch and divide by 2k + 1; every other index gets -1. O(n·k) time, which is too slow when n = 10⁵ and k is large.",
-    "opsUnit": "additions"
+    "summary": "for every index i that has k numbers on both sides, add up nums[i − k..i + k] from scratch and divide by 2k + 1; every other index gets -1. O(n·k) time, which is too slow when n = 10⁵ and k is large."
   },
   "examples": [
     { "id": "lc1", "label": "LeetCode Example 1: [7,4,3,9,1,8,5,2,6], k = 3", "kind": "main", "args": { "nums": [7, 4, 3, 9, 1, 8, 5, 2, 6], "k": 3 }, "expected": [-1, -1, -1, 5, 4, 4, -1, -1, -1] },

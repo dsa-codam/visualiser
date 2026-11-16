@@ -20,7 +20,7 @@
     {
       "text": "1 ≤ minutes ≤ n ≤ 2 × 10⁴",
       "meaning": "Up to 20,000 minutes. The technique always fits in the day.",
-      "impact": "Trying every start and adding up the day from scratch is O(n²), about 4 × 10⁸ steps: too slow. One pass with a window of fixed size minutes is O(n)."
+      "impact": "Trying every start and adding up the day from scratch is O(n²), about 4 × 10⁸ iterations: too slow. One pass with a window of fixed size minutes is O(n)."
     },
     {
       "text": "0 ≤ customers[i] ≤ 1000",
@@ -34,8 +34,7 @@
     }
   ],
   "bruteForce": {
-    "summary": "try every start of the technique. For each start, go through the whole day and add the customers of calm minutes and of minutes inside the technique. Keep the largest total. O(n²) time, about 4 × 10⁸ steps for n = 2 × 10⁴: too slow.",
-    "opsUnit": "minute checks"
+    "summary": "try every start of the technique. For each start, go through the whole day and add the customers of calm minutes and of minutes inside the technique. Keep the largest total. O(n²) time, about 4 × 10⁸ iterations for n = 2 × 10⁴: too slow."
   },
   "examples": [
     { "id": "lc1", "label": "LeetCode Example 1: minutes = 3", "kind": "main",

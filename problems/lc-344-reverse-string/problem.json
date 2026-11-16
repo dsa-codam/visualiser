@@ -30,8 +30,7 @@
     }
   ],
   "bruteForce": {
-    "summary": "build a reversed copy, then copy it back into s: O(n) time, but O(n) extra memory, which breaks the O(1) rule. Two pointers swap in place with O(1) memory.",
-    "opsUnit": "character copies"
+    "summary": "build a reversed copy, then copy it back into s: O(n) time, but O(n) extra memory, which breaks the O(1) rule. Two pointers swap in place with O(1) memory."
   },
   "examples": [
     { "id": "even", "label": "Even length: \"Codam DSA!\"", "kind": "main", "args": { "s": ["C", "o", "d", "a", "m", " ", "D", "S", "A", "!"] } },

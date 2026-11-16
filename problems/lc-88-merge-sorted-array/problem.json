@@ -50,8 +50,7 @@
     }
   ],
   "bruteForce": {
-    "summary": "copy nums2 into the empty tail of nums1, then sort the whole array: O((m+n) log(m+n)) with a library sort. It throws away the fact that both parts are already sorted. The code below sorts with insertion sort so each comparison can be counted.",
-    "opsUnit": "comparisons"
+    "summary": "copy nums2 into the empty tail of nums1, then sort the whole array: O((m+n) log(m+n)) with a library sort. It throws away the fact that both parts are already sorted. The code below sorts with insertion sort so each iteration can be counted."
   },
   "examples": [
     { "id": "lc1", "label": "LeetCode Example 1: [1,2,3,0,0,0] + [2,5,6]", "kind": "main",

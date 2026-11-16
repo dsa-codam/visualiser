@@ -2,6 +2,7 @@ def brute(nums, k):
     n = len(nums)
     avgs = [-1] * n
     for i in range(n):  # every possible centre
+        T.op()  # @trace
         if i - k < 0 or i + k >= n:  # fewer than k numbers on one side: stays -1
             continue
         total = 0

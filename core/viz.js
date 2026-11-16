@@ -672,7 +672,25 @@
       st.cur = 0;
       document.querySelectorAll("#vz-examples [data-ex]").forEach((b) => b.setAttribute("aria-pressed", +b.dataset.ex === j));
       buildCanvas();
+      fitCaption();
       render(false);
+    }
+
+    // The caption panel keeps the height of the longest step of this example, so the layout
+    // does not jump during playback. Measured again when the example or the width changes.
+    function fitCaption() {
+      const panel = document.querySelector(".vz-caption");
+      const A = approaches[st.a], X = A.examples[st.e];
+      panel.style.minHeight = "";
+      let max = 0;
+      for (const s of X.steps) {
+        $("vz-phase").textContent = (A.phases && A.phases[s.phase]) || s.phase;
+        $("vz-cap").textContent = s.caption;
+        const inv = s.invariant || A.invariant;
+        $("vz-inv").textContent = inv ? "Invariant: " + inv : "";
+        max = Math.max(max, panel.offsetHeight);
+      }
+      panel.style.minHeight = max + "px";
     }
 
     function buildCanvas() {
@@ -771,7 +789,7 @@
     let rt;
     window.addEventListener("resize", () => {
       clearTimeout(rt);
-      rt = setTimeout(() => { buildCanvas(); render(false); }, 120);
+      rt = setTimeout(() => { buildCanvas(); fitCaption(); render(false); }, 120);
     });
     window.addEventListener("hashchange", () => {
       const i = approaches.findIndex((a) => "#" + a.id === location.hash);

@@ -25,7 +25,6 @@
   ];
   app.innerHTML = `
     <header class="vz-header"><h1>${esc(S.title || "Pattern Visualiser")}</h1></header>
-    <p>${esc(S.intro || "")}</p>
     <div class="vz-meta ix-top">${links.join("")}
       <input type="search" id="f-q" class="ix-search" placeholder="Search by number or title" aria-label="Search by problem number or title" autocomplete="off"></div>
     <div class="ix-filters" role="group" aria-label="Filters">

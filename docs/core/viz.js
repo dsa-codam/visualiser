@@ -539,10 +539,9 @@
     const body = `<div class="vz-stage"><div class="vz-col">${parts.canvas}${parts.code}</div>
            <div class="vz-col">${parts.aux}${parts.controls}${parts.caption}</div></div>`;
     root.innerHTML = `
-      <a class="vz-back" href="index.html">← Main page</a>
+      <nav class="vz-links" id="vz-links" aria-label="Links"></nav>
       <header class="vz-header"><h1>${esc(label)}${esc(P.title)}</h1>
-        <span class="pill ${esc(P.difficulty.toLowerCase())}">${esc(P.difficulty)}</span>
-        ${SRC.url ? `<a class="ext" href="${esc(SRC.url)}" target="_blank" rel="noopener">Open on ${esc(SRC.site || "the source site")} ↗</a>` : ""}</header>
+        <span class="pill ${esc(P.difficulty.toLowerCase())}">${esc(P.difficulty)}</span></header>
       <div class="vz-meta" id="vz-meta"></div>
       <div class="vz-approaches" id="vz-approaches" role="tablist" aria-label="Approaches"></div>
       <details class="panel" id="vz-compare" hidden><summary>Compare approaches</summary><div class="vz-table-wrap" id="vz-compare-body"></div></details>
@@ -600,10 +599,13 @@
       const bigO = S.bigO ? ` <a class="ext" href="${esc(S.bigO)}" target="_blank" rel="noopener">Big-O ↗</a>` : "";
       const guideUrl = (S.patternGuides || {})[A.pattern] || S.notionPatterns;
       const guide = guideUrl ? ` <a class="ext" href="${esc(guideUrl)}" target="_blank" rel="noopener">Pattern guide ↗</a>` : "";
+      const src = SRC.url ? `<a class="ext" href="${esc(SRC.url)}" target="_blank" rel="noopener">Open on ${esc(SRC.site || "the source site")} ↗</a>` : "";
+      // all links as buttons in their own row above the title (main page last)
+      $("vz-links").innerHTML = `${src}${guide}${bigO}<a href="index.html">Main page</a>`;
       $("vz-meta").innerHTML =
         `<span class="badge">${esc(A.pattern)}</span>` +
         (A.ds || []).map((d) => `<span class="badge ds">${esc(d)}</span>`).join("") +
-        `<span class="cx">${esc(A.time)} time · ${esc(A.space)} space</span>${bigO}${guide}`;
+        `<span class="cx">${esc(A.time)} time · ${esc(A.space)} space</span>`;
       const C = A.card || {};
       const bf = P.bruteForce || {};
       $("vz-card-body").innerHTML =

@@ -5,9 +5,9 @@
 ## Page order
 | # | Block | Shown | Data |
 |---|---|---|---|
-| 0 | "← Main page" link (index.html) | always | — |
-| 1 | Header: "LC N · Title", difficulty, Open on <site> ↗ | always | problem.source |
-| 2 | Meta: pattern badge, data-structure badges, time · space, Big-O ↗, Pattern guide ↗ (site.json patternGuides[pattern], else notionPatterns) | always (changes with the tab) | approach, site.json |
+| 0 | Links as buttons, own row above the title: Open on <site> ↗, Pattern guide ↗ (site.json patternGuides[pattern], else notionPatterns), Big-O ↗, Main page (index.html) | always (Pattern guide changes with the tab) | problem.source, approach.pattern, site.json |
+| 1 | Header: "LC N · Title", difficulty | always | problem.source |
+| 2 | Meta: pattern badge, data-structure badges, time · space | always (changes with the tab) | approach |
 | 3 | Approach tabs | only with 2+ approaches | approaches |
 | 4 | Compare approaches (collapsed table) | only with 2+ approaches | approach.time/space/whenToUse |
 | 5 | Constraints — what they tell you (collapsed): table + "n → fast enough" rule of thumb with the matching row highlighted | always | problem.constraints, problem.nMax |

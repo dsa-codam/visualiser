@@ -8,11 +8,15 @@ code, pre, .mono { font-family: var(--font-mono); }
 @media (min-width: 900px) { .wrap { padding: 28px 32px 48px; } }
 
 /* ---------- header ---------- */
-.vz-back { display: inline-block; margin-bottom: 8px; font-size: var(--fs-small); }
+.vz-back { display: inline-block; margin-bottom: 8px; font-size: var(--fs-small); } /* gallery and other non-problem pages */
 .vz-header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; }
 .vz-header h1 { font-size: var(--fs-title); margin: 0; }
 .vz-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 8px; }
-.badge { background: var(--role-back); color: var(--badge-ink); border-radius: 999px; padding: 2px 10px;
+.vz-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.vz-links a { font-size: var(--fs-small); font-weight: 600; color: var(--bg); background: var(--ink); text-decoration: none;
+  border: 1px solid var(--ink); border-radius: 8px; padding: 5px 12px; box-shadow: 0 1px 2px rgba(0, 0, 0, .15); }
+.vz-links a:hover { background: color-mix(in srgb, var(--ink) 78%, var(--bg)); border-color: transparent; } /* a few tones lighter, not inverted */
+.badge { background: transparent; color: var(--ink); border: 1px solid var(--ink); border-radius: 999px; padding: 2px 10px;
   font-size: var(--fs-small); font-weight: 600; white-space: nowrap; }
 .badge.ds { background: transparent; color: var(--ink); border: 1px solid var(--line); font-weight: 500; }
 .pill { font-size: var(--fs-tiny); font-weight: 700; border-radius: 4px; padding: 1px 6px; border: 1px solid var(--line); color: var(--muted); }

@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "title": "Sum of Variable Length Subarrays",
+  "source": { "site": "LeetCode", "id": "3427", "url": "https://leetcode.com/problems/sum-of-variable-length-subarrays/" },
+  "difficulty": "Easy",
+  "nMax": 100,
+  "signature": {
+    "python": "subarraySum",
+    "cpp": "subarraySum",
+    "c": "subarraySum",
+    "params": [{ "name": "nums", "type": "int[]" }],
+    "returns": "int"
+  },
+  "constraints": [
+    {
+      "text": "1 ≤ n == nums.length ≤ 100",
+      "meaning": "At least one number, at most 100.",
+      "impact": "Adding every subarray from scratch (O(n²)) passes here. The prefix array answers each subarray sum with one subtraction: O(n), the idea for bigger inputs and for range-sum queries."
+    },
+    {
+      "text": "1 ≤ nums[i] ≤ 1000",
+      "meaning": "Every number is positive.",
+      "impact": "Each subarray sum is at most 100 · 1000 = 10⁵, and the answer at most 100 · 10⁵ = 10⁷: int is enough. Because nums[i] ≥ 1, start = max(0, i − nums[i]) is always ≤ i − 1 or 0."
+    },
+    {
+      "text": "start = max(0, i − nums[i]) (statement)",
+      "meaning": "The subarray for index i ends at i and goes nums[i] steps back, but never before index 0.",
+      "impact": "With pre of length n + 1 (pre[0] = 0), the sum of nums[start..i] is pre[i + 1] − pre[start], also when start = 0. No special case."
+    }
+  ],
+  "bruteForce": {
+    "summary": "for every index i, add nums[start] + … + nums[i] from scratch and add that to the total. A subarray can have up to i + 1 numbers, so this is O(n²). It adds the same numbers again for many i."
+  },
+  "examples": [
+    { "id": "lc1", "label": "LC 1: [2,3,1]", "kind": "main",
+      "args": { "nums": [2, 3, 1] }, "expected": 11 },
+    { "id": "lc2", "label": "LC 2: [3,1,1,2]", "kind": "main",
+      "args": { "nums": [3, 1, 1, 2] }, "expected": 13 },
+    { "id": "mixed", "label": "Short and long subarrays: [1,4,2,1,3,2,1]", "kind": "main",
+      "args": { "nums": [1, 4, 2, 1, 3, 2, 1] } },
+    { "id": "single", "label": "One number: [1000]", "kind": "edge",
+      "args": { "nums": [1000] } },
+    { "id": "ones", "label": "All ones: [1,1,1]", "kind": "edge",
+      "args": { "nums": [1, 1, 1] } }
+  ]
+}

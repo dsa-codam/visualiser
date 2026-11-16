@@ -1,0 +1,26 @@
+{
+  "order": 1,
+  "name": "Prefix array (with a leading 0)",
+  "pattern": "Prefix sum",
+  "ds": ["Array"],
+  "time": "O(n)",
+  "space": "O(n)",
+  "whenToUse": "The standard answer: many sums of different subarrays. Build pre once, then each sum is one subtraction.",
+  "card": {
+    "signals": "a sum of a subarray nums[start..i] for every i, with a different start each time: many range sums over the same array.",
+    "pattern": "a prefix array. First pass: pre[i + 1] = pre[i] + nums[i]. Second pass: each subarray sum is pre[i + 1] − pre[start]. O(n) time, O(n) extra space.",
+    "coreIdea": "pre[i + 1] is the sum of nums[0..i] and pre[start] is the sum of nums[0..start − 1]. Subtract them and only nums[start..i] is left.",
+    "variant": "exclusive prefix sum with a sentinel. pre has n + 1 slots and pre[0] = 0, so pre[k] = the sum of the first k numbers. Then sum(start, i) = pre[i + 1] − pre[start] works for start = 0 too, with no special case."
+  },
+  "invariant": "pre[k] = nums[0] + … + nums[k − 1] for every written slot k.",
+  "phases": { "init": "start", "build": "build pre", "total0": "total = 0", "query": "subarray sum", "return": "done" },
+  "legend": [
+    { "swatch": "ptr-front", "text": "i: the end of the subarray" },
+    { "swatch": "ptr-back", "text": "start: the first index of the subarray" },
+    { "swatch": "current", "text": "the cells read in this step" },
+    { "swatch": "new", "text": "pre slot just written" },
+    { "swatch": "zero", "text": "pre slot not written yet (dashed)" },
+    { "swatch": "band-window", "text": "nums[start..i] and the two pre cells that give its sum" }
+  ],
+  "accepted": []
+}

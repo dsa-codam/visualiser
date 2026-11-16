@@ -35,6 +35,23 @@ schemaVersion: 1. All files are plain JSON (no comments, no trailing commas). Th
 - int[][] is passed to C the LeetCode way: `int** name, int nameSize, int* nameColSize` (C++: `vector<vector<int>>&`). bool[] is returned in C as `bool*` with `int* returnSize` (C++: `vector<bool>`).
 - More param or return types: extend `make_driver()` in build.py first.
 
+## Design problems (classes, ADR 033)
+For LeetCode problems where you implement a class (NumArray, MinStack, LRUCache …), the signature has no params/returns:
+```json
+"signature": {
+  "design": true,
+  "class": "NumArray",                       // class name in Python, C++ and the C struct
+  "cPrefix": "numArray",                     // C functions: numArrayCreate, numArraySumRange, numArrayFree
+  "constructor": [{ "name": "nums", "type": "int[]" }],
+  "methods": [{ "name": "sumRange", "params": [{ "name": "left", "type": "int" }, { "name": "right", "type": "int" }], "returns": "int" }]
+}
+```
+- Method returns: void | int | long | bool. Param types: the same as for normal problems.
+- Example and test args use LeetCode's form: `{ "calls": ["NumArray", "sumRange", …], "args": [[nums], [0, 2], …] }`; `expected` is LeetCode's output with `null` for the constructor and for void methods.
+- brute.py defines a class with the same name; gen.py returns `{ "calls": …, "args": … }`.
+- solution.py has the class (no `class Solution`). T.step can be called in the constructor and in methods; keep trace-only fields (e.g. `self._answers`) inside @trace blocks.
+- solution.c follows LeetCode's C form: `typedef struct {…} NumArray;`, `NumArray* numArrayCreate(…)`, `int numArraySumRange(NumArray* obj, …)`, `void numArrayFree(NumArray* obj)`.
+
 ## problems/<…>/brute.py
 `def brute(<params in signature order>)` → answer (in-place problems: the final array; judge "sortedPrefix": the sorted first k elements). One `T.op()  # @trace` per run of every loop body, outer and inner (unit "iterations", ADR 032). Loops of fixed size that do not grow with n are not counted. Shown on the page (minus @trace lines).
 

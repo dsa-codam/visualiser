@@ -63,7 +63,7 @@ DOUBLE_TOL = 1e-5  # LeetCode accepts a "double" answer within 10^-5 (ADR 027)
 
 def same_answer(got, want, sig):
     """True when got matches want. "double" answers may differ by less than DOUBLE_TOL."""
-    if sig["returns"] == "double":
+    if sig.get("returns") == "double":
         try:
             return abs(float(got) - float(want)) < DOUBLE_TOL
         except (TypeError, ValueError):
@@ -177,7 +177,28 @@ def load_py(code, filename, tracer):
     return ns
 
 
+def call_design(ns, sig, args, filename):
+    """Design problems (ADR 033): args = {"calls": ["Class", "method", ...], "args": [[ctor args], [method args], ...]}.
+    Returns the outputs like LeetCode: null for the constructor, then one value per call."""
+    cls = ns.get(sig["class"])
+    if cls is None:
+        fail("%s has no class %s" % (filename, sig["class"]))
+    calls, cargs = args["calls"], copy.deepcopy(args["args"])
+    if not calls or calls[0] != sig["class"] or len(calls) != len(cargs):
+        fail("%s: calls must start with %r and have one args list per call" % (filename, sig["class"]))
+    obj = cls(*cargs[0])
+    out = [None]
+    for name, a in zip(calls[1:], cargs[1:]):
+        fn = getattr(obj, name, None)
+        if fn is None:
+            fail("%s: %s has no method %s" % (filename, sig["class"], name))
+        out.append(fn(*a))
+    return out
+
+
 def call_solution(ns, sig, args, filename):
+    if sig.get("design"):
+        return call_design(ns, sig, args, filename)
     if "Solution" not in ns:
         fail("%s has no class Solution" % filename)
     fn = getattr(ns["Solution"](), sig["python"], None)
@@ -196,6 +217,8 @@ def call_solution(ns, sig, args, filename):
 
 
 def call_brute(ns, sig, args, filename):
+    if sig.get("design"):
+        return call_design(ns, sig, args, filename)  # brute.py defines a class with the same name
     if "brute" not in ns:
         fail("%s has no function brute(...)" % filename)
     return ns["brute"](*[copy.deepcopy(args[p["name"]]) for p in sig["params"]])
@@ -209,7 +232,21 @@ SUPPORTED_RET = {"void", "int", "long", "bool", "int[]", "bool[]", "double"}
 SUPPORTED_JUDGE = {"sortedPrefix"}  # LeetCode custom judges, see ADR 025
 
 
+DESIGN_RET = {"void", "int", "long", "bool"}
+
+
 def check_signature(sig, where):
+    if sig.get("design"):
+        for k in ("class", "cPrefix", "constructor", "methods"):
+            if k not in sig:
+                fail("%s: a design signature needs \"%s\" (ADR 033)" % (where, k))
+        for p in sig["constructor"] + [p for m in sig["methods"] for p in m["params"]]:
+            if p["type"] not in SUPPORTED_PARAM:
+                fail("%s: param type %r is not supported" % (where, p["type"]))
+        for m in sig["methods"]:
+            if m["returns"] not in DESIGN_RET:
+                fail("%s: method %s returns %r; design methods support %s" % (where, m["name"], m["returns"], ", ".join(sorted(DESIGN_RET))))
+        return
     for p in sig["params"]:
         if p["type"] not in SUPPORTED_PARAM:
             fail("%s: param type %r is not supported by the C/C++ drivers yet (supported: %s). "
@@ -228,26 +265,147 @@ def check_signature(sig, where):
 
 def encode_input(cases, sig):
     out = [str(len(cases))]
+    if sig.get("design"):
+        names = [m["name"] for m in sig["methods"]]
+        for args in cases:
+            calls, cargs = args["calls"], args["args"]
+            out.append(str(len(calls) - 1))
+            encode_values(out, sig["constructor"], cargs[0])
+            for name, a in zip(calls[1:], cargs[1:]):
+                k = names.index(name)
+                out.append(str(k))
+                encode_values(out, sig["methods"][k]["params"], a)
+        return "\n".join(out) + "\n"
     for args in cases:
-        for p in sig["params"]:
-            v = args[p["name"]]
-            if p["type"] in ("string", "char[]"):  # character codes, so spaces and punctuation survive
-                out.append(str(len(v)))
-                out.append(" ".join(str(ord(ch)) for ch in v))
-            elif p["type"] == "int[][]":  # rows, then each row as: length, values
-                out.append(str(len(v)))
-                for row in v:
-                    out.append(str(len(row)))
-                    out.append(" ".join(str(x) for x in row))
-            elif p["type"].endswith("[]"):
-                out.append(str(len(v)))
-                out.append(" ".join(str(x) for x in v))
-            else:
-                out.append(str(v))
+        encode_values(out, sig["params"], [args[p["name"]] for p in sig["params"]])
     return "\n".join(out) + "\n"
 
 
+def encode_values(out, params, values):
+    for p, v in zip(params, values):
+        if p["type"] in ("string", "char[]"):  # character codes, so spaces and punctuation survive
+            out.append(str(len(v)))
+            out.append(" ".join(str(ord(ch)) for ch in v))
+        elif p["type"] == "int[][]":  # rows, then each row as: length, values
+            out.append(str(len(v)))
+            for row in v:
+                out.append(str(len(row)))
+                out.append(" ".join(str(x) for x in row))
+        elif p["type"].endswith("[]"):
+            out.append(str(len(v)))
+            out.append(" ".join(str(x) for x in v))
+        else:
+            out.append(str(v))
+
+
+# Design problems (ADR 033): one object, then a list of method calls; output like LeetCode: [null, r1, r2, ...]
+def _cpp_read(n, t, ind):
+    scalar = {"int": "int", "long": "long long"}
+    if t == "string":
+        return ind + "std::string %s((size_t)rd(), ' '); for (auto& ch : %s) ch = (char)rd();" % (n, n), [n]
+    if t == "char[]":
+        return ind + "std::vector<char> %s((size_t)rd()); for (auto& ch : %s) ch = (char)rd();" % (n, n), [n]
+    if t == "int[][]":
+        return ind + "std::vector<std::vector<int>> %s((size_t)rd()); for (auto& row : %s) { row.resize((size_t)rd()); for (auto& x : row) x = (int)rd(); }" % (n, n), [n]
+    if t.endswith("[]"):
+        et = scalar[t[:-2]]
+        return ind + "std::vector<%s> %s((size_t)rd()); for (auto& x : %s) x = (%s)rd();" % (et, n, n, et), [n]
+    return ind + "%s %s = (%s)rd();" % (scalar[t], n, scalar[t]), [n]
+
+
+def _c_read(n, t, ind):
+    """Returns (code, call args, free code)."""
+    scalar = {"int": "int", "long": "long long"}
+    if t == "string":
+        return (ind + "int %sLen = (int)rd(); char* %s = malloc((size_t)%sLen + 1); for (int i = 0; i < %sLen; i++) %s[i] = (char)rd(); %s[%sLen] = '\\0';"
+                % (n, n, n, n, n, n, n), [n], "free(%s);" % n)
+    if t == "char[]":
+        return (ind + "int %sSize = (int)rd(); char* %s = malloc((size_t)(%sSize ? %sSize : 1)); for (int i = 0; i < %sSize; i++) %s[i] = (char)rd();"
+                % (n, n, n, n, n, n), [n, n + "Size"], "free(%s);" % n)
+    if t == "int[][]":
+        return (ind + "int %sSize = (int)rd(); int** %s = malloc(sizeof(int*) * (%sSize ? %sSize : 1)); int* %sColSize = malloc(sizeof(int) * (%sSize ? %sSize : 1)); "
+                "for (int i = 0; i < %sSize; i++) { %sColSize[i] = (int)rd(); %s[i] = malloc(sizeof(int) * (%sColSize[i] ? %sColSize[i] : 1)); "
+                "for (int j = 0; j < %sColSize[i]; j++) %s[i][j] = (int)rd(); }" % ((n,) * 14),
+                [n, n + "Size", n + "ColSize"], "for (int i = 0; i < %sSize; i++) free(%s[i]); free(%s); free(%sColSize);" % (n, n, n, n))
+    if t.endswith("[]"):
+        et = scalar[t[:-2]]
+        return (ind + "int %sSize = (int)rd(); %s* %s = malloc(sizeof(%s) * (%sSize ? %sSize : 1)); for (int i = 0; i < %sSize; i++) %s[i] = (%s)rd();"
+                % (n, et, n, et, n, n, n, n, et), [n, n + "Size"], "free(%s);" % n)
+    return ind + "%s %s = (%s)rd();" % (scalar[t], n, scalar[t]), [n], ""
+
+
+def make_design_driver(lang, sig, src_path):
+    cls, methods = sig["class"], sig["methods"]
+    lines = []
+    if lang == "cpp":
+        lines += ['#include "%s"' % src_path, "#include <iostream>", "#include <string>", "#include <vector>", "#include <cstdlib>",
+                  "static long long rd() { long long x; if (!(std::cin >> x)) std::exit(2); return x; }",
+                  "int main() {", "  long long T = rd();", "  while (T--) {", "    long long calls = rd();"]
+        args = []
+        for p in sig["constructor"]:
+            code, a = _cpp_read(p["name"], p["type"], "    ")
+            lines.append(code)
+            args += a
+        lines += ["    %s* obj = new %s(%s);" % (cls, cls, ", ".join(args)), '    std::cout << "[null";',
+                  "    while (calls--) {", "      long long k = rd();"]
+        for k, m in enumerate(methods):
+            lines.append("      if (k == %d) {" % k)
+            margs = []
+            for p in m["params"]:
+                code, a = _cpp_read(p["name"], p["type"], "        ")
+                lines.append(code)
+                margs += a
+            expr = "obj->%s(%s)" % (m["name"], ", ".join(margs))
+            if m["returns"] == "void":
+                lines.append('        %s; std::cout << ",null";' % expr)
+            elif m["returns"] == "bool":
+                lines.append('        std::cout << "," << (%s ? "true" : "false");' % expr)
+            else:
+                lines.append('        std::cout << "," << %s;' % expr)
+            lines.append("      }")
+        lines += ["    }", '    std::cout << "]\\n";', "    delete obj;", "  }", "  return 0;", "}"]
+    else:
+        pre = sig["cPrefix"]
+        cap = lambda name: name[0].upper() + name[1:]
+        lines += ["#include <stdio.h>", "#include <stdlib.h>", "#include <stdbool.h>", '#include "%s"' % src_path,
+                  "static inline long long rd(void) { long long x; if (scanf(\"%lld\", &x) != 1) exit(2); return x; }",
+                  "int main(void) {", "  long long T = rd();", "  while (T--) {", "    long long calls = rd();"]
+        args, frees = [], []
+        for p in sig["constructor"]:
+            code, a, f = _c_read(p["name"], p["type"], "    ")
+            lines.append(code)
+            args += a
+            frees.append(f)
+        lines += ["    %s* obj = %sCreate(%s);" % (cls, pre, ", ".join(args)), '    printf("[null");',
+                  "    while (calls--) {", "      long long k = rd();"]
+        for k, m in enumerate(methods):
+            lines.append("      if (k == %d) {" % k)
+            margs, mfrees = [], []
+            for p in m["params"]:
+                code, a, f = _c_read(p["name"], p["type"], "        ")
+                lines.append(code)
+                margs += a
+                mfrees.append(f)
+            expr = "%s%s(%s)" % (pre, cap(m["name"]), ", ".join(["obj"] + margs))
+            if m["returns"] == "void":
+                lines.append('        %s; printf(",null");' % expr)
+            elif m["returns"] == "bool":
+                lines.append('        printf(",%%s", %s ? "true" : "false");' % expr)
+            elif m["returns"] == "long":
+                lines.append('        printf(",%%lld", (long long)%s);' % expr)
+            else:
+                lines.append('        printf(",%%d", %s);' % expr)
+            lines += ["        " + f for f in mfrees if f]
+            lines.append("      }")
+        lines += ["    }", '    printf("]\\n");', "    %sFree(obj);" % pre]
+        lines += ["    " + f for f in frees if f]
+        lines += ["  }", "  return 0;", "}"]
+    return "\n".join(lines) + "\n"
+
+
 def make_driver(lang, sig, src_path):
+    if sig.get("design"):
+        return make_design_driver(lang, sig, src_path)
     fn = sig[lang]
     scalar = {"int": "int", "long": "long long"}
     lines = []
@@ -572,7 +730,7 @@ def build_problem(pb, n_random):
             if len(out) != len(cases):
                 fail("%s: %s printed %d answers for %d cases" % (where, SRC_FILE[lang], len(out), len(cases)))
             for (label, args, _), b, got in zip(cases, expected, out):
-                ok = same_answer(got.strip(), b, sig) if sig["returns"] == "double" else got.strip() == native_canon(b)
+                ok = same_answer(got.strip(), b, sig) if sig.get("returns") == "double" else got.strip() == native_canon(b)
                 if not ok:
                     fail("%s: %s answer differs from brute force on %s\n  input: %s\n  brute: %s\n  got:   %s"
                          % (where, SRC_FILE[lang], label, short(args), native_canon(b), got.strip()))

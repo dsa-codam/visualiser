@@ -719,7 +719,9 @@
       // ADR 032: the unit is loop iterations; the line names the selected chip and its n
       const unit = P.bruteForce && P.bruteForce.opsUnit ? P.bruteForce.opsUnit : "iterations";
       const word = unit === "iterations" && ops.brute === 1 ? "iteration" : unit;
-      const lens = Object.values(X.args || {}).filter((v) => Array.isArray(v) || typeof v === "string").map((v) => v.length);
+      // design problems (ADR 033): the size is taken from the constructor's arguments, not from the list of calls
+      const sized = X.args && X.args.calls ? X.args.args[0] : Object.values(X.args || {});
+      const lens = sized.filter((v) => Array.isArray(v) || typeof v === "string").map((v) => v.length);
       const size = lens.length ? ` (size = ${Math.max(...lens)})` : "";
       const small = ops.approach >= ops.brute ? " Small inputs hide the gain; it grows with input size." : "";
       $("vz-ops").innerHTML = ops.brute != null

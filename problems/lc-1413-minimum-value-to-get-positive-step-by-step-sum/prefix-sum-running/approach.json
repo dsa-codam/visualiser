@@ -1,0 +1,23 @@
+{
+  "order": 1,
+  "name": "Running prefix sum + lowest point",
+  "pattern": "Prefix sum",
+  "ds": ["Array"],
+  "time": "O(n)",
+  "space": "O(1)",
+  "whenToUse": "The standard answer: one pass, no extra array. Only the lowest prefix sum matters, so it is kept in one variable.",
+  "card": {
+    "signals": "\"step by step sum\" from left to right = a running (prefix) sum. \"never less than 1\" = only the lowest of those sums matters.",
+    "pattern": "a running prefix sum. One index i walks nums once; total holds nums[0] + … + nums[i], and lowest keeps the smallest total seen. O(n) time.",
+    "coreIdea": "With startValue added, every step-by-step sum is startValue + total. The smallest of them is startValue + lowest, and it must be at least 1, so startValue = 1 − lowest. lowest starts at 0, so the answer is never below 1.",
+    "variant": "running prefix sum, no array. Only one value of the prefix sums is needed (the lowest), so we keep total and lowest in two variables instead of a whole prefix array."
+  },
+  "invariant": "After step i: total = nums[0] + … + nums[i], and lowest = min(0, every total so far).",
+  "phases": { "init": "start", "add": "add nums[i]", "return": "done" },
+  "legend": [
+    { "swatch": "ptr-front", "text": "i: the number being added" },
+    { "swatch": "current", "text": "nums[i]: the new number" },
+    { "swatch": "band-window", "text": "nums[0..i]: the numbers in total" }
+  ],
+  "accepted": []
+}
